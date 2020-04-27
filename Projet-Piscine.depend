@@ -1,0 +1,42 @@
+# depslib dependency file v1.0
+1587979153 source:c:\users\seb\documents\projet-piscine\graphe.cpp
+	"Graphe.h"
+
+1587979640 c:\users\seb\documents\projet-piscine\graphe.h
+	<fstream>
+	<string>
+
+1587979599 source:c:\users\seb\documents\projet-piscine\main.cpp
+	<iostream>
+	"Graphe.h"
+
+1588003399 source:c:\users\seb\documents\projet-piscine\projet-piscine\main.cpp
+	<iostream>
+	"Graphe.h"
+
+1588005062 c:\users\seb\documents\projet-piscine\projet-piscine\graphe.h
+	<vector>
+	<fstream>
+	<string>
+	"svgfile.h"
+	"Sommet.h"
+
+1587997870 source:c:\users\seb\documents\projet-piscine\projet-piscine\svgfile.cpp
+
+1588003485 c:\users\seb\documents\projet-piscine\projet-piscine\svgfile.h
+	<string>
+	<fstream>
+	<set>
+	<iostream>
+	<sstream>
+
+1588002964 source:c:\users\seb\documents\projet-piscine\projet-piscine\sommet.cpp
+	"Sommet.h"
+
+1588002964 c:\users\seb\documents\projet-piscine\projet-piscine\sommet.h
+	<string>
+	<vector>
+
+1588004957 source:c:\users\seb\documents\projet-piscine\projet-piscine\graphe.cpp
+	"Graphe.h"
+
