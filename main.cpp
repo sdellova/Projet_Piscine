@@ -5,7 +5,9 @@ int main()
 {
     std::string afficherMenu();
     Graphe graphe(afficherMenu());
+    graphe.ponderation();
     graphe.dessiner();
+    graphe.menu();
     return 0;
 }
 

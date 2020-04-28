@@ -6,13 +6,15 @@
 #include <string>
 #include "svgfile.h"
 #include "Sommet.h"
+#include "Arete.h"
 
 class Graphe
 {
 public:
     Graphe(std::string);
-    std::string ponderation();
+    void ponderation();
     void dessiner();
+    void menu();
     Sommet* getSommetByIndice(int indice);
 private:
     bool m_orientation;
@@ -20,7 +22,7 @@ private:
     int m_taille;
     std::vector<Sommet*> m_sommets;
     std::vector<std::pair<Sommet*, Sommet*>> m_aretes;
-    std::vector<double> m_poids;
+    std::vector<float> m_poids;
 };
 
 #endif // GRAPHE_H_INCLUDED

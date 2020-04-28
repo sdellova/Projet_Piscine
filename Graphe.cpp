@@ -22,21 +22,41 @@ Graphe::Graphe(std::string nomFichier)
     }
 }
 
-std::string Graphe::ponderation()
+void Graphe::ponderation()
 {
-    int choix;
+    int indice;
+    int choix = 0, taille, poids;
+    int choixTaille = 0;
     std::string nomFichier;
-    std::cout << "Le graphe est-il pondere ?" << std::endl;
-    std::cout << "Ecrivez 1 pour oui, 2 pour non : ";
-    std::cin >> choix;
-    if(choix)
+    std::cout << std::endl << "Le graphe est-il pondere ?" << std::endl;
+    while(choix != 1 && choix != 2)
+    {
+        std::cout << "Ecrivez 1 pour oui, 2 pour non : ";
+        std::cin >> choix;
+    }
+    if(choix == 1)
     {
         std::cout << "Ecrivez le nom du fichier de ponderation : ";
         std::cin >> nomFichier;
-        return nomFichier;
+        std::ifstream ifs{nomFichier};
+        if (!ifs)
+            throw std::runtime_error("Impossible d'ouvrir " + nomFichier);
+        ifs >> taille;
+        if (taille != m_taille)
+        {
+            std::cout << "La taille du graphe ne correspond pas entre les 2 fichiers." << std::endl;
+            std::cout << "Que garde-t-on ?" << std::endl;
+            std::cout << "1) " << m_taille << "  2) " << taille << std::endl;
+            std::cin >> choixTaille;
+            if (choixTaille == 2)
+                m_taille = taille;
+        }
+        for(int i=0 ; i<m_taille ; ++i)
+        {
+            ifs >> indice >> poids;
+            m_poids.push_back(poids);
+        }
     }
-    else
-        return "0";
 }
 
 void Graphe::dessiner()
@@ -61,4 +81,33 @@ Sommet* Graphe::getSommetByIndice(int indice)
         ++i;
     }
     return m_sommets[i];
+}
+
+void Graphe::menu()
+{
+    int choix = 0;
+    while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9)
+    {
+        system("cls");
+        std::cout << "1) Calculer l'indice normalise de centralite de degre" << std::endl;
+        std::cout << "2) Calculer l'indice non normalise de centralite de degre" << std::endl << std::endl;
+        std::cout << "3) Calculer l'indice normalise de vecteur propre" << std::endl;
+        std::cout << "4) Calculer l'indice non normalise de vecteur propre" << std::endl << std::endl;
+        std::cout << "5) Calculer l'indice normalise de centralite de degre" << std::endl;
+        std::cout << "6) Calculer l'indice non normalise de centralite de degre" << std::endl << std::endl;
+        std::cout << "7) Supprimer des aretes du graphe" << std::endl << std::endl;
+        std::cout << "8) Charger un nouveau fichier de ponderation" << std::endl;
+        std::cout << "9) Quitter" << std::endl << std::endl;
+        std::cout << "Que choisissez-vous ? ";
+        std::cin >> choix;
+    }
+    switch(choix)
+    {
+    case 8 :
+        ponderation();
+        break;
+    case 9 :
+        exit(1);
+        break;
+    }
 }
