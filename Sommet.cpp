@@ -24,3 +24,13 @@ double Sommet::getY()
 {
     return m_y;
 }
+
+void Sommet::setIndice_vecteur_propre(int indice_vecteur_propre)
+{
+    m_indice_vecteur_propre = indice_vecteur_propre;
+}
+
+int Sommet::getIndice_vecteur_propre()
+{
+    return m_indice_vecteur_propre;
+}
