@@ -12,6 +12,8 @@ public:
     std::string getNom();
     double getX();
     double getY();
+    void setIndice_vecteur_propre(int indice_vecteur_propre);
+    int getIndice_vecteur_propre();
     const std::vector<Sommet*> getVoisins();
     void ajouter_voisins(Sommet* s);
     void ajouter_aretevoisins(std::pair<const Sommet*, float >);
@@ -22,7 +24,8 @@ private:
     double m_x;
     double m_y;
     std::vector<Sommet*> m_voisins;
-//    std::vector<std::pair<const Sommet*, const Arete*>> m_aretevoisins;
+    int m_indice_vecteur_propre;
+    std::vector<std::pair<const Sommet*, float>> m_aretevoisins;
 };
 
 #endif // SOMMET_H_INCLUDED
