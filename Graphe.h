@@ -22,7 +22,10 @@ public:
     int getTaille();
     void centralite_degre();
     void centralite_vecteur_propre();
-    void Dijkstrat(int num_s0, int num_Sf);
+    float Dijkstrat(int num_s0, int num_Sf);
+    std::vector<Arete*> getAretesBySommet(Sommet* sommet);
+    float indice_proximite(int a);
+    float indice_proximite_normalise(int s);
 private:
     bool m_orientation;
     int m_ordre;

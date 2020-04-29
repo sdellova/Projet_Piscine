@@ -18,16 +18,17 @@ Graphe::Graphe(std::string nomFichier)
     for(int i=0 ; i<m_taille ; ++i)
     {
         ifs >> indice >> extremite1 >> extremite2;
-        m_aretes.push_back(new Arete{indice, getSommetByIndice(extremite1), getSommetByIndice(extremite2)});
+        Arete* a = new Arete{indice, getSommetByIndice(extremite1), getSommetByIndice(extremite2)};
+        m_aretes.push_back(a);
 
         getSommetByIndice(extremite1)->ajouter_voisins(getSommetByIndice(extremite2));
         getSommetByIndice(extremite2)->ajouter_voisins(getSommetByIndice(extremite1));
 
-        std::pair<const Sommet*, float> p(getSommetByIndice(extremite2), 1);
+       /* std::pair<const Sommet*, const Arete*> p(getSommetByIndice(extremite2), a->getPoids());
         getSommetByIndice(extremite1)->ajouter_aretevoisins(p);
 
-        std::pair<const Sommet*, float> n(getSommetByIndice(extremite1), 1);
-        getSommetByIndice(extremite2)->ajouter_aretevoisins(n);
+        std::pair<const Sommet*, const Arete*> n(getSommetByIndice(extremite1), a->getPoids());
+        getSommetByIndice(extremite2)->ajouter_aretevoisins(n);*/
     }
 }
 
@@ -126,7 +127,9 @@ void Graphe::menu()
         centralite_vecteur_propre();
         break;
     case 3 :
-        Dijkstrat(0, 3);
+        indice_proximite(0);
+        indice_proximite_normalise(3);
+
         break;
     case 4 :
         supprimerAretes();
@@ -136,6 +139,16 @@ void Graphe::menu()
         break;
     case 6 :
         exit(1);
+        break;
+    case 7:
+        Sommet* b;
+        b=getSommetByIndice(2);
+        std::vector<Arete*> a;
+        a=getAretesBySommet(b);
+        for(int i=0; i<a.size(); i++)
+        {
+            std::cout<<a[i]->getPoids();
+        }
         break;
     }
 }
@@ -214,7 +227,20 @@ void Graphe::centralite_vecteur_propre()
 
 }
 
-void Graphe::Dijkstrat(int num_s0, int num_Sf)
+std::vector<Arete*> Graphe::getAretesBySommet(Sommet* sommet)
+{
+    std::vector<Arete*> aretes;
+    for(int i=0 ; i<m_taille ; ++i)
+    {
+        if(m_aretes[i]->getExtremites().first->getIndice() == sommet->getIndice() || m_aretes[i]->getExtremites().second->getIndice() == sommet->getIndice())
+        {
+            aretes.push_back(m_aretes[i]);
+        }
+    }
+    return aretes;
+}
+
+float Graphe::Dijkstrat(int num_s0, int num_Sf)
 {
 
     ///Initialisation
@@ -231,7 +257,7 @@ void Graphe::Dijkstrat(int num_s0, int num_Sf)
     {
         int dMin=-1;
         Sommet* s;
-        for(int i=0; i<dists.size(); ++i)
+        for(size_t i=0; i<dists.size(); ++i)
         {
             if(dists[i]!=-1 && couleurs[i]!=1)
             {
@@ -250,7 +276,14 @@ void Graphe::Dijkstrat(int num_s0, int num_Sf)
         {
 
             int id2 = s2->getIndice();
-            float dis2 = s2->getaretevoisins()[0].second;
+            std::vector<Arete*> a ;
+            a = getAretesBySommet(s2);
+            int dis2;
+
+            for(size_t o =0; o<a.size(); o++)
+            {
+
+            dis2=a[o]->getPoids();
             if(!(couleurs[id2]))
             {
                 if((dMin+dis2)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
@@ -259,6 +292,7 @@ void Graphe::Dijkstrat(int num_s0, int num_Sf)
                     preds[id2]=id;
                 }
             }
+            }
         }
 
     }
@@ -266,32 +300,79 @@ void Graphe::Dijkstrat(int num_s0, int num_Sf)
 
     ///Affichage du parcours
     std::vector<int> longueur;
+    float cpt=0;
 
-    int i=num_Sf;
+    size_t i=num_Sf;
     if(i!=num_s0)
     {
         if(preds[i]!=-1)
         {
-            std::cout<<i<<" <-- ";
+            //std::cout<<i<<" <-- ";
             longueur.push_back(dists[i]);
 
             size_t j=preds[i];
             while(j!=num_s0)
             {
-                std::cout<<j<<" <-- ";
+                //std::cout<<j<<" <-- ";
                 longueur.push_back(dists[j]);
                 j=preds[j];
             }
-            std::cout<<j<<" : longueur ";
+            //std::cout<<j<<" : longueur ";
         }
         longueur.push_back(0);
-        for(int y=0; y<longueur.size()-1; ++y)
+        for(size_t y=0; y<longueur.size()-1; ++y)
         {
-            std::cout<<longueur[y]-longueur[y+1];
+            //std::cout<<longueur[y]-longueur[y+1];
             if(y!=longueur.size()-2)
-                std::cout<<"+";
+                int a=1;
+                //std::cout<<"+";
             else
-                std::cout<<"="<<dists[num_Sf];
+                //std::cout<<"="<<dists[num_Sf]<<std::endl;
+                cpt=dists[num_Sf];
+
+
+
         }
     }
+    //std::cout<<"cpt="<<cpt;
+    return cpt;
+}
+
+float Graphe::indice_proximite(int a)
+{
+
+    float calcul;
+    float distance=0;
+    float res;
+    //res=Dijkstrat(a, 1);
+
+    for(int i=0; i<m_sommets.size(); i++)
+    {
+
+        if(a == m_sommets[i]->getIndice())
+        {
+            i++;
+        }
+        std::cout<<m_sommets[i]->getIndice()<<std::endl;
+        res=Dijkstrat(a, m_sommets[i]->getIndice());
+        distance+=res;
+        std::cout<<distance<<std::endl;
+
+    }
+    std::cout<<"distance final ="<<distance<<std::endl;
+    calcul=1/distance;
+    std::cout<<"final = "<<calcul;
+    return calcul;
+}
+
+float Graphe::indice_proximite_normalise(int s)
+{
+    float calcul;
+    float indice;
+    indice = indice_proximite(s);
+    std::cout<<indice<<std::endl;
+    std::cout<<"ordre-1"<<m_ordre-1<<std::endl;
+    calcul= (m_ordre-1)*indice;
+    std::cout<<calcul;
+    return calcul;
 }

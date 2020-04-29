@@ -19,3 +19,9 @@ void Arete::setPoids(float poids)
 {
     m_poids = poids;
 }
+
+float Arete::getPoids()
+{
+    return m_poids;
+}
+
