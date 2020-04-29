@@ -33,4 +33,23 @@ void Sommet::setIndice_vecteur_propre(int indice_vecteur_propre)
 int Sommet::getIndice_vecteur_propre()
 {
     return m_indice_vecteur_propre;
+
+const std::vector<Sommet*> Sommet::getVoisins()
+{
+    return m_voisins;
+}
+
+void Sommet::ajouter_voisins(Sommet* s)
+{
+    m_voisins.push_back(s);
+}
+
+void Sommet::ajouter_aretevoisins(std::pair<const Sommet*, float> n)
+{
+    m_aretevoisins.push_back(n);
+}
+
+const std::vector<std::pair<const Sommet*, float>> Sommet::getaretevoisins()
+{
+    return m_aretevoisins;
 }
