@@ -198,5 +198,12 @@ void Graphe::centralite_degre()
 
 void Graphe::centralite_vecteur_propre()
 {
-
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+        m_sommets[i]->setIndice_vecteur_propre(1);
+    }
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+        m_sommets[i]->setIndice_vecteur_propre();
+    }
 }
