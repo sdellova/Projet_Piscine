@@ -103,11 +103,103 @@ void Graphe::menu()
     }
     switch(choix)
     {
+    case 6 :
+
+    case 7 :
+        Dijkstrat(0, 1);
+        break;
     case 8 :
         ponderation();
         break;
     case 9 :
         exit(1);
         break;
+    }
+}
+
+void Graphe::Dijkstrat(int num_s0, int num_Sf)
+{
+
+    ///Initialisation
+    std::vector<int> couleurs((int)m_sommets.size(),0);
+    std::vector<int> preds((int)m_sommets.size(),-1);
+    std::vector<double> dists((int)m_sommets.size(),-1);
+
+
+
+    dists[num_s0]=0;
+
+    ///Boucle de recherche
+    do
+    {
+        int dMin=-1;
+        Sommet* s;
+        for(int i=0; i<dists.size(); ++i)
+        {
+            if(dists[i]!=-1 && couleurs[i]!=1)
+            {
+                if(dists[i]<dMin || dMin==-1)
+                {
+                    dMin=dists[i];
+                    s=m_sommets[i];
+                }
+            }
+        }
+
+        int id=s->getIndice();
+        couleurs[id]=1;
+        std::cout<<s->getNom();
+        std::cout<<s->getVoisins()[0];
+
+
+
+        for(auto s2:s->getVoisins())
+        {
+            std::cout<<"oui";
+            int id2 = s2->getIndice();
+            if(!(couleurs[id2]))
+            {
+                if((dMin+1)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
+                {
+                    dists[id2]=dMin+1;//pareil que ligne 149
+                    preds[id2]=id;
+                }
+            }
+        }
+
+    }
+    while(couleurs[num_Sf]==0);
+
+    std::cout<<"c'est bon";
+
+    ///Affichage du parcours
+    std::vector<int> longueur;
+
+    int i=num_Sf;
+    if(i!=num_s0)
+    {
+        if(preds[i]!=-1)
+        {
+            std::cout<<i<<" <-- ";
+            longueur.push_back(dists[i]);
+
+            size_t j=preds[i];
+            while(j!=num_s0)
+            {
+                std::cout<<j<<" <-- ";
+                longueur.push_back(dists[j]);
+                j=preds[j];
+            }
+            std::cout<<j<<" : longueur ";
+        }
+        longueur.push_back(0);
+        for(int y=0; y<longueur.size()-1; ++y)
+        {
+            std::cout<<longueur[y]-longueur[y+1];
+            if(y!=longueur.size()-2)
+                std::cout<<"+";
+            else
+                std::cout<<"="<<dists[num_Sf];
+        }
     }
 }

@@ -24,3 +24,8 @@ double Sommet::getY()
 {
     return m_y;
 }
+
+const std::vector<Sommet*> Sommet::getVoisins()
+{
+    return m_voisins;
+}

@@ -6,7 +6,6 @@
 #include <string>
 #include "svgfile.h"
 #include "Sommet.h"
-#include "Arete.h"
 
 class Graphe
 {
@@ -16,6 +15,9 @@ public:
     void dessiner();
     void menu();
     Sommet* getSommetByIndice(int indice);
+    void Dijkstrat(int num_s0, int num_Sf);
+
+
 private:
     bool m_orientation;
     int m_ordre;

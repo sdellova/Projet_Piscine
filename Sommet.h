@@ -12,6 +12,7 @@ public:
     std::string getNom();
     double getX();
     double getY();
+    const std::vector<Sommet*> getVoisins();
 private:
     int m_indice;
     std::string m_nom;
