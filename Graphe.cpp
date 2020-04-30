@@ -112,6 +112,9 @@ void Graphe::menu()
     {
     case 1:
         centralite_degre();
+        std::cout<<std::endl;
+        getAretesBySommet(m_sommets[0]);
+
         break;
     case 2 :
         centralite_vecteur_propre();
@@ -194,6 +197,23 @@ void Graphe::centralite_degre()
     std::cout << std::endl << "Le degre du sommet " << a << " est " << numberv << "." << std::endl;
     float resultat=(numberv/(m_ordre-1));
     std::cout << "L'indice normalise du sommet " << a << " est " << resultat << ".";
+}
+
+void Graphe::getAretesBySommet(Sommet* sommet)
+{
+    std::vector<Arete*> aretes;
+    for(int i=0 ; i<m_taille ; ++i)
+    {
+        if(m_aretes[i]->getExtremites().first->getIndice()==sommet->getIndice() ||  m_aretes[i]->getExtremites().second->getIndice()==sommet->getIndice())
+        {
+            aretes.push_back(m_aretes[i]);
+        }
+    }
+    for(int i=0 ; i<aretes.size(); ++i)
+    {
+        std::cout<<aretes[i]->getIndice();
+    }
+    //return aretes;
 }
 
 void Graphe::centralite_vecteur_propre()

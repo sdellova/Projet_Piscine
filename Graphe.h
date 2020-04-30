@@ -22,6 +22,8 @@ public:
     int getTaille();
     void centralite_degre();
     void centralite_vecteur_propre();
+    void getAretesBySommet(Sommet* sommet);
+
 private:
     bool m_orientation;
     int m_ordre;
