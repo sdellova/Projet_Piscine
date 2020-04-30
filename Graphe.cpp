@@ -516,7 +516,7 @@ void Graphe::sauvegarde()
     {
         for(int i=0 ; i<m_ordre ; ++i)
         {
-            ofs << "Sommet " << m_sommets[i]->getIndice() << " : CD = " << m_sommets[i]->getIndice_degre() << "     ;     CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "     ;     CP = " << m_sommets[i]->getIndice_proximite() << std::endl;
+            ofs << "Sommet " << m_sommets[i]->getIndice() << " : CD = " << m_sommets[i]->getIndice_degre() << "     ;     CDn = " << m_sommets[i]->getIndice_degreNormalise() << "     ;     CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "     ;     CVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << "     ;     CP = " << m_sommets[i]->getIndice_proximite() << "     ;     CPn = " << m_sommets[i]->getIndice_proximiteNormalise() << std::endl;
         }
     }
     else
