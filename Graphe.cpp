@@ -63,21 +63,34 @@ void Graphe::ponderation()
     }
 }
 
-void Graphe::dessiner()
+void Graphe::dessiner(int valeur)
 {
     Svgfile svgout;
     std::string couleur;
     for(int i=0 ; i<m_ordre ; ++i)
     {
-        std::ostringstream oss1;
-        std::ostringstream oss2;
-        std::ostringstream oss3;
-        oss1 << "CD : " << m_sommets[i]->getIndice_degre();
-        std::string indiceDegre = oss1.str();
-        oss2 << "CVP : " << m_sommets[i]->getIndice_vecteur_propre();
-        std::string indiceVecteur_propre = oss2.str();
-        oss3 << "CP : " << m_sommets[i]->getIndice_proximite();
-        std::string indiceProximite = oss3.str();
+            std::ostringstream oss1;
+            std::ostringstream oss2;
+            std::ostringstream oss3;
+
+            oss1 << "CD = " << m_sommets[i]->getIndice_degre();
+            std::string indiceDegre = oss1.str();
+            oss2 << "CVP = " << m_sommets[i]->getIndice_vecteur_propre();
+            std::string indiceVecteur_propre = oss2.str();
+            oss3 << "CP = " << m_sommets[i]->getIndice_proximite();
+            std::string indiceProximite = oss3.str();
+
+            std::ostringstream oss4;
+            std::ostringstream oss5;
+            std::ostringstream oss6;
+
+            oss4 << "CDn = " << m_sommets[i]->getIndice_degre();
+            std::string indiceDegreNormalise = oss4.str();
+            oss5 << "CVPn = " << m_sommets[i]->getIndice_vecteur_propre();
+            std::string indiceVecteur_propreNormalise = oss5.str();
+            oss6 << "CPn = " << m_sommets[i]->getIndice_proximite();
+            std::string indiceProximiteNormalise = oss6.str();
+
         switch(m_sommets[i]->getVoisins().size())
         {
         case 0 :
@@ -96,14 +109,29 @@ void Graphe::dessiner()
             couleur = "red";
             break;
         case 5 :
+            couleur = "pink";
+            break;
+        case 6 :
             couleur = "purple";
+            break;
+        case 7 :
+            couleur = "brown";
             break;
         }
         svgout.addDisk(m_sommets[i]->getX() * 100, m_sommets[i]->getY() * 100, 7, couleur);
         svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 15, m_sommets[i]->getNom(), couleur);
-        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 30, indiceProximite, couleur);
-        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 45, indiceVecteur_propre, couleur);
-        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 60, indiceDegre, couleur);
+        if(valeur == 1)
+        {
+            svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 30, indiceProximite, couleur);
+            svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 45, indiceVecteur_propre, couleur);
+            svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 60, indiceDegre, couleur);
+        }
+        if(valeur == 2)
+        {
+            svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 30, indiceProximiteNormalise, couleur);
+            svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 45, indiceVecteur_propreNormalise, couleur);
+            svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 60, indiceDegreNormalise, couleur);
+        }
     }
     for(int i=0 ; i<m_taille ; ++i)
     {
@@ -137,15 +165,18 @@ void Graphe::menu()
     while(choix != 6)
     {
         choix = 0;
-        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6)
+        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9)
         {
             system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
             std::cout << "2) Calculer les indices de centralite de vecteur propre" << std::endl;
             std::cout << "3) Calculer les indices de centralite de proximite" << std::endl << std::endl;
-            std::cout << "4) Supprimer des aretes du graphe" << std::endl << std::endl;
-            std::cout << "5) Charger un nouveau fichier de ponderation" << std::endl;
-            std::cout << "6) Quitter" << std::endl << std::endl;
+            std::cout << "4) Afficher les indices de centralite normalises sur le svg" << std::endl;
+            std::cout << "5) Afficher les indices de centralite non normalises sur le svg" << std::endl;
+            std::cout << "6) Masquer les indices de centralite sur le svg" << std::endl << std::endl;
+            std::cout << "7) Supprimer des aretes du graphe" << std::endl << std::endl;
+            std::cout << "8) Charger un nouveau fichier de ponderation" << std::endl;
+            std::cout << "9) Quitter" << std::endl << std::endl;
             std::cout << "Que choisissez-vous ? ";
             std::cin >> choix;
         }
@@ -161,12 +192,21 @@ void Graphe::menu()
             indice_proximite(1);
             break;
         case 4 :
-            supprimerAretes();
+            dessiner(1);
             break;
         case 5 :
-            ponderation();
+            dessiner(2);
             break;
         case 6 :
+            dessiner(0);
+            break;
+        case 7 :
+            supprimerAretes();
+            break;
+        case 8 :
+            ponderation();
+            break;
+        case 9 :
             exit(1);
             break;
         }
@@ -195,8 +235,8 @@ void Graphe::supprimerAretes()
             centralite_degre(0);
             centralite_vecteur_propre(0);
             indice_proximite(0);
-            //sauvegarde();
-            dessiner();
+            sauvegarde();
+            dessiner(0);
         }
         else
         {
@@ -245,6 +285,7 @@ void Graphe::centralite_degre(bool valeur)
     for(int i=0 ; i<m_ordre ; ++i)
     {
         m_sommets[i]->setIndice_degre(m_sommets[i]->getVoisins().size());
+        m_sommets[i]->setIndice_degreNormalise(m_sommets[i]->getVoisins().size() / (m_ordre-1));
     }
 
     if(valeur)
@@ -254,7 +295,7 @@ void Graphe::centralite_degre(bool valeur)
         std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
         {
-            std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   " << m_sommets[i]->getIndice_degre() << "               " << m_sommets[i]->getIndice_degre() / (m_ordre-1) << std::endl;
+            std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   " << m_sommets[i]->getIndice_degre() << "               " << m_sommets[i]->getIndice_degreNormalise() << std::endl;
         }
         std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
         while(getch() != 13)
@@ -297,6 +338,7 @@ void Graphe::centralite_vecteur_propre(bool valeur)
         for(int i=0 ; i<m_ordre ; ++i)
         {
             m_sommets[i]->setIndice_vecteur_propre(tmp[i] / lambda);
+            m_sommets[i]->setIndice_vecteur_propreNormalise(m_sommets[i]->getIndice_vecteur_propre() / (m_ordre-1));
         }
     }
     while((lambda < (0.95 * ancienLambda)) || (lambda > (1.05 * ancienLambda)));
@@ -307,7 +349,7 @@ void Graphe::centralite_vecteur_propre(bool valeur)
         std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
         {
-            std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< m_sommets[i]->getIndice_vecteur_propre() << "               " << m_sommets[i]->getIndice_vecteur_propre() / (m_ordre-1) << std::endl;
+            std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< m_sommets[i]->getIndice_vecteur_propre() << "               " << m_sommets[i]->getIndice_vecteur_propreNormalise() << std::endl;
         }
 
         std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
@@ -441,6 +483,7 @@ void Graphe::indice_proximite(bool a)
         calcul=1/distance;
 
         m_sommets[j]->setIndice_proximite(calcul);
+        m_sommets[j]->setIndice_proximite(calcul / (m_ordre - 1));
     }
     if(a)
     {
@@ -449,7 +492,7 @@ void Graphe::indice_proximite(bool a)
         std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
         {
-            std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< m_sommets[i]->getIndice_proximite() << "\t\t\t" << m_sommets[i]->getIndice_proximite()*(m_ordre-1) << std::endl;
+            std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< m_sommets[i]->getIndice_proximite() << "\t\t\t" << m_sommets[i]->getIndice_proximiteNormalise() << std::endl;
         }
 
         std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
@@ -462,14 +505,13 @@ void Graphe::indice_proximite(bool a)
 
 void Graphe::sauvegarde()
 {
-    std::string const nomFichier("Indices.txt");
-    std::ofstream monFlux(nomFichier.c_str());
-
-    if(monFlux)
+    std::ofstream ofs;
+    ofs.open ("Indices.txt", std::ofstream::out | std::ofstream::app);
+    if(ofs)
     {
         for(int i=0 ; i<m_ordre ; ++i)
         {
-            monFlux << "Sommet " << m_sommets[i]->getIndice() << " : CD = " << m_sommets[i]->getIndice_degre() << "     ;     CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "     ;     CP = " << m_sommets[i]->getIndice_proximite() << std::endl;
+            ofs << "Sommet " << m_sommets[i]->getIndice() << " : CD = " << m_sommets[i]->getIndice_degre() << "     ;     CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "     ;     CP = " << m_sommets[i]->getIndice_proximite() << std::endl;
         }
     }
     else
