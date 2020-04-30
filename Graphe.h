@@ -34,7 +34,6 @@ private:
     int m_taille;
     std::vector<Sommet*> m_sommets;
     std::vector<Arete*> m_aretes;
-    std::vector<Arete*> getAretesBySommet(Sommet* sommet);
 };
 
 #endif // GRAPHE_H_INCLUDED
