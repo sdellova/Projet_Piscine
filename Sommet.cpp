@@ -63,3 +63,18 @@ float Sommet::getIndice_proximite()
 {
     return m_indice_proximite;
 }
+
+int Sommet::getPositionSommetByIndice(int indice)
+{
+    int i = 0;
+    while(m_voisins[i]->getIndice() != indice)
+    {
+        ++i;
+    }
+    return i;
+}
+
+void Sommet::retirer_voisins(Sommet* sommet)
+{
+    m_voisins.erase(m_voisins.begin() + getPositionSommetByIndice(sommet->getIndice()));
+}
