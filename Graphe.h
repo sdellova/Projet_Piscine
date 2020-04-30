@@ -31,6 +31,7 @@ public:
     int getPositionAreteByIndice(int indice);
     bool areteExistante(int indice);
     void indice_proximite(bool a);
+    void sauvegarde();
 private:
     bool m_orientation;
     int m_ordre;
