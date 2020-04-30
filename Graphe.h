@@ -23,7 +23,7 @@ public:
     int getOrdre() const;
     int getTaille();
     void centralite_degre();
-    void centralite_vecteur_propre();
+    void centralite_vecteur_propre(bool valeur);
     float Dijkstrat(int num_s0, int num_Sf);
     std::vector<Arete*> getAretesBySommet(Sommet* sommet);
     void indice_proximite(bool a);

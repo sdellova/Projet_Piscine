@@ -1,5 +1,6 @@
 #include "Graphe.h"
 
+
 Graphe::Graphe(std::string nomFichier)
 {
     int indice, extremite1, extremite2;
@@ -121,7 +122,7 @@ void Graphe::menu()
             centralite_degre();
             break;
         case 2 :
-            centralite_vecteur_propre();
+            centralite_vecteur_propre(1);
             break;
         case 3 :
             indice_proximite(true);
@@ -188,6 +189,7 @@ void Graphe::centralite_degre()
     std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
     for(int i=0 ; i<m_ordre ; ++i)
     {
+
         std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< degres[i] << "               " << degres[i] / (m_ordre-1) << std::endl;
     }
     std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
@@ -197,7 +199,7 @@ void Graphe::centralite_degre()
     }
 }
 
-void Graphe::centralite_vecteur_propre()
+void Graphe::centralite_vecteur_propre(bool valeur)
 {
     std::vector<double> tmp(m_ordre);
     double a;
@@ -233,7 +235,8 @@ void Graphe::centralite_vecteur_propre()
         }
     }
     while((lambda < (0.95 * ancienLambda)) || (lambda > (1.05 * ancienLambda)));
-
+    if(a)
+    {
     system("cls");
     std::cout << "                                              Centralite de vecteur propre" << std::endl << std::endl << std::endl;
     std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
@@ -246,6 +249,7 @@ void Graphe::centralite_vecteur_propre()
     while(getch() != 13)
     {
 
+    }
     }
 }
 
@@ -324,7 +328,6 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     std::vector<int> longueur;
     float cpt=0;
     int a;
-
     int i=num_Sf;
     if(i!=num_s0)
     {
