@@ -167,7 +167,7 @@ void Graphe::menu()
         choix = 0;
         while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9)
         {
-            //system("cls");
+            system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
             std::cout << "2) Calculer les indices de centralite de vecteur propre" << std::endl;
             std::cout << "3) Calculer les indices de centralite de proximite" << std::endl << std::endl;
@@ -430,31 +430,33 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
 
     ///Affichage du parcours
     std::vector<int> longueur;
+    int a=0;
     float cpt=0;
     int i=num_Sf;
     if(i!=num_s0)
     {
         if(preds[i]!=-1)
         {
-            std::cout<<i<<" <-- ";
+           // std::cout<<i<<" <-- ";
             longueur.push_back(dists[i]);
 
             int j=preds[i];
             while(j!=num_s0)
             {
-                std::cout<<j<<" <-- ";
+                //std::cout<<j<<" <-- ";
                 longueur.push_back(dists[j]);
                 j=preds[j];
             }
-            std::cout<<j<<" : longueur ";
+            //std::cout<<j<<" : longueur ";
         }
         longueur.push_back(0);
         for(size_t y=0; y<longueur.size()-1; ++y)
         {
             if(y!=longueur.size()-2)
-                std::cout<<"+";
+                a+=1;
+                //std::cout<<"+";
             else
-                std::cout<<"="<<dists[num_Sf]<<std::endl;
+               // std::cout<<"="<<dists[num_Sf]<<std::endl;
                 cpt=dists[num_Sf];
         }
     }
@@ -486,7 +488,7 @@ void Graphe::indice_proximite(bool a)
         calcul=1/distance;
 
         m_sommets[j]->setIndice_proximite(calcul);
-        m_sommets[j]->setIndice_proximite(calcul / (m_ordre - 1));
+        m_sommets[j]->setIndice_proximiteNormalise(calcul / (m_ordre - 1));
     }
     if(a)
     {
