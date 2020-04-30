@@ -7,6 +7,8 @@
 #include "svgfile.h"
 #include "Sommet.h"
 #include "Arete.h"
+#include <cmath>
+#include <conio.h>
 
 class Graphe
 {
@@ -29,6 +31,7 @@ private:
     int m_taille;
     std::vector<Sommet*> m_sommets;
     std::vector<Arete*> m_aretes;
+    std::vector<Arete*> getAretesBySommet(Sommet* sommet);
 };
 
 #endif // GRAPHE_H_INCLUDED
