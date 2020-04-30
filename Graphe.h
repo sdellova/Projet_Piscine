@@ -7,6 +7,8 @@
 #include "svgfile.h"
 #include "Sommet.h"
 #include "Arete.h"
+#include <cmath>
+#include <conio.h>
 
 class Graphe
 {

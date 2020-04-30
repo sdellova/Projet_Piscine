@@ -40,16 +40,18 @@
 1588004957 source:c:\users\seb\documents\projet-piscine\projet-piscine\graphe.cpp
 	"Graphe.h"
 
-1588172406 source:c:\users\seb\documents\projet_piscine\graphe.cpp
+1588244425 source:c:\users\seb\documents\projet_piscine\graphe.cpp
 	"Graphe.h"
 
-1588166870 c:\users\seb\documents\projet_piscine\graphe.h
+1588245943 c:\users\seb\documents\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
 	"svgfile.h"
 	"Sommet.h"
 	"Arete.h"
+	<cmath>
+	<conio.h>
 
 1588156892 c:\users\seb\documents\projet_piscine\svgfile.h
 	<string>
@@ -58,11 +60,11 @@
 	<iostream>
 	<sstream>
 
-1588172406 c:\users\seb\documents\projet_piscine\sommet.h
+1588245063 c:\users\seb\documents\projet_piscine\sommet.h
 	<string>
 	<vector>
 
-1588156892 source:c:\users\seb\documents\projet_piscine\sommet.cpp
+1588245063 source:c:\users\seb\documents\projet_piscine\sommet.cpp
 	"Sommet.h"
 
 1588156892 source:c:\users\seb\documents\projet_piscine\svgfile.cpp
@@ -71,10 +73,10 @@
 	<iostream>
 	"Graphe.h"
 
-1588166508 c:\users\seb\documents\projet_piscine\arete.h
+1588245063 c:\users\seb\documents\projet_piscine\arete.h
 	"Sommet.h"
 
-1588166523 source:c:\users\seb\documents\projet_piscine\arete.cpp
+1588245063 source:c:\users\seb\documents\projet_piscine\arete.cpp
 	"Arete.h"
 
 1588157017 source:c:\users\utilisateur\documents\github\projet_piscine\arete.cpp
