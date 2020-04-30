@@ -21,7 +21,6 @@ Graphe::Graphe(std::string nomFichier)
         ifs >> indice >> extremite1 >> extremite2;
         Arete* a = new Arete{indice, getSommetByIndice(extremite1), getSommetByIndice(extremite2)};
         m_aretes.push_back(a);
-
         getSommetByIndice(extremite1)->ajouter_voisins(getSommetByIndice(extremite2));
         getSommetByIndice(extremite2)->ajouter_voisins(getSommetByIndice(extremite1));
     }
@@ -67,10 +66,44 @@ void Graphe::ponderation()
 void Graphe::dessiner()
 {
     Svgfile svgout;
+    std::string couleur;
     for(int i=0 ; i<m_ordre ; ++i)
     {
-        svgout.addDisk(m_sommets[i]->getX() * 100, m_sommets[i]->getY() * 100, 7);
-        svgout.addText((m_sommets[i]->getX() * 100) - 7, (m_sommets[i]->getY() * 100) - 15, m_sommets[i]->getNom());
+        std::ostringstream oss1;
+        std::ostringstream oss2;
+        std::ostringstream oss3;
+        oss1 << "CD : " << m_sommets[i]->getIndice_degre();
+        std::string indiceDegre = oss1.str();
+        oss2 << "CVP : " << m_sommets[i]->getIndice_vecteur_propre();
+        std::string indiceVecteur_propre = oss2.str();
+        oss3 << "CP : " << m_sommets[i]->getIndice_proximite();
+        std::string indiceProximite = oss3.str();
+        switch(m_sommets[i]->getVoisins().size())
+        {
+        case 0 :
+            couleur = "cyan";
+            break;
+        case 1 :
+            couleur = "yellow";
+            break;
+        case 2 :
+            couleur = "green";
+            break;
+        case 3 :
+            couleur = "orange";
+            break;
+        case 4 :
+            couleur = "red";
+            break;
+        case 5 :
+            couleur = "purple";
+            break;
+        }
+        svgout.addDisk(m_sommets[i]->getX() * 100, m_sommets[i]->getY() * 100, 7, couleur);
+        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 15, m_sommets[i]->getNom(), couleur);
+        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 30, indiceProximite, couleur);
+        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 45, indiceVecteur_propre, couleur);
+        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 60, indiceDegre, couleur);
     }
     for(int i=0 ; i<m_taille ; ++i)
     {
@@ -104,7 +137,7 @@ void Graphe::menu()
     while(choix != 6)
     {
         choix = 0;
-        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9)
+        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6)
         {
             //system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
@@ -119,13 +152,13 @@ void Graphe::menu()
         switch(choix)
         {
         case 1:
-            centralite_degre();
+            centralite_degre(1);
             break;
         case 2 :
             centralite_vecteur_propre(1);
             break;
         case 3 :
-            indice_proximite(true);
+            indice_proximite(1);
             break;
         case 4 :
             supprimerAretes();
@@ -148,18 +181,59 @@ void Graphe::menu()
 
 void Graphe::supprimerAretes()
 {
-    int choix;
-    system("cls");
-    do
+    int choix = 0;
+    while(choix != 50)
     {
-        std::cout << "Tapez enter pour revenir au menu principal" << std::endl;
+        system("cls");
+        std::cout << "Entrez 50 pour revenir au menu principal" << std::endl;
         std::cout << "Indiquez l'indice de l'arete a supprimer : ";
         std::cin >> choix;
-        delete getAreteByIndice(choix);
-        m_aretes.erase(m_aretes.begin() + choix);
-        dessiner();
+        if(choix == 50)
+            continue;
+        if(areteExistante(choix))
+        {
+            int tmp = getPositionAreteByIndice(choix);
+            m_aretes[tmp]->getExtremites().first->retirer_voisins(m_aretes[tmp]->getExtremites().second);
+            m_aretes[tmp]->getExtremites().second->retirer_voisins(m_aretes[tmp]->getExtremites().first);
+            delete getAreteByIndice(choix);
+            m_aretes.erase(m_aretes.begin() + tmp);
+            --m_taille;
+            centralite_degre(0);
+            centralite_vecteur_propre(0);
+            indice_proximite(0);
+            //sauvegarde();
+            dessiner();
+        }
+        else
+        {
+            std::cout << std::endl << "L'arete n'existe pas" << std::endl;
+        }
+        Sleep(2000);
     }
-    while(getch() != 13);
+}
+
+bool Graphe::areteExistante(int indice)
+{
+    int i = 0;
+    while(m_aretes[i]->getIndice() != indice)
+    {
+        if(i == (m_taille - 1))
+        {
+            return 0;
+        }
+        ++i;
+    }
+    return 1;
+}
+
+int Graphe::getPositionAreteByIndice(int indice)
+{
+    int i = 0;
+    while(m_aretes[i]->getIndice() != indice)
+    {
+        ++i;
+    }
+    return i;
 }
 
 int Graphe::getOrdre() const
@@ -172,26 +246,27 @@ int Graphe::getTaille()
     return m_taille;
 }
 
-void Graphe::centralite_degre()
+void Graphe::centralite_degre(bool valeur)
 {
-    std::vector<double> degres;
     for(int i=0 ; i<m_ordre ; ++i)
     {
-        degres.push_back(m_sommets[i]->getVoisins().size());
+        m_sommets[i]->setIndice_degre(m_sommets[i]->getVoisins().size());
     }
 
-    system("cls");
-    std::cout << "                                              Centralite de degre" << std::endl << std::endl << std::endl;
-    std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
-    for(int i=0 ; i<m_ordre ; ++i)
+    if(valeur)
     {
+        system("cls");
+        std::cout << "                                              Centralite de degre" << std::endl << std::endl << std::endl;
+        std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
+        for(int i=0 ; i<m_ordre ; ++i)
+        {
+            std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   " << m_sommets[i]->getIndice_degre() << "               " << m_sommets[i]->getIndice_degre() / (m_ordre-1) << std::endl;
+        }
+        std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
+        while(getch() != 13)
+        {
 
-        std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< degres[i] << "               " << degres[i] / (m_ordre-1) << std::endl;
-    }
-    std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
-    while(getch() != 13)
-    {
-
+        }
     }
 }
 
@@ -231,21 +306,21 @@ void Graphe::centralite_vecteur_propre(bool valeur)
         }
     }
     while((lambda < (0.95 * ancienLambda)) || (lambda > (1.05 * ancienLambda)));
-    if(a)
+    if(valeur)
     {
-    system("cls");
-    std::cout << "                                              Centralite de vecteur propre" << std::endl << std::endl << std::endl;
-    std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
-    for(int i=0 ; i<m_ordre ; ++i)
-    {
-        std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< m_sommets[i]->getIndice_vecteur_propre() << "               " << m_sommets[i]->getIndice_vecteur_propre() / (m_ordre-1) << std::endl;
-    }
+        system("cls");
+        std::cout << "                                              Centralite de vecteur propre" << std::endl << std::endl << std::endl;
+        std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
+        for(int i=0 ; i<m_ordre ; ++i)
+        {
+            std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< m_sommets[i]->getIndice_vecteur_propre() << "               " << m_sommets[i]->getIndice_vecteur_propre() / (m_ordre-1) << std::endl;
+        }
 
-    std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
-    while(getch() != 13)
-    {
+        std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
+        while(getch() != 13)
+        {
 
-    }
+        }
     }
 }
 
@@ -264,13 +339,10 @@ std::vector<Arete*> Graphe::getAretesBySommet(Sommet* sommet)
 
 float Graphe::Dijkstrat(int num_s0, int num_Sf)
 {
-
     ///Initialisation
     std::vector<int> couleurs((int)m_sommets.size(),0);
     std::vector<int> preds((int)m_sommets.size(),-1);
     std::vector<double> dists((int)m_sommets.size(),-1);
-
-
 
     dists[num_s0]=0;
 
@@ -344,16 +416,12 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
         longueur.push_back(0);
         for(size_t y=0; y<longueur.size()-1; ++y)
         {
-            std::cout<<longueur[y]-longueur[y+1];
             if(y!=longueur.size()-2)
                  //a += 1;
                 std::cout<<"+";
             else
                 std::cout<<"="<<dists[num_Sf]<<std::endl;
                 cpt=dists[num_Sf];
-
-
-
         }
     }
     return cpt;
@@ -362,12 +430,8 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
 
 void Graphe::indice_proximite(bool a)
 {
-
     float calcul;
     float distance=0;
-
-
-
     for(size_t j=0; j<m_sommets.size(); j++)
     {
         calcul=0;
@@ -382,37 +446,47 @@ void Graphe::indice_proximite(bool a)
             }
             if(i<m_sommets.size())
             {
-            distance+=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
-
+                distance+=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
             }
-
-
         }
         calcul=1/distance;
 
         m_sommets[j]->setIndice_proximite(calcul);
-
     }
     if(a)
     {
+        system("cls");
+        std::cout << "                                              Centralite de proximite" << std::endl << std::endl << std::endl;
+        std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
+        for(int i=0 ; i<m_ordre ; ++i)
+        {
+            std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< m_sommets[i]->getIndice_proximite() << "\t\t\t" << m_sommets[i]->getIndice_proximite()*(m_ordre-1) << std::endl;
+        }
 
+        std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
+        while(getch() != 13)
+        {
 
-    system("cls");
-    std::cout << "                                              Centralite de proximite" << std::endl << std::endl << std::endl;
-    std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
-    for(int i=0 ; i<m_ordre ; ++i)
+        }
+    }
+}
+
+void Graphe::sauvegarde()
+{
+    std::string const nomFichier("Indices.txt");
+    std::ofstream monFlux(nomFichier.c_str());
+
+    if(monFlux)
     {
-       std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< m_sommets[i]->getIndice_proximite() << "\t\t\t" << m_sommets[i]->getIndice_proximite()*(m_ordre-1) << std::endl;
+        for(int i=0 ; i<m_ordre ; ++i)
+        {
+            monFlux << "Sommet " << m_sommets[i]->getIndice() << " : CD = " << m_sommets[i]->getIndice_degre() << "     ;     CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "     ;     CP = " << m_sommets[i]->getIndice_proximite() << std::endl;
+        }
     }
-
-    std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
-    while(getch() != 13)
+    else
     {
-
+        std::cout << "Impossible d'ouvrir le fichier indice.txt" << std::endl;
     }
-    }
-
-
 }
 
 void Graphe::intermediarite()

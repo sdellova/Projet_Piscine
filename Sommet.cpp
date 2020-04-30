@@ -45,6 +45,16 @@ void Sommet::ajouter_voisins(Sommet* s)
     m_voisins.push_back(s);
 }
 
+double Sommet::getIndice_degre()
+{
+    return m_indice_degre;
+}
+
+void Sommet::setIndice_degre(double indice)
+{
+    m_indice_degre = indice;
+}
+
 void Sommet::setIndice_proximite(float indice_proximite)
 {
     m_indice_proximite = indice_proximite;
@@ -52,4 +62,19 @@ void Sommet::setIndice_proximite(float indice_proximite)
 float Sommet::getIndice_proximite()
 {
     return m_indice_proximite;
+}
+
+int Sommet::getPositionSommetByIndice(int indice)
+{
+    int i = 0;
+    while(m_voisins[i]->getIndice() != indice)
+    {
+        ++i;
+    }
+    return i;
+}
+
+void Sommet::retirer_voisins(Sommet* sommet)
+{
+    m_voisins.erase(m_voisins.begin() + getPositionSommetByIndice(sommet->getIndice()));
 }

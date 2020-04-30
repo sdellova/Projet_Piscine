@@ -1,32 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1000" height="1000">
 
-<circle cx="200" cy="100" r="7" fill="black" />
-<text x="193" y="85" fill="black" >A</text>
-<circle cx="600" cy="100" r="7" fill="black" />
-<text x="593" y="85" fill="black" >B</text>
-<circle cx="100" cy="200" r="7" fill="black" />
-<text x="93" y="185" fill="black" >C</text>
-<circle cx="300" cy="200" r="7" fill="black" />
-<text x="293" y="185" fill="black" >D</text>
-<circle cx="400" cy="200" r="7" fill="black" />
-<text x="393" y="185" fill="black" >E</text>
-<circle cx="500" cy="200" r="7" fill="black" />
-<text x="493" y="185" fill="black" >F</text>
-<circle cx="700" cy="200" r="7" fill="black" />
-<text x="693" y="185" fill="black" >G</text>
-<circle cx="200" cy="300" r="7" fill="black" />
-<text x="193" y="285" fill="black" >H</text>
-<circle cx="600" cy="300" r="7" fill="black" />
-<text x="593" y="285" fill="black" >I</text>
-<line x1="200" y1="100" x2="300" y2="200" stroke="black" />
-<line x1="600" y1="100" x2="500" y2="200" stroke="black" />
-<line x1="100" y1="200" x2="300" y2="200" stroke="black" />
-<line x1="300" y1="200" x2="400" y2="200" stroke="black" />
-<line x1="400" y1="200" x2="500" y2="200" stroke="black" />
-<line x1="500" y1="200" x2="700" y2="200" stroke="black" />
-<line x1="200" y1="300" x2="300" y2="200" stroke="black" />
-<line x1="600" y1="300" x2="500" y2="200" stroke="black" />
+<circle cx="300" cy="100" r="7" fill="green" />
+<text x="294" y="85" fill="green" >A</text>
+<text x="294" y="70" fill="green" >CP : 0.0555556</text>
+<text x="294" y="55" fill="green" >CVP : 0.223792</text>
+<text x="294" y="40" fill="green" >CD : 2</text>
+<circle cx="200" cy="200" r="7" fill="orange" />
+<text x="194" y="185" fill="orange" >B</text>
+<text x="194" y="170" fill="orange" >CP : 0.0666667</text>
+<text x="194" y="155" fill="orange" >CVP : 0.406894</text>
+<text x="194" y="140" fill="orange" >CD : 3</text>
+<circle cx="400" cy="200" r="7" fill="green" />
+<text x="394" y="185" fill="green" >C</text>
+<text x="394" y="170" fill="green" >CP : 0.0526316</text>
+<text x="394" y="155" fill="green" >CVP : 0.203447</text>
+<text x="394" y="140" fill="green" >CD : 2</text>
+<circle cx="300" cy="300" r="7" fill="orange" />
+<text x="294" y="285" fill="orange" >D</text>
+<text x="294" y="270" fill="orange" >CP : 0.0714286</text>
+<text x="294" y="255" fill="orange" >CVP : 0.427239</text>
+<text x="294" y="240" fill="orange" >CD : 3</text>
+<circle cx="200" cy="400" r="7" fill="orange" />
+<text x="194" y="385" fill="orange" >E</text>
+<text x="194" y="370" fill="orange" >CP : 0.0588235</text>
+<text x="194" y="355" fill="orange" >CVP : 0.427239</text>
+<text x="194" y="340" fill="orange" >CD : 3</text>
+<circle cx="300" cy="400" r="7" fill="green" />
+<text x="294" y="385" fill="green" >F</text>
+<text x="294" y="370" fill="green" >CP : 0.0555556</text>
+<text x="294" y="355" fill="green" >CVP : 0.284826</text>
+<text x="294" y="340" fill="green" >CD : 2</text>
+<circle cx="400" cy="400" r="7" fill="orange" />
+<text x="394" y="385" fill="orange" >G</text>
+<text x="394" y="370" fill="orange" >CP : 0.0666667</text>
+<text x="394" y="355" fill="orange" >CVP : 0.406894</text>
+<text x="394" y="340" fill="orange" >CD : 3</text>
+<circle cx="100" cy="500" r="7" fill="green" />
+<text x="94" y="485" fill="green" >H</text>
+<text x="94" y="470" fill="green" >CP : 0.0555556</text>
+<text x="94" y="455" fill="green" >CVP : 0.284826</text>
+<text x="94" y="440" fill="green" >CD : 2</text>
+<circle cx="500" cy="500" r="7" fill="green" />
+<text x="494" y="485" fill="green" >I</text>
+<text x="494" y="470" fill="green" >CP : 0.0555556</text>
+<text x="494" y="455" fill="green" >CVP : 0.223792</text>
+<text x="494" y="440" fill="green" >CD : 2</text>
+<line x1="300" y1="100" x2="200" y2="200" stroke="black" />
+<line x1="300" y1="100" x2="400" y2="200" stroke="black" />
+<line x1="200" y1="200" x2="300" y2="300" stroke="black" />
+<line x1="300" y1="300" x2="200" y2="400" stroke="black" />
+<line x1="300" y1="300" x2="400" y2="400" stroke="black" />
+<line x1="200" y1="200" x2="100" y2="500" stroke="black" />
+<line x1="400" y1="200" x2="500" y2="500" stroke="black" />
+<line x1="200" y1="400" x2="300" y2="400" stroke="black" />
+<line x1="300" y1="400" x2="400" y2="400" stroke="black" />
+<line x1="400" y1="400" x2="500" y2="500" stroke="black" />
+<line x1="200" y1="400" x2="100" y2="500" stroke="black" />
 
 
 </svg>
