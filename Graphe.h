@@ -24,13 +24,14 @@ public:
     int getOrdre() const;
     int getTaille();
     void centralite_degre(bool valeur);
-    void centralite_vecteur_propre();
+    void centralite_vecteur_propre(bool valeur);
     float Dijkstrat(int num_s0, int num_Sf);
     std::vector<Arete*> getAretesBySommet(Sommet* sommet);
     float indice_proximite(int a);
     float indice_proximite_normalise(int s);
     int getPositionByIndice(int indice);
     bool areteExistante(int indice);
+    void indice_proximite(bool a);
 private:
     bool m_orientation;
     int m_ordre;

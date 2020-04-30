@@ -19,6 +19,8 @@ public:
     void ajouter_aretevoisins(std::pair<const Sommet*, float >);
     double getIndice_degre();
     void setIndice_degre(double indice);
+    void setIndice_proximite(float indice_proximite);
+    float getIndice_proximite();
 private:
     int m_indice;
     std::string m_nom;
@@ -28,6 +30,7 @@ private:
     double m_indice_vecteur_propre;
     double m_indice_degre;
     std::vector<std::pair<const Sommet*, float>> m_aretevoisins;
+    float m_indice_proximite;
 };
 
 #endif // SOMMET_H_INCLUDED

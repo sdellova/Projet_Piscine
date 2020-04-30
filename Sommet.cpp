@@ -54,3 +54,12 @@ void Sommet::setIndice_degre(double indice)
 {
     m_indice_degre = indice;
 }
+
+void Sommet::setIndice_proximite(float indice_proximite)
+{
+    m_indice_proximite = indice_proximite;
+}
+float Sommet::getIndice_proximite()
+{
+    return m_indice_proximite;
+}

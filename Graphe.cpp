@@ -1,5 +1,6 @@
 #include "Graphe.h"
 
+
 Graphe::Graphe(std::string nomFichier)
 {
     int indice, extremite1, extremite2;
@@ -152,11 +153,10 @@ void Graphe::menu()
             centralite_degre(1);
             break;
         case 2 :
-            centralite_vecteur_propre();
+            centralite_vecteur_propre(1);
             break;
         case 3 :
-            indice_proximite(0);
-            indice_proximite_normalise(3);
+            indice_proximite(true);
             break;
         case 4 :
             supprimerAretes();
@@ -256,7 +256,7 @@ void Graphe::centralite_degre(bool valeur)
     }
 }
 
-void Graphe::centralite_vecteur_propre()
+void Graphe::centralite_vecteur_propre(bool valeur)
 {
     std::vector<double> tmp(m_ordre);
     double a;
@@ -292,7 +292,8 @@ void Graphe::centralite_vecteur_propre()
         }
     }
     while((lambda < (0.95 * ancienLambda)) || (lambda > (1.05 * ancienLambda)));
-
+    if(a)
+    {
     system("cls");
     std::cout << "                                              Centralite de vecteur propre" << std::endl << std::endl << std::endl;
     std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
@@ -305,6 +306,7 @@ void Graphe::centralite_vecteur_propre()
     while(getch() != 13)
     {
 
+    }
     }
 }
 
@@ -382,78 +384,82 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     ///Affichage du parcours
     std::vector<int> longueur;
     float cpt=0;
-
+    int a;
     int i=num_Sf;
     if(i!=num_s0)
     {
         if(preds[i]!=-1)
         {
-            //std::cout<<i<<" <-- ";
             longueur.push_back(dists[i]);
 
             int j=preds[i];
             while(j!=num_s0)
             {
-                //std::cout<<j<<" <-- ";
                 longueur.push_back(dists[j]);
                 j=preds[j];
             }
-            //std::cout<<j<<" : longueur ";
         }
         longueur.push_back(0);
         for(size_t y=0; y<longueur.size()-1; ++y)
         {
-            //std::cout<<longueur[y]-longueur[y+1];
+            std::cout<<longueur[y]-longueur[y+1];
             if(y!=longueur.size()-2)
-                int a = 1;
-            //std::cout<<"+";
+                 a += 1;
             else
-                //std::cout<<"="<<dists[num_Sf]<<std::endl;
                 cpt=dists[num_Sf];
-
-
-
         }
     }
-    //std::cout<<"cpt="<<cpt;
     return cpt;
 }
 
-float Graphe::indice_proximite(int a)
+
+void Graphe::indice_proximite(bool a)
 {
 
     float calcul;
     float distance=0;
-    float res;
-    //res=Dijkstrat(a, 1);
 
-    for(size_t i=0; i<m_sommets.size(); i++)
+
+
+    for(size_t j=0; j<m_sommets.size(); j++)
     {
+        calcul=0;
+        distance=0;
 
-        if(a == m_sommets[i]->getIndice())
+        for(size_t i=0; i<m_sommets.size(); i++)
         {
-            i++;
+
+            if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
+            {
+                i++;
+            }
+            if(i<m_sommets.size())
+            {
+            distance+=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
+
+            }
         }
-        std::cout<<m_sommets[i]->getIndice()<<std::endl;
-        res=Dijkstrat(a, m_sommets[i]->getIndice());
-        distance+=res;
-        std::cout<<distance<<std::endl;
+        calcul=1/distance;
+
+        m_sommets[j]->setIndice_proximite(calcul);
 
     }
-    std::cout<<"distance final ="<<distance<<std::endl;
-    calcul=1/distance;
-    std::cout<<"final = "<<calcul;
-    return calcul;
+    if(a)
+    {
+    system("cls");
+    std::cout << "                                              Centralite de proximite" << std::endl << std::endl << std::endl;
+    std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+       std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< m_sommets[i]->getIndice_proximite() << "\t\t\t" << m_sommets[i]->getIndice_proximite()*(m_ordre-1) << std::endl;
+    }
+
+    std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
+    while(getch() != 13)
+    {
+
+    }
+    }
 }
 
-float Graphe::indice_proximite_normalise(int s)
-{
-    float calcul;
-    float indice;
-    indice = indice_proximite(s);
-    std::cout<<indice<<std::endl;
-    std::cout<<"ordre-1"<<m_ordre-1<<std::endl;
-    calcul= (m_ordre-1)*indice;
-    std::cout<<calcul;
-    return calcul;
-}
+
