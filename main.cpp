@@ -6,6 +6,8 @@ int main()
     std::string afficherMenu();
     Graphe graphe(afficherMenu());
     graphe.ponderation();
+    graphe.centralite_degre(0);
+    graphe.centralite_vecteur_propre();
     graphe.dessiner();
     graphe.menu();
     return 0;
