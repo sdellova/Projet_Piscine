@@ -361,6 +361,23 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     return cpt;
 }
 
+void Graphe::getAretesBySommet(Sommet* sommet)
+{
+    std::vector<Arete*> aretes;
+    for(int i=0 ; i<m_taille ; ++i)
+    {
+        if(m_aretes[i]->getExtremites().first->getIndice()==sommet->getIndice() ||  m_aretes[i]->getExtremites().second->getIndice()==sommet->getIndice())
+        {
+            aretes.push_back(m_aretes[i]);
+        }
+    }
+    for(int i=0 ; i<aretes.size(); ++i)
+    {
+        std::cout<<aretes[i]->getIndice();
+    }
+    //return aretes;
+}
+
 float Graphe::indice_proximite(int a)
 {
 
