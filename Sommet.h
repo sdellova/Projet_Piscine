@@ -16,7 +16,8 @@ public:
     double getIndice_vecteur_propre();
     const std::vector<Sommet*> getVoisins();
     void ajouter_voisins(Sommet* s);
-    void ajouter_aretevoisins(std::pair<const Sommet*, float >);
+    int getPositionSommetByIndice(int indice);
+    void retirer_voisins(Sommet* sommet);
     double getIndice_degre();
     void setIndice_degre(double indice);
     void setIndice_proximite(float indice_proximite);
@@ -29,7 +30,6 @@ private:
     std::vector<Sommet*> m_voisins;
     double m_indice_vecteur_propre;
     double m_indice_degre;
-    std::vector<std::pair<const Sommet*, float>> m_aretevoisins;
     float m_indice_proximite;
 };
 
