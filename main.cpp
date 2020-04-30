@@ -7,7 +7,8 @@ int main()
     Graphe graphe(afficherMenu());
     graphe.ponderation();
     graphe.centralite_degre(0);
-    graphe.centralite_vecteur_propre();
+    graphe.centralite_vecteur_propre(0);
+    graphe.indice_proximite(0);
     graphe.dessiner();
     graphe.menu();
     return 0;
