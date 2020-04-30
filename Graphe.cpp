@@ -209,12 +209,6 @@ void Graphe::menu()
         case 9 :
             exit(1);
             break;
-        case 7:
-            //std::cout<<"oui";
-            intermediarite();
-            std::cout<<"\n\n"<<std::endl;
-            break;
-
         }
     }
 }
@@ -437,7 +431,6 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     ///Affichage du parcours
     std::vector<int> longueur;
     float cpt=0;
-    int a;
     int i=num_Sf;
     if(i!=num_s0)
     {
@@ -459,7 +452,6 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
         for(size_t y=0; y<longueur.size()-1; ++y)
         {
             if(y!=longueur.size()-2)
-                 //a += 1;
                 std::cout<<"+";
             else
                 std::cout<<"="<<dists[num_Sf]<<std::endl;
