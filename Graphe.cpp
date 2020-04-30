@@ -1,5 +1,6 @@
 #include "Graphe.h"
 
+
 Graphe::Graphe(std::string nomFichier)
 {
     int indice, extremite1, extremite2;
@@ -189,6 +190,7 @@ void Graphe::centralite_degre()
     std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
     for(int i=0 ; i<m_ordre ; ++i)
     {
+
         std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< degres[i] << "               " << degres[i] / (m_ordre-1) << std::endl;
     }
     std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
