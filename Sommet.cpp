@@ -44,13 +44,13 @@ void Sommet::ajouter_voisins(Sommet* s)
 {
     m_voisins.push_back(s);
 }
-/*
-void Sommet::ajouter_aretevoisins(std::pair<const Sommet*, const Arete*> n)
+
+double Sommet::getIndice_degre()
 {
-    m_aretevoisins.push_back(n);
+    return m_indice_degre;
 }
 
-const std::vector<std::pair<const Sommet*, const Arete*>> Sommet::getaretevoisins()
+void Sommet::setIndice_degre(double indice)
 {
-    return m_aretevoisins;
-}*/
+    m_indice_degre = indice;
+}
