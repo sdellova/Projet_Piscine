@@ -17,7 +17,8 @@ public:
     const std::vector<Sommet*> getVoisins();
     void ajouter_voisins(Sommet* s);
     void ajouter_aretevoisins(std::pair<const Sommet*, float >);
-   // const std::vector<std::pair<const Sommet*, const Arete*>> getaretevoisins();
+    double getIndice_degre();
+    void setIndice_degre(double indice);
 private:
     int m_indice;
     std::string m_nom;
@@ -25,6 +26,7 @@ private:
     double m_y;
     std::vector<Sommet*> m_voisins;
     double m_indice_vecteur_propre;
+    double m_indice_degre;
     std::vector<std::pair<const Sommet*, float>> m_aretevoisins;
 };
 
