@@ -21,7 +21,6 @@ Graphe::Graphe(std::string nomFichier)
         ifs >> indice >> extremite1 >> extremite2;
         Arete* a = new Arete{indice, getSommetByIndice(extremite1), getSommetByIndice(extremite2)};
         m_aretes.push_back(a);
-
         getSommetByIndice(extremite1)->ajouter_voisins(getSommetByIndice(extremite2));
         getSommetByIndice(extremite2)->ajouter_voisins(getSommetByIndice(extremite1));
     }
@@ -77,10 +76,13 @@ void Graphe::dessiner()
         std::string indiceDegre = oss1.str();
         oss2 << "CVP : " << m_sommets[i]->getIndice_vecteur_propre();
         std::string indiceVecteur_propre = oss2.str();
-        oss3 << "CP : ";
+        oss3 << "CP : " << m_sommets[i]->getIndice_proximite();
         std::string indiceProximite = oss3.str();
         switch(m_sommets[i]->getVoisins().size())
         {
+        case 0 :
+            couleur = "cyan";
+            break;
         case 1 :
             couleur = "yellow";
             break;
@@ -156,7 +158,7 @@ void Graphe::menu()
             centralite_vecteur_propre(1);
             break;
         case 3 :
-            indice_proximite(true);
+            indice_proximite(1);
             break;
         case 4 :
             supprimerAretes();
@@ -184,17 +186,22 @@ void Graphe::supprimerAretes()
             continue;
         if(areteExistante(choix))
         {
-            int tmp = getPositionByIndice(choix);
+            int tmp = getPositionAreteByIndice(choix);
+            m_aretes[tmp]->getExtremites().first->retirer_voisins(m_aretes[tmp]->getExtremites().second);
+            m_aretes[tmp]->getExtremites().second->retirer_voisins(m_aretes[tmp]->getExtremites().first);
             delete getAreteByIndice(choix);
             m_aretes.erase(m_aretes.begin() + tmp);
             --m_taille;
+            centralite_degre(0);
+            centralite_vecteur_propre(0);
+            //indice_proximite(0);
             dessiner();
         }
         else
         {
             std::cout << std::endl << "L'arete n'existe pas" << std::endl;
         }
-        Sleep(3000);
+        Sleep(2000);
     }
 }
 
@@ -212,7 +219,7 @@ bool Graphe::areteExistante(int indice)
     return 1;
 }
 
-int Graphe::getPositionByIndice(int indice)
+int Graphe::getPositionAreteByIndice(int indice)
 {
     int i = 0;
     while(m_aretes[i]->getIndice() != indice)
@@ -292,7 +299,7 @@ void Graphe::centralite_vecteur_propre(bool valeur)
         }
     }
     while((lambda < (0.95 * ancienLambda)) || (lambda > (1.05 * ancienLambda)));
-    if(a)
+    if(valeur)
     {
     system("cls");
     std::cout << "                                              Centralite de vecteur propre" << std::endl << std::endl << std::endl;
@@ -325,13 +332,10 @@ std::vector<Arete*> Graphe::getAretesBySommet(Sommet* sommet)
 
 float Graphe::Dijkstrat(int num_s0, int num_Sf)
 {
-
     ///Initialisation
     std::vector<int> couleurs((int)m_sommets.size(),0);
     std::vector<int> preds((int)m_sommets.size(),-1);
     std::vector<double> dists((int)m_sommets.size(),-1);
-
-
 
     dists[num_s0]=0;
 
@@ -402,7 +406,6 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
         longueur.push_back(0);
         for(size_t y=0; y<longueur.size()-1; ++y)
         {
-            std::cout<<longueur[y]-longueur[y+1];
             if(y!=longueur.size()-2)
                  a += 1;
             else
@@ -415,12 +418,8 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
 
 void Graphe::indice_proximite(bool a)
 {
-
     float calcul;
     float distance=0;
-
-
-
     for(size_t j=0; j<m_sommets.size(); j++)
     {
         calcul=0;
