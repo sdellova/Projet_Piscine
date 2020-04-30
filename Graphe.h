@@ -9,6 +9,7 @@
 #include "Arete.h"
 #include <cmath>
 #include <conio.h>
+#include <windows.h>
 
 class Graphe
 {
@@ -22,12 +23,14 @@ public:
     Arete* getAreteByIndice(int indice);
     int getOrdre() const;
     int getTaille();
-    void centralite_degre();
+    void centralite_degre(bool valeur);
     void centralite_vecteur_propre();
     float Dijkstrat(int num_s0, int num_Sf);
     std::vector<Arete*> getAretesBySommet(Sommet* sommet);
     float indice_proximite(int a);
     float indice_proximite_normalise(int s);
+    int getPositionByIndice(int indice);
+    bool areteExistante(int indice);
 private:
     bool m_orientation;
     int m_ordre;
