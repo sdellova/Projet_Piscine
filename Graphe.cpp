@@ -122,7 +122,7 @@ void Graphe::menu()
             centralite_degre();
             break;
         case 2 :
-            centralite_vecteur_propre();
+            centralite_vecteur_propre(1);
             break;
         case 3 :
             indice_proximite();
@@ -199,7 +199,7 @@ void Graphe::centralite_degre()
     }
 }
 
-void Graphe::centralite_vecteur_propre()
+void Graphe::centralite_vecteur_propre(bool valeur)
 {
     std::vector<double> tmp(m_ordre);
     double a;
@@ -235,7 +235,8 @@ void Graphe::centralite_vecteur_propre()
         }
     }
     while((lambda < (0.95 * ancienLambda)) || (lambda > (1.05 * ancienLambda)));
-
+    if(a)
+    {
     system("cls");
     std::cout << "                                              Centralite de vecteur propre" << std::endl << std::endl << std::endl;
     std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
@@ -248,6 +249,7 @@ void Graphe::centralite_vecteur_propre()
     while(getch() != 13)
     {
 
+    }
     }
 }
 
@@ -325,7 +327,7 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     ///Affichage du parcours
     std::vector<int> longueur;
     float cpt=0;
-
+    int a;
     int i=num_Sf;
     if(i!=num_s0)
     {
@@ -348,7 +350,7 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
         {
             std::cout<<longueur[y]-longueur[y+1];
             if(y!=longueur.size()-2)
-                int a = 1;
+                a++;
             //std::cout<<"+";
             else
                 //std::cout<<"="<<dists[num_Sf]<<std::endl;
@@ -372,12 +374,12 @@ void Graphe::indice_proximite()
 
 
 
-    for(int j=0; j<m_sommets.size(); j++)
+    for(size_t j=0; j<m_sommets.size(); j++)
     {
         calcul=0;
         distance=0;
 
-        for(int i=0; i<m_sommets.size(); i++)
+        for(size_t i=0; i<m_sommets.size(); i++)
         {
 
             if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
@@ -401,7 +403,7 @@ void Graphe::indice_proximite()
     }
 
     system("cls");
-    std::cout << "                                              Centralite de proximité" << std::endl << std::endl << std::endl;
+    std::cout << "                                              Centralite de proximite" << std::endl << std::endl << std::endl;
     std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
     for(int i=0 ; i<m_ordre ; ++i)
     {
