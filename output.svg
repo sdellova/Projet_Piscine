@@ -3,52 +3,53 @@
 
 <circle cx="300" cy="100" r="7" fill="green" />
 <text x="294" y="85" fill="green" >A</text>
-<text x="294" y="70" fill="green" >CP : 0.0555556</text>
-<text x="294" y="55" fill="green" >CVP : 0.223792</text>
-<text x="294" y="40" fill="green" >CD : 2</text>
+<text x="294" y="70" fill="green" >CPn = 0.00694444</text>
+<text x="294" y="55" fill="green" >CVPn = 0.242536</text>
+<text x="294" y="40" fill="green" >CDn = 2</text>
 <circle cx="200" cy="200" r="7" fill="orange" />
 <text x="194" y="185" fill="orange" >B</text>
-<text x="194" y="170" fill="orange" >CP : 0.0666667</text>
-<text x="194" y="155" fill="orange" >CVP : 0.406894</text>
-<text x="194" y="140" fill="orange" >CD : 3</text>
-<circle cx="400" cy="200" r="7" fill="green" />
-<text x="394" y="185" fill="green" >C</text>
-<text x="394" y="170" fill="green" >CP : 0.0526316</text>
-<text x="394" y="155" fill="green" >CVP : 0.203447</text>
-<text x="394" y="140" fill="green" >CD : 2</text>
-<circle cx="300" cy="300" r="7" fill="orange" />
-<text x="294" y="285" fill="orange" >D</text>
-<text x="294" y="270" fill="orange" >CP : 0.0714286</text>
-<text x="294" y="255" fill="orange" >CVP : 0.427239</text>
-<text x="294" y="240" fill="orange" >CD : 3</text>
+<text x="194" y="170" fill="orange" >CPn = 0.00833333</text>
+<text x="194" y="155" fill="orange" >CVPn = 0.363803</text>
+<text x="194" y="140" fill="orange" >CDn = 3</text>
+<circle cx="400" cy="200" r="7" fill="orange" />
+<text x="394" y="185" fill="orange" >C</text>
+<text x="394" y="170" fill="orange" >CPn = 0.00833333</text>
+<text x="394" y="155" fill="orange" >CVPn = 0.363803</text>
+<text x="394" y="140" fill="orange" >CDn = 3</text>
+<circle cx="300" cy="300" r="7" fill="red" />
+<text x="294" y="285" fill="red" >D</text>
+<text x="294" y="270" fill="red" >CPn = 0.0104167</text>
+<text x="294" y="255" fill="red" >CVPn = 0.485071</text>
+<text x="294" y="240" fill="red" >CDn = 4</text>
 <circle cx="200" cy="400" r="7" fill="orange" />
 <text x="194" y="385" fill="orange" >E</text>
-<text x="194" y="370" fill="orange" >CP : 0.0588235</text>
-<text x="194" y="355" fill="orange" >CVP : 0.427239</text>
-<text x="194" y="340" fill="orange" >CD : 3</text>
+<text x="194" y="370" fill="orange" >CPn = 0.00833333</text>
+<text x="194" y="355" fill="orange" >CVPn = 0.363803</text>
+<text x="194" y="340" fill="orange" >CDn = 3</text>
 <circle cx="300" cy="400" r="7" fill="green" />
 <text x="294" y="385" fill="green" >F</text>
-<text x="294" y="370" fill="green" >CP : 0.0555556</text>
-<text x="294" y="355" fill="green" >CVP : 0.284826</text>
-<text x="294" y="340" fill="green" >CD : 2</text>
+<text x="294" y="370" fill="green" >CPn = 0.00694444</text>
+<text x="294" y="355" fill="green" >CVPn = 0.242536</text>
+<text x="294" y="340" fill="green" >CDn = 2</text>
 <circle cx="400" cy="400" r="7" fill="orange" />
 <text x="394" y="385" fill="orange" >G</text>
-<text x="394" y="370" fill="orange" >CP : 0.0666667</text>
-<text x="394" y="355" fill="orange" >CVP : 0.406894</text>
-<text x="394" y="340" fill="orange" >CD : 3</text>
+<text x="394" y="370" fill="orange" >CPn = 0.00833333</text>
+<text x="394" y="355" fill="orange" >CVPn = 0.363803</text>
+<text x="394" y="340" fill="orange" >CDn = 3</text>
 <circle cx="100" cy="500" r="7" fill="green" />
 <text x="94" y="485" fill="green" >H</text>
-<text x="94" y="470" fill="green" >CP : 0.0555556</text>
-<text x="94" y="455" fill="green" >CVP : 0.284826</text>
-<text x="94" y="440" fill="green" >CD : 2</text>
+<text x="94" y="470" fill="green" >CPn = 0.00694444</text>
+<text x="94" y="455" fill="green" >CVPn = 0.242536</text>
+<text x="94" y="440" fill="green" >CDn = 2</text>
 <circle cx="500" cy="500" r="7" fill="green" />
 <text x="494" y="485" fill="green" >I</text>
-<text x="494" y="470" fill="green" >CP : 0.0555556</text>
-<text x="494" y="455" fill="green" >CVP : 0.223792</text>
-<text x="494" y="440" fill="green" >CD : 2</text>
+<text x="494" y="470" fill="green" >CPn = 0.00694444</text>
+<text x="494" y="455" fill="green" >CVPn = 0.242536</text>
+<text x="494" y="440" fill="green" >CDn = 2</text>
 <line x1="300" y1="100" x2="200" y2="200" stroke="black" />
 <line x1="300" y1="100" x2="400" y2="200" stroke="black" />
 <line x1="200" y1="200" x2="300" y2="300" stroke="black" />
+<line x1="400" y1="200" x2="300" y2="300" stroke="black" />
 <line x1="300" y1="300" x2="200" y2="400" stroke="black" />
 <line x1="300" y1="300" x2="400" y2="400" stroke="black" />
 <line x1="200" y1="200" x2="100" y2="500" stroke="black" />
