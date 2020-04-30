@@ -66,10 +66,41 @@ void Graphe::ponderation()
 void Graphe::dessiner()
 {
     Svgfile svgout;
+    std::string couleur;
     for(int i=0 ; i<m_ordre ; ++i)
     {
-        svgout.addDisk(m_sommets[i]->getX() * 100, m_sommets[i]->getY() * 100, 7);
-        svgout.addText((m_sommets[i]->getX() * 100) - 7, (m_sommets[i]->getY() * 100) - 15, m_sommets[i]->getNom());
+        std::ostringstream oss1;
+        std::ostringstream oss2;
+        std::ostringstream oss3;
+        oss1 << "CD : " << m_sommets[i]->getIndice_degre();
+        std::string indiceDegre = oss1.str();
+        oss2 << "CVP : " << m_sommets[i]->getIndice_vecteur_propre();
+        std::string indiceVecteur_propre = oss2.str();
+        oss3 << "CP : ";
+        std::string indiceProximite = oss3.str();
+        switch(m_sommets[i]->getVoisins().size())
+        {
+        case 1 :
+            couleur = "yellow";
+            break;
+        case 2 :
+            couleur = "green";
+            break;
+        case 3 :
+            couleur = "orange";
+            break;
+        case 4 :
+            couleur = "red";
+            break;
+        case 5 :
+            couleur = "purple";
+            break;
+        }
+        svgout.addDisk(m_sommets[i]->getX() * 100, m_sommets[i]->getY() * 100, 7, couleur);
+        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 15, m_sommets[i]->getNom());
+        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 30, indiceProximite);
+        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 45, indiceVecteur_propre);
+        svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 60, indiceDegre);
     }
     for(int i=0 ; i<m_taille ; ++i)
     {
@@ -103,7 +134,7 @@ void Graphe::menu()
     while(choix != 6)
     {
         choix = 0;
-        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9)
+        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6)
         {
             system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
@@ -118,7 +149,7 @@ void Graphe::menu()
         switch(choix)
         {
         case 1:
-            centralite_degre();
+            centralite_degre(1);
             break;
         case 2 :
             centralite_vecteur_propre();
@@ -136,34 +167,59 @@ void Graphe::menu()
         case 6 :
             exit(1);
             break;
-        case 7:
-        Sommet* b;
-        b=getSommetByIndice(2);
-        std::vector<Arete*> a;
-        a=getAretesBySommet(b);
-        for(size_t i=0; i<a.size(); i++)
-        {
-            std::cout<<a[i]->getPoids();
         }
-        break;
-        }
-}
+    }
 }
 
 void Graphe::supprimerAretes()
 {
-    int choix;
-    system("cls");
-    do
+    int choix = 0;
+    while(choix != 50)
     {
-        std::cout << "Tapez enter pour revenir au menu principal" << std::endl;
+        system("cls");
+        std::cout << "Entrez 50 pour revenir au menu principal" << std::endl;
         std::cout << "Indiquez l'indice de l'arete a supprimer : ";
         std::cin >> choix;
-        delete getAreteByIndice(choix);
-        m_aretes.erase(m_aretes.begin() + choix);
-        dessiner();
+        if(choix == 50)
+            continue;
+        if(areteExistante(choix))
+        {
+            int tmp = getPositionByIndice(choix);
+            delete getAreteByIndice(choix);
+            m_aretes.erase(m_aretes.begin() + tmp);
+            --m_taille;
+            dessiner();
+        }
+        else
+        {
+            std::cout << std::endl << "L'arete n'existe pas" << std::endl;
+        }
+        Sleep(3000);
     }
-    while(getch() != 13);
+}
+
+bool Graphe::areteExistante(int indice)
+{
+    int i = 0;
+    while(m_aretes[i]->getIndice() != indice)
+    {
+        if(i == (m_taille - 1))
+        {
+            return 0;
+        }
+        ++i;
+    }
+    return 1;
+}
+
+int Graphe::getPositionByIndice(int indice)
+{
+    int i = 0;
+    while(m_aretes[i]->getIndice() != indice)
+    {
+        ++i;
+    }
+    return i;
 }
 
 int Graphe::getOrdre() const
@@ -176,25 +232,27 @@ int Graphe::getTaille()
     return m_taille;
 }
 
-void Graphe::centralite_degre()
+void Graphe::centralite_degre(bool valeur)
 {
-    std::vector<int> degres;
     for(int i=0 ; i<m_ordre ; ++i)
     {
-        degres.push_back(m_sommets[i]->getVoisins().size());
+        m_sommets[i]->setIndice_degre(m_sommets[i]->getVoisins().size());
     }
 
+    if(valeur)
+    {
     system("cls");
     std::cout << "                                              Centralite de degre" << std::endl << std::endl << std::endl;
     std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
     for(int i=0 ; i<m_ordre ; ++i)
     {
-        std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< degres[i] << "               " << degres[i] / (m_ordre-1) << std::endl;
+        std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   " << m_sommets[i]->getIndice_degre() << "               " << m_sommets[i]->getIndice_degre() / (m_ordre-1) << std::endl;
     }
     std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
     while(getch() != 13)
     {
 
+    }
     }
 }
 
@@ -306,15 +364,15 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
             for(size_t o =0; o<a.size(); o++)
             {
 
-            dis2=a[o]->getPoids();
-            if(!(couleurs[id2]))
-            {
-                if((dMin+dis2)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
+                dis2=a[o]->getPoids();
+                if(!(couleurs[id2]))
                 {
-                    dists[id2]=dMin+dis2;//pareil que ligne 149
-                    preds[id2]=id;
+                    if((dMin+dis2)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
+                    {
+                        dists[id2]=dMin+dis2;//pareil que ligne 149
+                        preds[id2]=id;
+                    }
                 }
-            }
             }
         }
 
@@ -348,7 +406,7 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
             //std::cout<<longueur[y]-longueur[y+1];
             if(y!=longueur.size()-2)
                 int a = 1;
-                //std::cout<<"+";
+            //std::cout<<"+";
             else
                 //std::cout<<"="<<dists[num_Sf]<<std::endl;
                 cpt=dists[num_Sf];
