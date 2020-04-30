@@ -106,7 +106,7 @@ void Graphe::menu()
         choix = 0;
         while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9)
         {
-            system("cls");
+            //system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
             std::cout << "2) Calculer les indices de centralite de vecteur propre" << std::endl;
             std::cout << "3) Calculer les indices de centralite de proximite" << std::endl << std::endl;
@@ -137,15 +137,11 @@ void Graphe::menu()
             exit(1);
             break;
         case 7:
-            Sommet* b;
-            b=getSommetByIndice(2);
-            std::vector<Arete*> a;
-            a=getAretesBySommet(b);
-            for(size_t i=0; i<a.size(); i++)
-            {
-                std::cout<<a[i]->getPoids();
-            }
+            //std::cout<<"oui";
+            intermediarite();
+            std::cout<<"\n\n"<<std::endl;
             break;
+
         }
     }
 }
@@ -333,27 +329,27 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     {
         if(preds[i]!=-1)
         {
-            //std::cout<<i<<" <-- ";
+            std::cout<<i<<" <-- ";
             longueur.push_back(dists[i]);
 
             int j=preds[i];
             while(j!=num_s0)
             {
-                //std::cout<<j<<" <-- ";
+                std::cout<<j<<" <-- ";
                 longueur.push_back(dists[j]);
                 j=preds[j];
             }
-            //std::cout<<j<<" : longueur ";
+            std::cout<<j<<" : longueur ";
         }
         longueur.push_back(0);
         for(size_t y=0; y<longueur.size()-1; ++y)
         {
             std::cout<<longueur[y]-longueur[y+1];
             if(y!=longueur.size()-2)
-                 a += 1;
-            //std::cout<<"+";
+                 //a += 1;
+                std::cout<<"+";
             else
-                //std::cout<<"="<<dists[num_Sf]<<std::endl;
+                std::cout<<"="<<dists[num_Sf]<<std::endl;
                 cpt=dists[num_Sf];
 
 
@@ -419,4 +415,11 @@ void Graphe::indice_proximite(bool a)
 
 }
 
+void Graphe::intermediarite()
+{
+    float res=0;
+    res=Dijkstrat(0,4);
+    //std::cout<<"=" <<res<<std::endl;
+
+}
 

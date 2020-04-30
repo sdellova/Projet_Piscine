@@ -27,6 +27,7 @@ public:
     float Dijkstrat(int num_s0, int num_Sf);
     std::vector<Arete*> getAretesBySommet(Sommet* sommet);
     void indice_proximite(bool a);
+    void intermediarite();
 private:
     bool m_orientation;
     int m_ordre;
