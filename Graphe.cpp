@@ -177,7 +177,7 @@ int Graphe::getTaille()
 
 void Graphe::centralite_degre()
 {
-    std::vector<int> degres;
+    std::vector<double> degres;
     for(int i=0 ; i<m_ordre ; ++i)
     {
         degres.push_back(m_sommets[i]->getVoisins().size());
