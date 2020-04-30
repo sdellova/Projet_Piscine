@@ -9,6 +9,7 @@ int main()
     graphe.centralite_degre(0);
     graphe.centralite_vecteur_propre(0);
     graphe.indice_proximite(0);
+    graphe.sauvegarde();
     graphe.dessiner();
     graphe.menu();
     return 0;
