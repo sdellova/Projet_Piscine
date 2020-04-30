@@ -10,6 +10,7 @@ public:
     std::pair<Sommet*, Sommet*> getExtremites();
     int getIndice();
     void setPoids(float poids);
+    float getPoids();
 private:
     int m_indice;
     std::pair<Sommet*, Sommet*> m_extremites;

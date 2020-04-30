@@ -44,13 +44,13 @@ void Sommet::ajouter_voisins(Sommet* s)
 {
     m_voisins.push_back(s);
 }
-
-void Sommet::ajouter_aretevoisins(std::pair<const Sommet*, float> n)
+/*
+void Sommet::ajouter_aretevoisins(std::pair<const Sommet*, const Arete*> n)
 {
     m_aretevoisins.push_back(n);
 }
 
-const std::vector<std::pair<const Sommet*, float>> Sommet::getaretevoisins()
+const std::vector<std::pair<const Sommet*, const Arete*>> Sommet::getaretevoisins()
 {
     return m_aretevoisins;
-}
+}*/
