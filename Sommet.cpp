@@ -24,3 +24,33 @@ double Sommet::getY()
 {
     return m_y;
 }
+
+void Sommet::setIndice_vecteur_propre(double indice_vecteur_propre)
+{
+    m_indice_vecteur_propre = indice_vecteur_propre;
+}
+
+double Sommet::getIndice_vecteur_propre()
+{
+    return m_indice_vecteur_propre;
+}
+
+const std::vector<Sommet*> Sommet::getVoisins()
+{
+    return m_voisins;
+}
+
+void Sommet::ajouter_voisins(Sommet* s)
+{
+    m_voisins.push_back(s);
+}
+/*
+void Sommet::ajouter_aretevoisins(std::pair<const Sommet*, const Arete*> n)
+{
+    m_aretevoisins.push_back(n);
+}
+
+const std::vector<std::pair<const Sommet*, const Arete*>> Sommet::getaretevoisins()
+{
+    return m_aretevoisins;
+}*/

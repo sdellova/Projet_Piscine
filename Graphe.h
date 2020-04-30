@@ -7,6 +7,8 @@
 #include "svgfile.h"
 #include "Sommet.h"
 #include "Arete.h"
+#include <cmath>
+#include <conio.h>
 
 class Graphe
 {
@@ -22,8 +24,10 @@ public:
     int getTaille();
     void centralite_degre();
     void centralite_vecteur_propre();
-    void getAretesBySommet(Sommet* sommet);
-
+    float Dijkstrat(int num_s0, int num_Sf);
+    std::vector<Arete*> getAretesBySommet(Sommet* sommet);
+    float indice_proximite(int a);
+    float indice_proximite_normalise(int s);
 private:
     bool m_orientation;
     int m_ordre;
