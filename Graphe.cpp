@@ -124,11 +124,10 @@ void Graphe::menu()
             centralite_vecteur_propre();
             break;
         case 3 :
-            indice_proximite(0);
-            indice_proximite_normalise(3);
+            indice_proximite();
             break;
         case 4 :
-            supprimerAretes();
+            //supprimerAretes();
             break;
         case 5 :
             ponderation();
@@ -137,17 +136,17 @@ void Graphe::menu()
             exit(1);
             break;
         case 7:
-        Sommet* b;
-        b=getSommetByIndice(2);
-        std::vector<Arete*> a;
-        a=getAretesBySommet(b);
-        for(size_t i=0; i<a.size(); i++)
-        {
-            std::cout<<a[i]->getPoids();
+            Sommet* b;
+            b=getSommetByIndice(2);
+            std::vector<Arete*> a;
+            a=getAretesBySommet(b);
+            for(size_t i=0; i<a.size(); i++)
+            {
+                std::cout<<a[i]->getPoids();
+            }
+            break;
         }
-        break;
-        }
-}
+    }
 }
 
 void Graphe::supprimerAretes()
@@ -306,15 +305,15 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
             for(size_t o =0; o<a.size(); o++)
             {
 
-            dis2=a[o]->getPoids();
-            if(!(couleurs[id2]))
-            {
-                if((dMin+dis2)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
+                dis2=a[o]->getPoids();
+                if(!(couleurs[id2]))
                 {
-                    dists[id2]=dMin+dis2;//pareil que ligne 149
-                    preds[id2]=id;
+                    if((dMin+dis2)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
+                    {
+                        dists[id2]=dMin+dis2;//pareil que ligne 149
+                        preds[id2]=id;
+                    }
                 }
-            }
             }
         }
 
@@ -345,10 +344,10 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
         longueur.push_back(0);
         for(size_t y=0; y<longueur.size()-1; ++y)
         {
-            //std::cout<<longueur[y]-longueur[y+1];
+            std::cout<<longueur[y]-longueur[y+1];
             if(y!=longueur.size()-2)
                 int a = 1;
-                //std::cout<<"+";
+            //std::cout<<"+";
             else
                 //std::cout<<"="<<dists[num_Sf]<<std::endl;
                 cpt=dists[num_Sf];
@@ -357,62 +356,63 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
 
         }
     }
-    //std::cout<<"cpt="<<cpt;
     return cpt;
 }
 
-void Graphe::getAretesBySommet(Sommet* sommet)
-{
-    std::vector<Arete*> aretes;
-    for(int i=0 ; i<m_taille ; ++i)
-    {
-        if(m_aretes[i]->getExtremites().first->getIndice()==sommet->getIndice() ||  m_aretes[i]->getExtremites().second->getIndice()==sommet->getIndice())
-        {
-            aretes.push_back(m_aretes[i]);
-        }
-    }
-    for(int i=0 ; i<aretes.size(); ++i)
-    {
-        std::cout<<aretes[i]->getIndice();
-    }
-    //return aretes;
-}
 
-float Graphe::indice_proximite(int a)
+void Graphe::indice_proximite()
 {
 
     float calcul;
+    std::vector<float> nonnorm;
     float distance=0;
     float res;
-    //res=Dijkstrat(a, 1);
 
-    for(size_t i=0; i<m_sommets.size(); i++)
+
+
+    for(int j=0; j<m_sommets.size(); j++)
     {
+        calcul=0;
+        distance=0;
 
-        if(a == m_sommets[i]->getIndice())
+        for(int i=0; i<m_sommets.size(); i++)
         {
-            i++;
+
+            if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
+            {
+                i++;
+            }
+            if(i<m_sommets.size())
+            {
+            res=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
+            distance+=res;
+            }
+
+
         }
-        std::cout<<m_sommets[i]->getIndice()<<std::endl;
-        res=Dijkstrat(a, m_sommets[i]->getIndice());
-        distance+=res;
-        std::cout<<distance<<std::endl;
+        calcul=1/distance;
+
+        //std::cout<<m_sommets[j]->getNom()<<"="<<calcul<<std::endl;
+
+        nonnorm.push_back(calcul);
 
     }
-    std::cout<<"distance final ="<<distance<<std::endl;
-    calcul=1/distance;
-    std::cout<<"final = "<<calcul;
-    return calcul;
+
+    system("cls");
+    std::cout << "                                              Centralite de proximité" << std::endl << std::endl << std::endl;
+    std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+       std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< nonnorm[i] << "\t\t\t" << nonnorm[i]*(m_ordre-1) << std::endl;
+    }
+
+    std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
+    while(getch() != 13)
+    {
+
+    }
+
+
 }
 
-float Graphe::indice_proximite_normalise(int s)
-{
-    float calcul;
-    float indice;
-    indice = indice_proximite(s);
-    std::cout<<indice<<std::endl;
-    std::cout<<"ordre-1"<<m_ordre-1<<std::endl;
-    calcul= (m_ordre-1)*indice;
-    std::cout<<calcul;
-    return calcul;
-}
+
