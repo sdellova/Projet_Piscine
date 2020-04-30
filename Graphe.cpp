@@ -23,12 +23,6 @@ Graphe::Graphe(std::string nomFichier)
 
         getSommetByIndice(extremite1)->ajouter_voisins(getSommetByIndice(extremite2));
         getSommetByIndice(extremite2)->ajouter_voisins(getSommetByIndice(extremite1));
-
-       /* std::pair<const Sommet*, const Arete*> p(getSommetByIndice(extremite2), a->getPoids());
-        getSommetByIndice(extremite1)->ajouter_aretevoisins(p);
-
-        std::pair<const Sommet*, const Arete*> n(getSommetByIndice(extremite1), a->getPoids());
-        getSommetByIndice(extremite2)->ajouter_aretevoisins(n);*/
     }
 }
 
@@ -147,12 +141,13 @@ void Graphe::menu()
         b=getSommetByIndice(2);
         std::vector<Arete*> a;
         a=getAretesBySommet(b);
-        for(int i=0; i<a.size(); i++)
+        for(size_t i=0; i<a.size(); i++)
         {
             std::cout<<a[i]->getPoids();
         }
         break;
         }
+}
 }
 
 void Graphe::supprimerAretes()
@@ -161,13 +156,14 @@ void Graphe::supprimerAretes()
     system("cls");
     do
     {
+        std::cout << "Tapez enter pour revenir au menu principal" << std::endl;
         std::cout << "Indiquez l'indice de l'arete a supprimer : ";
         std::cin >> choix;
         delete getAreteByIndice(choix);
         m_aretes.erase(m_aretes.begin() + choix);
         dessiner();
     }
-    while(choix!= 50);
+    while(getch() != 13);
 }
 
 int Graphe::getOrdre() const
@@ -329,7 +325,7 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     std::vector<int> longueur;
     float cpt=0;
 
-    size_t i=num_Sf;
+    int i=num_Sf;
     if(i!=num_s0)
     {
         if(preds[i]!=-1)
@@ -351,7 +347,7 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
         {
             //std::cout<<longueur[y]-longueur[y+1];
             if(y!=longueur.size()-2)
-                int a=1;
+                int a = 1;
                 //std::cout<<"+";
             else
                 //std::cout<<"="<<dists[num_Sf]<<std::endl;
@@ -373,7 +369,7 @@ float Graphe::indice_proximite(int a)
     float res;
     //res=Dijkstrat(a, 1);
 
-    for(int i=0; i<m_sommets.size(); i++)
+    for(size_t i=0; i<m_sommets.size(); i++)
     {
 
         if(a == m_sommets[i]->getIndice())
@@ -402,17 +398,4 @@ float Graphe::indice_proximite_normalise(int s)
     calcul= (m_ordre-1)*indice;
     std::cout<<calcul;
     return calcul;
-}
-
-std::vector<Arete*> Graphe::getAretesBySommet(Sommet* sommet)
-{
-    std::vector<Arete*> aretes;
-    for(int i=0 ; i<m_taille ; ++i)
-    {
-        if(m_aretes[i]->getExtremites().first->getIndice() == sommet->getIndice() || m_aretes[i]->getExtremites().second->getIndice() == sommet->getIndice())
-        {
-            aretes.push_back(m_aretes[i]);
-        }
-    }
-    return aretes;
 }
