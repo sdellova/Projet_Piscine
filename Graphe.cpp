@@ -124,10 +124,10 @@ void Graphe::menu()
             centralite_vecteur_propre();
             break;
         case 3 :
-            indice_proximite();
+            indice_proximite(true);
             break;
         case 4 :
-            //supprimerAretes();
+            supprimerAretes();
             break;
         case 5 :
             ponderation();
@@ -323,6 +323,7 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     ///Affichage du parcours
     std::vector<int> longueur;
     float cpt=0;
+    int a;
 
     int i=num_Sf;
     if(i!=num_s0)
@@ -346,7 +347,7 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
         {
             std::cout<<longueur[y]-longueur[y+1];
             if(y!=longueur.size()-2)
-                int a = 1;
+                 a += 1;
             //std::cout<<"+";
             else
                 //std::cout<<"="<<dists[num_Sf]<<std::endl;
@@ -360,22 +361,20 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
 }
 
 
-void Graphe::indice_proximite()
+void Graphe::indice_proximite(bool a)
 {
 
     float calcul;
-    std::vector<float> nonnorm;
     float distance=0;
-    float res;
 
 
 
-    for(int j=0; j<m_sommets.size(); j++)
+    for(size_t j=0; j<m_sommets.size(); j++)
     {
         calcul=0;
         distance=0;
 
-        for(int i=0; i<m_sommets.size(); i++)
+        for(size_t i=0; i<m_sommets.size(); i++)
         {
 
             if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
@@ -384,32 +383,34 @@ void Graphe::indice_proximite()
             }
             if(i<m_sommets.size())
             {
-            res=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
-            distance+=res;
+            distance+=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
+
             }
 
 
         }
         calcul=1/distance;
 
-        //std::cout<<m_sommets[j]->getNom()<<"="<<calcul<<std::endl;
-
-        nonnorm.push_back(calcul);
+        m_sommets[j]->setIndice_proximite(calcul);
 
     }
+    if(a)
+    {
+
 
     system("cls");
-    std::cout << "                                              Centralite de proximité" << std::endl << std::endl << std::endl;
+    std::cout << "                                              Centralite de proximite" << std::endl << std::endl << std::endl;
     std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
     for(int i=0 ; i<m_ordre ; ++i)
     {
-       std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< nonnorm[i] << "\t\t\t" << nonnorm[i]*(m_ordre-1) << std::endl;
+       std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   "<< m_sommets[i]->getIndice_proximite() << "\t\t\t" << m_sommets[i]->getIndice_proximite()*(m_ordre-1) << std::endl;
     }
 
     std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
     while(getch() != 13)
     {
 
+    }
     }
 
 

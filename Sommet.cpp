@@ -44,13 +44,12 @@ void Sommet::ajouter_voisins(Sommet* s)
 {
     m_voisins.push_back(s);
 }
-/*
-void Sommet::ajouter_aretevoisins(std::pair<const Sommet*, const Arete*> n)
-{
-    m_aretevoisins.push_back(n);
-}
 
-const std::vector<std::pair<const Sommet*, const Arete*>> Sommet::getaretevoisins()
+void Sommet::setIndice_proximite(float indice_proximite)
 {
-    return m_aretevoisins;
-}*/
+    m_indice_proximite = indice_proximite;
+}
+float Sommet::getIndice_proximite()
+{
+    return m_indice_proximite;
+}
