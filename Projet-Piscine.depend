@@ -154,13 +154,15 @@
 	<iostream>
 	"Graphe.h"
 
-1588184855 c:\users\elyes\documents\github\projet_piscine\graphe.h
+1588251790 c:\users\elyes\documents\github\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
 	"svgfile.h"
 	"Sommet.h"
 	"Arete.h"
+	<cmath>
+	<conio.h>
 
 1588006741 c:\users\elyes\documents\github\projet_piscine\svgfile.h
 	<string>
@@ -169,7 +171,7 @@
 	<iostream>
 	<sstream>
 
-1588175332 c:\users\elyes\documents\github\projet_piscine\sommet.h
+1588251790 c:\users\elyes\documents\github\projet_piscine\sommet.h
 	<string>
 	<vector>
 
