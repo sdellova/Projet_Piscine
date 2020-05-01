@@ -16,7 +16,7 @@ class Graphe
 public:
     Graphe(std::string);
     void ponderation();
-    void dessiner();
+    void dessiner(int valeur);
     void menu();
     void supprimerAretes();
     Sommet* getSommetByIndice(int indice);
@@ -31,6 +31,7 @@ public:
     int getPositionAreteByIndice(int indice);
     bool areteExistante(int indice);
     void indice_proximite(bool a);
+    void intermediarite();
     void sauvegarde();
 private:
     bool m_orientation;

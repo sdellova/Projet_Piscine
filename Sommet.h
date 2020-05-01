@@ -22,6 +22,12 @@ public:
     void setIndice_degre(double indice);
     void setIndice_proximite(float indice_proximite);
     float getIndice_proximite();
+    void setIndice_vecteur_propreNormalise(double indice_vecteur_propreNormalise);
+    double getIndice_vecteur_propreNormalise();
+    double getIndice_degreNormalise();
+    void setIndice_degreNormalise(double indice);
+    void setIndice_proximiteNormalise(float indice_proximite);
+    float getIndice_proximiteNormalise();
 private:
     int m_indice;
     std::string m_nom;
@@ -31,6 +37,9 @@ private:
     double m_indice_vecteur_propre;
     double m_indice_degre;
     float m_indice_proximite;
+    double m_indice_vecteur_propreNormalise;
+    double m_indice_degreNormalise;
+    float m_indice_proximiteNormalise;
 };
 
 #endif // SOMMET_H_INCLUDED
