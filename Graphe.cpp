@@ -553,7 +553,7 @@ bool Graphe::indice_proximite(bool a)
     }
     if(a)
     {
-        //system("cls");
+        system("cls");
         std::cout << "                                              Centralite de proximite" << std::endl << std::endl << std::endl;
         std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
