@@ -165,9 +165,9 @@ void Graphe::menu()
     while(choix != 6)
     {
         choix = 0;
-        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9)
+        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9 && choix != 10)
         {
-            //system("cls");
+            system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
             std::cout << "2) Calculer les indices de centralite de vecteur propre" << std::endl;
             std::cout << "3) Calculer les indices de centralite de proximite" << std::endl << std::endl;
@@ -255,7 +255,7 @@ void Graphe::supprimerAretes()
             }
             centralite_degre(0);
             centralite_vecteur_propre(0);
-            //indice_proximite(0);
+            indice_proximite(0);
             sauvegarde();
             dessiner(0);
             std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
