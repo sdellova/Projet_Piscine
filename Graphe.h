@@ -27,13 +27,22 @@ public:
     void centralite_vecteur_propre(bool valeur);
     float Dijkstrat(int num_s0, int num_Sf);
     std::vector<Arete*> getAretesBySommet(Sommet* sommet);
+    std::vector<Arete*> getAretesBy2Sommets(Sommet* sommet1, Sommet* sommet2);
     float indice_proximite_normalise(int s);
     int getPositionAreteByIndice(int indice);
+    int getPositionSommetByIndice(int indice);
     bool areteExistante(int indice);
+    bool sommetExistant(int indice, std::string nom = "");
     bool indice_proximite(bool a);
     void intermediarite();
     void sauvegarde();
     void connexite();
+    void ajouterAretes();
+    void ajouterSommets();
+    void supprimerSommets();
+    bool effectue(int taille, int k);
+    bool combinaisons(int taille, int k, int x, int *L, int *t, int r);
+    int getDegreMax();
 private:
     bool m_orientation;
     int m_ordre;
