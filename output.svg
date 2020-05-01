@@ -7,10 +7,10 @@
 <text x="594" y="85" fill="yellow" >B</text>
 <circle cx="100" cy="200" r="7" fill="yellow" />
 <text x="94" y="185" fill="yellow" >C</text>
-<circle cx="300" cy="200" r="7" fill="red" />
-<text x="294" y="185" fill="red" >D</text>
-<circle cx="400" cy="200" r="7" fill="green" />
-<text x="394" y="185" fill="green" >E</text>
+<circle cx="300" cy="200" r="7" fill="orange" />
+<text x="294" y="185" fill="orange" >D</text>
+<circle cx="400" cy="200" r="7" fill="yellow" />
+<text x="394" y="185" fill="yellow" >E</text>
 <circle cx="500" cy="200" r="7" fill="red" />
 <text x="494" y="185" fill="red" >F</text>
 <circle cx="700" cy="200" r="7" fill="yellow" />
@@ -22,7 +22,6 @@
 <line x1="200" y1="100" x2="300" y2="200" stroke="black" />
 <line x1="600" y1="100" x2="500" y2="200" stroke="black" />
 <line x1="100" y1="200" x2="300" y2="200" stroke="black" />
-<line x1="300" y1="200" x2="400" y2="200" stroke="black" />
 <line x1="400" y1="200" x2="500" y2="200" stroke="black" />
 <line x1="500" y1="200" x2="700" y2="200" stroke="black" />
 <line x1="200" y1="300" x2="300" y2="200" stroke="black" />
