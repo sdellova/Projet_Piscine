@@ -260,9 +260,10 @@ void Graphe::supprimerAretes()
             std::cout << "           Avant                                                Apres" << std::endl << std::endl;
             for(int i=0 ; i<m_ordre ; ++i)
             {
-                std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << "CD = " << indiceDegre_tmp[i] << "\t\tCDn = " << indiceDegreNormalise_tmp[i] << "\t\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() << std::endl;
-                std::cout << "           CVP = " << indiceVecteur_propre_tmp[i] << "\tCVPn = " << indiceVecteur_propreNormalise_tmp[i] << "\t\t\tCVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\t\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << std::endl;
-                std::cout << "           CP = " << indiceProximite_tmp[i] << "\tCPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCP = " << m_sommets[i]->getIndice_proximite() << "\t\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << std::endl << std::endl;
+                std::cout << "Sommet " << m_sommets[i]->getIndice() << " : "<<std::endl;
+                std::cout << "          CD = " << indiceDegre_tmp[i] << "\t\tCDn = " << indiceDegreNormalise_tmp[i] << "\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() << std::endl;
+                std::cout << "          CVP = " << indiceVecteur_propre_tmp[i] << "\tCVPn = " << indiceVecteur_propreNormalise_tmp[i] << "                 CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << std::endl;
+                std::cout << "          CP = " << indiceProximite_tmp[i] << "\tCPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCP = " << m_sommets[i]->getIndice_proximite() << "\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << std::endl << std::endl;
             }
             std::cout << "Voulez-vouz supprimer une autre arete ?" << std::endl;
             std::cout << "Ecrivez 1 pour oui, 2 pour non : ";
@@ -519,7 +520,7 @@ void Graphe::indice_proximite(bool a)
         calcul=1/distance;
 
         m_sommets[j]->setIndice_proximite(calcul);
-        m_sommets[j]->setIndice_proximiteNormalise(calcul / (m_ordre - 1));
+        m_sommets[j]->setIndice_proximiteNormalise(calcul * (m_ordre - 1));
     }
     if(a)
     {
