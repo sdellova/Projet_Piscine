@@ -268,8 +268,11 @@ void Graphe::supprimerAretes()
                 std::cout << "          CP = " << indiceProximite_tmp[i] << "\tCPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCP = " << m_sommets[i]->getIndice_proximite() << "\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << std::endl << std::endl;
             }
             std::cout << "Voulez-vouz supprimer une autre arete ?" << std::endl;
+            do{
             std::cout << "Ecrivez 1 pour oui, 2 pour non : ";
             std::cin >> entree;
+            }
+            while(entree==1 || entree==2);
         }
         else
         {
