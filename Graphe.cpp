@@ -69,27 +69,27 @@ void Graphe::dessiner(int valeur)
     std::string couleur;
     for(int i=0 ; i<m_ordre ; ++i)
     {
-            std::ostringstream oss1;
-            std::ostringstream oss2;
-            std::ostringstream oss3;
+        std::ostringstream oss1;
+        std::ostringstream oss2;
+        std::ostringstream oss3;
 
-            oss1 << "CD = " << m_sommets[i]->getIndice_degre();
-            std::string indiceDegre = oss1.str();
-            oss2 << "CVP = " << m_sommets[i]->getIndice_vecteur_propre();
-            std::string indiceVecteur_propre = oss2.str();
-            oss3 << "CP = " << m_sommets[i]->getIndice_proximite();
-            std::string indiceProximite = oss3.str();
+        oss1 << "CD = " << m_sommets[i]->getIndice_degre();
+        std::string indiceDegre = oss1.str();
+        oss2 << "CVP = " << m_sommets[i]->getIndice_vecteur_propre();
+        std::string indiceVecteur_propre = oss2.str();
+        oss3 << "CP = " << m_sommets[i]->getIndice_proximite();
+        std::string indiceProximite = oss3.str();
 
-            std::ostringstream oss4;
-            std::ostringstream oss5;
-            std::ostringstream oss6;
+        std::ostringstream oss4;
+        std::ostringstream oss5;
+        std::ostringstream oss6;
 
-            oss4 << "CDn = " << m_sommets[i]->getIndice_degre();
-            std::string indiceDegreNormalise = oss4.str();
-            oss5 << "CVPn = " << m_sommets[i]->getIndice_vecteur_propre();
-            std::string indiceVecteur_propreNormalise = oss5.str();
-            oss6 << "CPn = " << m_sommets[i]->getIndice_proximite();
-            std::string indiceProximiteNormalise = oss6.str();
+        oss4 << "CDn = " << m_sommets[i]->getIndice_degre();
+        std::string indiceDegreNormalise = oss4.str();
+        oss5 << "CVPn = " << m_sommets[i]->getIndice_vecteur_propre();
+        std::string indiceVecteur_propreNormalise = oss5.str();
+        oss6 << "CPn = " << m_sommets[i]->getIndice_proximite();
+        std::string indiceProximiteNormalise = oss6.str();
 
         switch(m_sommets[i]->getVoisins().size())
         {
@@ -167,7 +167,7 @@ void Graphe::menu()
         choix = 0;
         while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9)
         {
-            system("cls");
+            //system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
             std::cout << "2) Calculer les indices de centralite de vecteur propre" << std::endl;
             std::cout << "3) Calculer les indices de centralite de proximite" << std::endl << std::endl;
@@ -209,6 +209,8 @@ void Graphe::menu()
         case 9 :
             exit(1);
             break;
+
+
         }
     }
 }
@@ -234,7 +236,7 @@ void Graphe::supprimerAretes()
             --m_taille;
             centralite_degre(0);
             centralite_vecteur_propre(0);
-            indice_proximite(0);
+            //indice_proximite(0);
             sauvegarde();
             dessiner(0);
         }
@@ -381,6 +383,8 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     std::vector<double> dists((int)m_sommets.size(),-1);
 
     dists[num_s0]=0;
+    float CPT=0;
+
 
     ///Boucle de recherche
     do
@@ -402,79 +406,99 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
         int id=s->getIndice();
         couleurs[id]=1;
 
-        for(auto s2:s->getVoisins())
-        {
-
-            int id2 = s2->getIndice();
-            std::vector<Arete*> a ;
-            a = getAretesBySommet(s2);
-            int dis2;
-
-            for(size_t o =0; o<a.size(); o++)
+            for(auto s2:s->getVoisins())
             {
-
-                dis2=a[o]->getPoids();
-                if(!(couleurs[id2]))
+                int id2 = s2->getIndice();
+                std::vector<Arete*> a ;
+                a = getAretesBySommet(s2);
+                CPT++;
+                if(CPT>50)
                 {
-                    if((dMin+dis2)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
+                    return 0;}
+                int dis2;
+                for(size_t o =0; o<a.size(); o++)
+                {
+
+                    dis2=a[o]->getPoids();
+                    if(!(couleurs[id2]))
                     {
-                        dists[id2]=dMin+dis2;//pareil que ligne 149
-                        preds[id2]=id;
+                        if((dMin+dis2)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
+                        {
+                            dists[id2]=dMin+dis2;//pareil que ligne 149
+                            preds[id2]=id;
+                        }
                     }
                 }
             }
-        }
+
+
 
     }
     while(couleurs[num_Sf]==0);
 
-    ///Affichage du parcours
-    std::vector<int> longueur;
-    int a=0;
-    float cpt=0;
-    int i=num_Sf;
-    if(i!=num_s0)
-    {
-        if(preds[i]!=-1)
-        {
-           // std::cout<<i<<" <-- ";
-            longueur.push_back(dists[i]);
 
-            int j=preds[i];
-            while(j!=num_s0)
-            {
-                //std::cout<<j<<" <-- ";
-                longueur.push_back(dists[j]);
-                j=preds[j];
-            }
-            //std::cout<<j<<" : longueur ";
-        }
-        longueur.push_back(0);
-        for(size_t y=0; y<longueur.size()-1; ++y)
+        ///Affichage du parcours
+        std::vector<int> longueur;
+        int a=0;
+        float cpt=0;
+        int i=num_Sf;
+        if(i!=num_s0)
         {
-            if(y!=longueur.size()-2)
-                a+=1;
+            if(preds[i]!=-1)
+            {
+                // std::cout<<i<<" <-- ";
+                longueur.push_back(dists[i]);
+
+                int j=preds[i];
+                while(j!=num_s0)
+                {
+                    //std::cout<<j<<" <-- ";
+                    longueur.push_back(dists[j]);
+                    j=preds[j];
+                }
+                //std::cout<<j<<" : longueur ";
+            }
+            longueur.push_back(0);
+            for(size_t y=0; y<longueur.size()-1; ++y)
+            {
+                if(y!=longueur.size()-2)
+                    a+=1;
                 //std::cout<<"+";
-            else
-               // std::cout<<"="<<dists[num_Sf]<<std::endl;
-                cpt=dists[num_Sf];
+                else
+                    // std::cout<<"="<<dists[num_Sf]<<std::endl;
+                    cpt=dists[num_Sf];
+            }
         }
-    }
-    return cpt;
+        return cpt;
+
 }
 
 
-void Graphe::indice_proximite(bool a)
+bool Graphe::indice_proximite(bool a)
 {
+    bool connexe=1;
     float calcul;
     float distance=0;
+    float res=0;
     for(size_t j=0; j<m_sommets.size(); j++)
     {
         calcul=0;
         distance=0;
+        res=0;
+        if(m_sommets[j]->getVoisins().size()==0)
+        {
+            m_sommets[j]->setIndice_proximite(0);
+            m_sommets[j]->setIndice_proximiteNormalise(0);
+
+            j++;
+        }
 
         for(size_t i=0; i<m_sommets.size(); i++)
         {
+            if(m_sommets[i]->getVoisins().size()==0)
+            {
+                i++;
+            }
 
             if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
             {
@@ -482,17 +506,22 @@ void Graphe::indice_proximite(bool a)
             }
             if(i<m_sommets.size())
             {
-                distance+=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
+                res=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
+                distance+=res;
+                if(res==0)
+                {
+                    connexe=0;
+                }
             }
         }
         calcul=1/distance;
 
         m_sommets[j]->setIndice_proximite(calcul);
-        m_sommets[j]->setIndice_proximiteNormalise(calcul / (m_ordre - 1));
+        m_sommets[j]->setIndice_proximiteNormalise(calcul * (m_ordre - 1));
     }
     if(a)
     {
-        system("cls");
+        //system("cls");
         std::cout << "                                              Centralite de proximite" << std::endl << std::endl << std::endl;
         std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
@@ -506,6 +535,7 @@ void Graphe::indice_proximite(bool a)
 
         }
     }
+    return connexe;
 }
 
 void Graphe::sauvegarde()

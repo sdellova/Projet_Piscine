@@ -30,7 +30,7 @@ public:
     float indice_proximite_normalise(int s);
     int getPositionAreteByIndice(int indice);
     bool areteExistante(int indice);
-    void indice_proximite(bool a);
+    bool indice_proximite(bool a);
     void intermediarite();
     void sauvegarde();
 private:
