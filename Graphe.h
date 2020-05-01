@@ -33,6 +33,7 @@ public:
     bool indice_proximite(bool a);
     void intermediarite();
     void sauvegarde();
+    void connexite();
 private:
     bool m_orientation;
     int m_ordre;
