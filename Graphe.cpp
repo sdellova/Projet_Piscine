@@ -642,8 +642,8 @@ void Graphe::sauvegarde()
 
 void Graphe::intermediarite()
 {
-    float res=0;
-    res=Dijkstrat(0,4);
+    //float res=0;
+    //res=Dijkstrat(0,4);
     //std::cout<<"=" <<res<<std::endl;
 
 }
