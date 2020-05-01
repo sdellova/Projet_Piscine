@@ -282,10 +282,11 @@ int Graphe::getTaille()
 
 void Graphe::centralite_degre(bool valeur)
 {
+    double ordre=m_ordre;
     for(int i=0 ; i<m_ordre ; ++i)
     {
         m_sommets[i]->setIndice_degre(m_sommets[i]->getVoisins().size());
-        m_sommets[i]->setIndice_degreNormalise(m_sommets[i]->getVoisins().size() / (m_ordre-1));
+        m_sommets[i]->setIndice_degreNormalise(m_sommets[i]->getVoisins().size()/(ordre-1));
     }
 
     if(valeur)
