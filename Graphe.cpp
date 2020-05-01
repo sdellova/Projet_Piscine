@@ -174,9 +174,10 @@ void Graphe::menu()
             std::cout << "4) Afficher les indices de centralite normalises sur le svg" << std::endl;
             std::cout << "5) Afficher les indices de centralite non normalises sur le svg" << std::endl;
             std::cout << "6) Masquer les indices de centralite sur le svg" << std::endl << std::endl;
-            std::cout << "7) Supprimer des aretes du graphe" << std::endl << std::endl;
-            std::cout << "8) Charger un nouveau fichier de ponderation" << std::endl;
-            std::cout << "9) Quitter" << std::endl << std::endl;
+            std::cout << "7) Etudier la connexite du graphe" << std::endl << std::endl;
+            std::cout << "8) Supprimer des aretes du graphe" << std::endl << std::endl;
+            std::cout << "9) Charger un nouveau fichier de ponderation" << std::endl;
+            std::cout << "10) Quitter" << std::endl << std::endl;
             std::cout << "Que choisissez-vous ? ";
             std::cin >> choix;
         }
@@ -201,12 +202,15 @@ void Graphe::menu()
             dessiner(0);
             break;
         case 7 :
-            supprimerAretes();
+            connexite();
             break;
         case 8 :
-            ponderation();
+            supprimerAretes();
             break;
         case 9 :
+            ponderation();
+            break;
+        case 10 :
             exit(1);
             break;
         }
@@ -216,10 +220,10 @@ void Graphe::menu()
 void Graphe::supprimerAretes()
 {
     int choix = 0;
-    while(choix != 50)
+    int entree = 0;
+    while(entree != 2)
     {
         system("cls");
-        std::cout << "Entrez 50 pour revenir au menu principal" << std::endl;
         std::cout << "Indiquez l'indice de l'arete a supprimer : ";
         std::cin >> choix;
         if(choix == 50)
@@ -232,17 +236,43 @@ void Graphe::supprimerAretes()
             delete getAreteByIndice(choix);
             m_aretes.erase(m_aretes.begin() + tmp);
             --m_taille;
+            std::vector<double> indiceDegre_tmp{};
+            std::vector<double> indiceVecteur_propre_tmp{};
+            std::vector<double> indiceProximite_tmp{};
+            std::vector<double> indiceDegreNormalise_tmp{};
+            std::vector<double> indiceVecteur_propreNormalise_tmp{};
+            std::vector<double> indiceProximiteNormalise_tmp{};
+            for(int i=0 ; i<m_ordre ; ++i)
+            {
+                indiceDegre_tmp.push_back(m_sommets[i]->getIndice_degre());
+                indiceVecteur_propre_tmp.push_back(m_sommets[i]->getIndice_vecteur_propre());
+                indiceProximite_tmp.push_back(m_sommets[i]->getIndice_proximite());
+                indiceDegreNormalise_tmp.push_back(m_sommets[i]->getIndice_degreNormalise());
+                indiceVecteur_propreNormalise_tmp.push_back(m_sommets[i]->getIndice_vecteur_propreNormalise());
+                indiceProximiteNormalise_tmp.push_back(m_sommets[i]->getIndice_proximiteNormalise());
+            }
             centralite_degre(0);
             centralite_vecteur_propre(0);
             indice_proximite(0);
             sauvegarde();
             dessiner(0);
+            std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
+            std::cout << "           Avant                                                Apres" << std::endl << std::endl;
+            for(int i=0 ; i<m_ordre ; ++i)
+            {
+                std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << "CD = " << indiceDegre_tmp[i] << "\t\tCDn = " << indiceDegreNormalise_tmp[i] << "\t\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() << std::endl;
+                std::cout << "           CVP = " << indiceVecteur_propre_tmp[i] << "\tCVPn = " << indiceVecteur_propreNormalise_tmp[i] << "\t\t\tCVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\t\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << std::endl;
+                std::cout << "           CP = " << indiceProximite_tmp[i] << "\tCPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCP = " << m_sommets[i]->getIndice_proximite() << "\t\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << std::endl << std::endl;
+            }
+            std::cout << "Voulez-vouz supprimer une autre arete ?" << std::endl;
+            std::cout << "Ecrivez 1 pour oui, 2 pour non : ";
+            std::cin >> entree;
         }
         else
         {
-            std::cout << std::endl << "L'arete n'existe pas" << std::endl;
+            std::cout << std::endl << "L'arete n'existe pas";
+            Sleep(2000);
         }
-        Sleep(2000);
     }
 }
 
@@ -534,3 +564,7 @@ void Graphe::intermediarite()
 
 }
 
+void Graphe::connexite()
+{
+
+}
