@@ -54,6 +54,18 @@
 <line x1="500" y1="200" x2="700" y2="200" stroke="black" />
 <line x1="200" y1="300" x2="300" y2="200" stroke="black" />
 <line x1="600" y1="300" x2="500" y2="200" stroke="black" />
+<circle cx="100" cy="200" r="7" fill="yellow" />
+<text x="94" y="185" fill="yellow" >B</text>
+<circle cx="200" cy="200" r="7" fill="red" />
+<text x="194" y="185" fill="red" >C</text>
+<circle cx="300" cy="200" r="7" fill="yellow" />
+<text x="294" y="185" fill="yellow" >D</text>
+<circle cx="200" cy="300" r="7" fill="yellow" />
+<text x="194" y="285" fill="yellow" >E</text>
+<line x1="200" y1="100" x2="200" y2="200" stroke="black" />
+<line x1="100" y1="200" x2="200" y2="200" stroke="black" />
+<line x1="200" y1="200" x2="300" y2="200" stroke="black" />
+<line x1="200" y1="200" x2="200" y2="300" stroke="black" />
 
 
 </svg>
