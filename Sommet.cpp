@@ -108,3 +108,12 @@ void Sommet::retirer_voisins(Sommet* sommet)
     m_voisins.erase(m_voisins.begin() + getPositionSommetByIndice(sommet->getIndice()));
 }
 
+bool Sommet::getContamine()
+{
+    return m_contamine;
+}
+
+void Sommet::setContamine(bool valeur)
+{
+    m_contamine = valeur;
+}

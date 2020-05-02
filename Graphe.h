@@ -45,6 +45,8 @@ public:
     int getDegreMax();
     std::ifstream afficherMenu();
     double getIndiceProximiteMax();
+    void coloration();
+
 private:
     bool m_orientation;
     int m_ordre;
