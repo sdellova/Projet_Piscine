@@ -10,6 +10,7 @@
 #include <cmath>
 #include <conio.h>
 #include <windows.h>
+#include <time.h>
 
 class Graphe
 {
@@ -45,7 +46,8 @@ public:
     int getDegreMax();
     std::ifstream afficherMenu();
     double getIndiceProximiteMax();
-    void coloration();
+    void simulation();
+    void parcours(Sommet* sommet);
 private:
     bool m_orientation;
     int m_ordre;
