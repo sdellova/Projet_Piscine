@@ -14,7 +14,7 @@
 class Graphe
 {
 public:
-    Graphe(std::string);
+    Graphe(std::ifstream ifs);
     void ponderation();
     void dessiner(int valeur);
     void menu();
@@ -43,6 +43,7 @@ public:
     bool effectue(int taille, int k);
     bool combinaisons(int taille, int k, int x, int *L, int *t, int r);
     int getDegreMax();
+    std::ifstream afficherMenu();
 private:
     bool m_orientation;
     int m_ordre;
