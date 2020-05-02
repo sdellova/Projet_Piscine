@@ -44,12 +44,14 @@ public:
     bool combinaisons(int taille, int k, int x, int *L, int *t, int r);
     int getDegreMax();
     std::ifstream afficherMenu();
+    double getIndiceProximiteMax();
 private:
     bool m_orientation;
     int m_ordre;
     int m_taille;
     std::vector<Sommet*> m_sommets;
     std::vector<Arete*> m_aretes;
+    double m_indiceCentraliteProximiteGlobal;
 };
 
 #endif // GRAPHE_H_INCLUDED
