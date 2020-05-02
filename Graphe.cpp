@@ -1,14 +1,11 @@
 #include "Graphe.h"
 
 
-Graphe::Graphe(std::string nomFichier)
+Graphe::Graphe(std::ifstream ifs)
 {
     int indice, extremite1, extremite2;
     double x, y;
     std::string nom;
-    std::ifstream ifs{nomFichier};
-    if (!ifs)
-        throw std::runtime_error("Impossible d'ouvrir " + nomFichier);
     ifs >> m_orientation >> m_ordre;
     for(int i=0 ; i<m_ordre ; ++i)
     {
@@ -40,12 +37,16 @@ void Graphe::ponderation()
     }
     if(choix == 1)
     {
-        std::cout << "Ecrivez le nom du fichier de ponderation : ";
-        std::cin >> nomFichier;
-        std::ifstream ifs{nomFichier};
-        if (!ifs)
-            throw std::runtime_error("Impossible d'ouvrir " + nomFichier);
-        ifs >> taille;
+            repere:
+            std::cout << "Ecrivez le nom du fichier de ponderation : ";
+            std::cin >> nomFichier;
+            std::ifstream ifs{nomFichier};
+            if (!ifs)
+            {
+                std::cout << "Impossible d'ouvrir " << nomFichier << std::endl << std::endl;
+                goto repere;
+            }
+            ifs >> taille;
         if (taille != m_taille)
         {
             std::cout << "La taille du graphe ne correspond pas entre les 2 fichiers." << std::endl;
@@ -930,4 +931,19 @@ int Graphe::getDegreMax()
             a = m_sommets[i]->getIndice_degre();
     }
     return a;
+}
+
+std::ifstream Graphe::afficherMenu()
+{
+    std::string nomFichier;
+    repere:
+    std::cout << "Ecrivez le nom du graphe a charger : ";
+    std::cin >> nomFichier;
+    std::ifstream ifs{nomFichier};
+    if(!ifs)
+    {
+        std::cout << "Impossible d'ouvrir " << nomFichier << std::endl << std::endl;
+        goto repere;
+    }
+    return ifs;
 }
