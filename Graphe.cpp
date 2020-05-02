@@ -268,13 +268,16 @@ void Graphe::supprimerAretes()
             dessiner(0);
             std::cout << std::endl << "L'arete a ete supprimee";
             std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
-            std::cout << "           Avant                                                Apres" << std::endl << std::endl;
+            std::cout << "           Avant\t\t\t\tApres\t\t\t\tEcart en %" << std::endl << std::endl;
             for(int i=0 ; i<m_ordre ; ++i)
             {
-                std::cout << "Sommet " << m_sommets[i]->getIndice() << " : "<<std::endl;
-                std::cout << "          CD = " << indiceDegre_tmp[i] << "\t\tCDn = " << indiceDegreNormalise_tmp[i] << "\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() << std::endl;
-                std::cout << "          CVP = " << indiceVecteur_propre_tmp[i] << "\tCVPn = " << indiceVecteur_propreNormalise_tmp[i] << "                 CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << std::endl;
-                std::cout << "          CP = " << indiceProximite_tmp[i] << "\tCPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCP = " << m_sommets[i]->getIndice_proximite() << "\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << std::endl << std::endl;
+                std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << std::endl;
+                std::cout << "          CD = " << indiceDegre_tmp[i] << "\t\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\t\t\t" << (m_sommets[i]->getIndice_degre() / indiceDegre_tmp[i] * 100) - 100 << std::endl;
+                std::cout << "          CVP = " << indiceVecteur_propre_tmp[i] << "\t\t\tCVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\t\t\t" << (m_sommets[i]->getIndice_vecteur_propre() / indiceVecteur_propre_tmp[i] * 100) - 100 << std::endl;
+                std::cout << "          CP = " << indiceProximite_tmp[i] << "\t\t\t\tCP = " << m_sommets[i]->getIndice_proximite() <<  "\t\t\t" << (m_sommets[i]->getIndice_proximite() / indiceProximite_tmp[i] * 100) - 100 << std::endl << std::endl;
+                std::cout << "          CDn = " << indiceDegreNormalise_tmp[i] << "\t\t\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() <<  "\t\t\t" << (m_sommets[i]->getIndice_degreNormalise() / indiceDegreNormalise_tmp[i] * 100) - 100 << std::endl;
+                std::cout << "          CVPn = " << indiceVecteur_propreNormalise_tmp[i] << "\t\t\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << "\t\t" << (m_sommets[i]->getIndice_vecteur_propreNormalise() / indiceVecteur_propreNormalise_tmp[i] * 100) - 100 << std::endl;
+                std::cout << "          CPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << "\t\t\t" << (m_sommets[i]->getIndice_proximiteNormalise() / indiceProximiteNormalise_tmp[i] * 100) - 100 << std::endl << std::endl;
             }
             std::cout << "Voulez-vouz supprimer une autre arete ?" << std::endl;
 
@@ -723,10 +726,13 @@ void Graphe::ajouterAretes()
         std::cout << "           Avant                                                Apres" << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
         {
-            std::cout << "Sommet " << m_sommets[i]->getIndice() << " : "<<std::endl;
-            std::cout << "          CD = " << indiceDegre_tmp[i] << "\t\tCDn = " << indiceDegreNormalise_tmp[i] << "\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() << std::endl;
-            std::cout << "          CVP = " << indiceVecteur_propre_tmp[i] << "\tCVPn = " << indiceVecteur_propreNormalise_tmp[i] << "                 CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << std::endl;
-            std::cout << "          CP = " << indiceProximite_tmp[i] << "\tCPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCP = " << m_sommets[i]->getIndice_proximite() << "\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << std::endl << std::endl;
+            std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << std::endl;
+            std::cout << "          CD = " << indiceDegre_tmp[i] << "\t\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\t\t\t" << (m_sommets[i]->getIndice_degre() / indiceDegre_tmp[i] * 100) - 100 << std::endl;
+            std::cout << "          CVP = " << indiceVecteur_propre_tmp[i] << "\t\t\tCVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\t\t\t" << (m_sommets[i]->getIndice_vecteur_propre() / indiceVecteur_propre_tmp[i] * 100) - 100 << std::endl;
+            std::cout << "          CP = " << indiceProximite_tmp[i] << "\t\t\t\tCP = " << m_sommets[i]->getIndice_proximite() <<  "\t\t\t" << (m_sommets[i]->getIndice_proximite() / indiceProximite_tmp[i] * 100) - 100 << std::endl << std::endl;
+            std::cout << "          CDn = " << indiceDegreNormalise_tmp[i] << "\t\t\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() <<  "\t\t\t" << (m_sommets[i]->getIndice_degreNormalise() / indiceDegreNormalise_tmp[i] * 100) - 100 << std::endl;
+            std::cout << "          CVPn = " << indiceVecteur_propreNormalise_tmp[i] << "\t\t\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << "\t\t" << (m_sommets[i]->getIndice_vecteur_propreNormalise() / indiceVecteur_propreNormalise_tmp[i] * 100) - 100 << std::endl;
+            std::cout << "          CPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << "\t\t\t" << (m_sommets[i]->getIndice_proximiteNormalise() / indiceProximiteNormalise_tmp[i] * 100) - 100 << std::endl << std::endl;
         }
         std::cout << "Voulez-vouz rajouter une autre arete ?" << std::endl;
         std::cout << "Ecrivez 1 pour oui, 2 pour non : ";
@@ -782,10 +788,13 @@ void Graphe::ajouterSommets()
         std::cout << "           Avant                                                Apres" << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
         {
-            std::cout << "Sommet " << m_sommets[i]->getIndice() << " : "<<std::endl;
-            std::cout << "          CD = " << indiceDegre_tmp[i] << "\t\tCDn = " << indiceDegreNormalise_tmp[i] << "\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() << std::endl;
-            std::cout << "          CVP = " << indiceVecteur_propre_tmp[i] << "\tCVPn = " << indiceVecteur_propreNormalise_tmp[i] << "                 CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << std::endl;
-            std::cout << "          CP = " << indiceProximite_tmp[i] << "\tCPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCP = " << m_sommets[i]->getIndice_proximite() << "\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << std::endl << std::endl;
+            std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << std::endl;
+            std::cout << "          CD = " << indiceDegre_tmp[i] << "\t\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\t\t\t" << (m_sommets[i]->getIndice_degre() / indiceDegre_tmp[i] * 100) - 100 << std::endl;
+            std::cout << "          CVP = " << indiceVecteur_propre_tmp[i] << "\t\t\tCVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\t\t\t" << (m_sommets[i]->getIndice_vecteur_propre() / indiceVecteur_propre_tmp[i] * 100) - 100 << std::endl;
+            std::cout << "          CP = " << indiceProximite_tmp[i] << "\t\t\t\tCP = " << m_sommets[i]->getIndice_proximite() <<  "\t\t\t" << (m_sommets[i]->getIndice_proximite() / indiceProximite_tmp[i] * 100) - 100 << std::endl << std::endl;
+            std::cout << "          CDn = " << indiceDegreNormalise_tmp[i] << "\t\t\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() <<  "\t\t\t" << (m_sommets[i]->getIndice_degreNormalise() / indiceDegreNormalise_tmp[i] * 100) - 100 << std::endl;
+            std::cout << "          CVPn = " << indiceVecteur_propreNormalise_tmp[i] << "\t\t\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << "\t\t" << (m_sommets[i]->getIndice_vecteur_propreNormalise() / indiceVecteur_propreNormalise_tmp[i] * 100) - 100 << std::endl;
+            std::cout << "          CPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << "\t\t\t" << (m_sommets[i]->getIndice_proximiteNormalise() / indiceProximiteNormalise_tmp[i] * 100) - 100 << std::endl << std::endl;
         }
         std::cout << "Voulez-vouz rajouter un autre sommet ?" << std::endl;
         std::cout << "Ecrivez 1 pour oui, 2 pour non : ";
@@ -842,10 +851,13 @@ void Graphe::supprimerSommets()
             std::cout << "           Avant                                                Apres" << std::endl << std::endl;
             for(int i=0 ; i<m_ordre ; ++i)
             {
-                std::cout << "Sommet " << m_sommets[i]->getIndice() << " : "<<std::endl;
-                std::cout << "          CD = " << indiceDegre_tmp[i] << "\t\tCDn = " << indiceDegreNormalise_tmp[i] << "\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() << std::endl;
-                std::cout << "          CVP = " << indiceVecteur_propre_tmp[i] << "\tCVPn = " << indiceVecteur_propreNormalise_tmp[i] << "                 CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << std::endl;
-                std::cout << "          CP = " << indiceProximite_tmp[i] << "\tCPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCP = " << m_sommets[i]->getIndice_proximite() << "\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << std::endl << std::endl;
+                std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << std::endl;
+                std::cout << "          CD = " << indiceDegre_tmp[i] << "\t\t\t\tCD = " << m_sommets[i]->getIndice_degre() << "\t\t\t\t" << (m_sommets[i]->getIndice_degre() / indiceDegre_tmp[i] * 100) - 100 << std::endl;
+                std::cout << "          CVP = " << indiceVecteur_propre_tmp[i] << "\t\t\tCVP = " << m_sommets[i]->getIndice_vecteur_propre() << "\t\t\t" << (m_sommets[i]->getIndice_vecteur_propre() / indiceVecteur_propre_tmp[i] * 100) - 100 << std::endl;
+                std::cout << "          CP = " << indiceProximite_tmp[i] << "\t\t\t\tCP = " << m_sommets[i]->getIndice_proximite() <<  "\t\t\t" << (m_sommets[i]->getIndice_proximite() / indiceProximite_tmp[i] * 100) - 100 << std::endl << std::endl;
+                std::cout << "          CDn = " << indiceDegreNormalise_tmp[i] << "\t\t\t\tCDn = " << m_sommets[i]->getIndice_degreNormalise() <<  "\t\t\t" << (m_sommets[i]->getIndice_degreNormalise() / indiceDegreNormalise_tmp[i] * 100) - 100 << std::endl;
+                std::cout << "          CVPn = " << indiceVecteur_propreNormalise_tmp[i] << "\t\t\tCVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << "\t\t" << (m_sommets[i]->getIndice_vecteur_propreNormalise() / indiceVecteur_propreNormalise_tmp[i] * 100) - 100 << std::endl;
+                std::cout << "          CPn = " << indiceProximiteNormalise_tmp[i] << "\t\t\tCPn = " << m_sommets[i]->getIndice_proximiteNormalise() << "\t\t\t" << (m_sommets[i]->getIndice_proximiteNormalise() / indiceProximiteNormalise_tmp[i] * 100) - 100 << std::endl << std::endl;
             }
             std::cout << "Voulez-vouz supprimer un autre sommet ?" << std::endl;
             std::cout << "Ecrivez 1 pour oui, 2 pour non : ";
