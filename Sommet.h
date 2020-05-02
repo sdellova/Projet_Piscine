@@ -40,6 +40,8 @@ private:
     double m_indice_vecteur_propreNormalise;
     double m_indice_degreNormalise;
     float m_indice_proximiteNormalise;
+
+    float m_nbrchemins;
 };
 
 #endif // SOMMET_H_INCLUDED

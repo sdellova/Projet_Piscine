@@ -3,14 +3,14 @@
 
 <circle cx="300" cy="100" r="7" fill="green" />
 <text x="294" y="85" fill="green" >A</text>
-<circle cx="200" cy="200" r="7" fill="green" />
-<text x="194" y="185" fill="green" >B</text>
+<circle cx="200" cy="200" r="7" fill="orange" />
+<text x="194" y="185" fill="orange" >B</text>
 <circle cx="400" cy="200" r="7" fill="orange" />
 <text x="394" y="185" fill="orange" >C</text>
-<circle cx="300" cy="300" r="7" fill="green" />
-<text x="294" y="285" fill="green" >D</text>
-<circle cx="200" cy="400" r="7" fill="green" />
-<text x="194" y="385" fill="green" >E</text>
+<circle cx="300" cy="300" r="7" fill="red" />
+<text x="294" y="285" fill="red" >D</text>
+<circle cx="200" cy="400" r="7" fill="orange" />
+<text x="194" y="385" fill="orange" >E</text>
 <circle cx="300" cy="400" r="7" fill="green" />
 <text x="294" y="385" fill="green" >F</text>
 <circle cx="400" cy="400" r="7" fill="orange" />
@@ -21,7 +21,9 @@
 <text x="494" y="485" fill="green" >I</text>
 <line x1="300" y1="100" x2="200" y2="200" stroke="black" />
 <line x1="300" y1="100" x2="400" y2="200" stroke="black" />
+<line x1="200" y1="200" x2="300" y2="300" stroke="black" />
 <line x1="400" y1="200" x2="300" y2="300" stroke="black" />
+<line x1="300" y1="300" x2="200" y2="400" stroke="black" />
 <line x1="300" y1="300" x2="400" y2="400" stroke="black" />
 <line x1="200" y1="200" x2="100" y2="500" stroke="black" />
 <line x1="400" y1="200" x2="500" y2="500" stroke="black" />

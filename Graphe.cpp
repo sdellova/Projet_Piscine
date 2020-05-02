@@ -1,4 +1,6 @@
 #include "Graphe.h"
+#include <cstdlib>
+#include <ctime>
 
 
 Graphe::Graphe(std::string nomFichier)
@@ -167,7 +169,7 @@ void Graphe::menu()
         choix = 0;
         while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9 && choix != 10)
         {
-            system("cls");
+            //system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
             std::cout << "2) Calculer les indices de centralite de vecteur propre" << std::endl;
             std::cout << "3) Calculer les indices de centralite de proximite" << std::endl << std::endl;
@@ -190,7 +192,9 @@ void Graphe::menu()
             centralite_vecteur_propre(1);
             break;
         case 3 :
-            indice_proximite(1);
+            //indice_proximite(1);
+            intermediarite();
+            //Dijkstrat2(0,5);
             break;
         case 4 :
             dessiner(1);
@@ -440,30 +444,31 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
         int id=s->getIndice();
         couleurs[id]=1;
 
-            for(auto s2:s->getVoisins())
+        for(auto s2:s->getVoisins())
+        {
+            int id2 = s2->getIndice();
+            std::vector<Arete*> a ;
+            a = getAretesBySommet(s2);
+            CPT++;
+            if(CPT>50)
             {
-                int id2 = s2->getIndice();
-                std::vector<Arete*> a ;
-                a = getAretesBySommet(s2);
-                CPT++;
-                if(CPT>50)
-                {
-                    return 0;}
-                int dis2;
-                for(size_t o =0; o<a.size(); o++)
-                {
+                return 0;
+            }
+            int dis2;
+            for(size_t o =0; o<a.size(); o++)
+            {
 
-                    dis2=a[o]->getPoids();
-                    if(!(couleurs[id2]))
+                dis2=a[o]->getPoids();
+                if(!(couleurs[id2]))
+                {
+                    if((dMin+dis2)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
                     {
-                        if((dMin+dis2)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
-                        {
-                            dists[id2]=dMin+dis2;//pareil que ligne 149
-                            preds[id2]=id;
-                        }
+                        dists[id2]=dMin+dis2;//pareil que ligne 149
+                        preds[id2]=id;
                     }
                 }
             }
+        }
 
 
 
@@ -471,39 +476,39 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     while(couleurs[num_Sf]==0);
 
 
-        ///Affichage du parcours
-        std::vector<int> longueur;
-        int a=0;
-        float cpt=0;
-        int i=num_Sf;
-        if(i!=num_s0)
+    ///Affichage du parcours
+    std::vector<int> longueur;
+    int a=0;
+    float cpt=0;
+    int i=num_Sf;
+    if(i!=num_s0)
+    {
+        if(preds[i]!=-1)
         {
-            if(preds[i]!=-1)
-            {
-                // std::cout<<i<<" <-- ";
-                longueur.push_back(dists[i]);
+            // std::cout<<i<<" <-- ";
+            longueur.push_back(dists[i]);
 
-                int j=preds[i];
-                while(j!=num_s0)
-                {
-                    //std::cout<<j<<" <-- ";
-                    longueur.push_back(dists[j]);
-                    j=preds[j];
-                }
-                //std::cout<<j<<" : longueur ";
-            }
-            longueur.push_back(0);
-            for(size_t y=0; y<longueur.size()-1; ++y)
+            int j=preds[i];
+            while(j!=num_s0)
             {
-                if(y!=longueur.size()-2)
-                    a+=1;
-                //std::cout<<"+";
-                else
-                    // std::cout<<"="<<dists[num_Sf]<<std::endl;
-                    cpt=dists[num_Sf];
+                //std::cout<<j<<" <-- ";
+                longueur.push_back(dists[j]);
+                j=preds[j];
             }
+            //std::cout<<j<<" : longueur ";
         }
-        return cpt;
+        longueur.push_back(0);
+        for(size_t y=0; y<longueur.size()-1; ++y)
+        {
+            if(y!=longueur.size()-2)
+                a+=1;
+            //std::cout<<"+";
+            else
+                // std::cout<<"="<<dists[num_Sf]<<std::endl;
+                cpt=dists[num_Sf];
+        }
+    }
+    return cpt;
 
 }
 
@@ -589,15 +594,278 @@ void Graphe::sauvegarde()
     }
 }
 
-void Graphe::intermediarite()
-{
-    float res=0;
-    res=Dijkstrat(0,4);
-    //std::cout<<"=" <<res<<std::endl;
 
-}
 
 void Graphe::connexite()
 {
+
+}
+
+int Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
+{
+    ///Initialisation
+    std::vector<int> couleurs((int)m_sommets.size(),0);
+    std::vector<int> couleurs2((int)m_sommets.size(),0);
+    std::vector<int> preds((int)m_sommets.size(),-1);
+    std::vector<double> dists((int)m_sommets.size(),-1);
+    std::vector<int> chemin;
+    std::vector<int> nul {};
+
+    srand (time(NULL));
+
+    dists[num_s0]=0;
+    float CPT=0;
+    int id4=0;
+
+    /*Sommet* j = getSommetByIndice(num_s0);
+
+    if(p!=20)
+    {
+
+        for(int i=0; i<j->getVoisins().size(); i++)
+        {
+            Sommet* a =j->getVoisins()[i];
+            int id3 = a->getIndice();
+            couleurs2[id3]=1;
+
+
+        }
+        Sommet*b = j->getVoisins()[p];
+        //std::cout<<b->getNom();
+        id4 = b->getIndice();
+        couleurs2[id4]= 0;
+
+        for(int i=0; i<b->getVoisins().size(); i++)
+        {
+            Sommet* a =b->getVoisins()[i];
+            int id3 = a->getIndice();
+            //std::cout<<id3<<std::endl;
+            couleurs2[id3]=1;
+
+        }
+        Sommet*c = b->getVoisins()[rand() % (b->getVoisins().size()-1)];
+        int id5 = c->getIndice();
+        ///std::cout<<id5<<std::endl;
+        couleurs2[id5]= 0;
+
+    }*/
+
+
+    ///Boucle de recherche
+    do
+    {
+        int dMin=-1;
+        Sommet* s;
+
+
+
+        for(size_t i=0; i<dists.size(); ++i)
+        {
+            if(dists[i]!=-1 && couleurs[i]!=1)
+
+
+            {
+                if(dists[i]<=dMin || dMin==-1)
+                {
+                    dMin=dists[i];
+                    s=m_sommets[i];
+                }
+            }
+        }
+
+        int id=s->getIndice();
+        couleurs[id]=1;
+
+        if(couleurs[id]==1)
+        {
+            for(int i=0; i<s->getVoisins().size(); i++)
+            {
+                Sommet* a =s->getVoisins()[i];
+                int id3 = a->getIndice();
+                //std::cout<<id3<<std::endl;
+                couleurs2[id3]=1;
+
+            }
+            Sommet*c = s->getVoisins()[rand()%(s->getVoisins().size())];
+            int id5 = c->getIndice();
+            ///std::cout<<id5<<std::endl;
+            couleurs2[id5]= 0;
+        }
+
+        for(auto s2:s->getVoisins())
+        {
+            int id2 = s2->getIndice();
+            std::vector<Arete*> a ;
+            a = getAretesBySommet(s2);
+
+
+            CPT++;
+            if(CPT>50)
+            {
+                return 0;
+            }
+            int dis2;
+            for(size_t o =0; o<a.size(); o++)
+            {
+
+                dis2=a[o]->getPoids();
+                if(!(couleurs2[id2])&& couleurs[id2]!=1)
+                {
+                    if((dMin+dis2)<=dists[id2] || dists[id2]==-1)//1=poids arrete (s2.second)
+                    {
+                        dists[id2]=dMin+dis2;//pareil que ligne 149
+                        preds[id2]=id;
+                        //couleurs[id2]=1;
+                    }
+                }
+            }
+
+
+        }
+
+    }
+    while(couleurs[num_Sf]==0 );
+
+
+    ///Affichage du parcours
+    std::vector<int> longueur;
+    bool b=true;
+    int a=0;
+    int cpt=0;
+    int i=num_Sf;
+    if(i!=num_s0)
+    {
+        if(preds[i]!=-1)
+        {
+            std::cout<<i<<" <-- ";
+            chemin.push_back(i);
+            longueur.push_back(dists[i]);
+
+
+            int j=preds[i];
+            while(j!=num_s0)
+            {
+                std::cout<<j<<" <-- ";
+                chemin.push_back(j);
+                longueur.push_back(dists[j]);
+                j=preds[j];
+
+            }
+            std::cout<<j<<" : longueur ";
+        }
+        longueur.push_back(0);
+        for(size_t y=0; y<longueur.size()-1; ++y)
+        {
+            if(y!=longueur.size()-2)
+            {
+                a+=1;
+                std::cout<<"+";
+
+            }
+            else
+            {
+                std::cout<<"="<<dists[num_Sf]<<std::endl;
+                cpt=dists[num_Sf];
+                if(b)
+                {
+                    chemin.push_back(num_s0);
+                    chemin.push_back(cpt);
+
+                    b=false;
+                }
+
+            }
+
+        }
+    }
+
+    /*for(int i=0; i<chemin.size(); i++)
+    {
+        std::cout<<chemin[i]<<std::endl;
+    }*/
+    return cpt;
+
+}
+/*
+std::vector<Arete> Graphe::getAretesBy2Sommets(Sommet* sommet1, Sommet* sommet2)
+{
+    std::vector<Arete*> aretes;
+    for(int i=0 ; i<m_taille ; ++i)
+    {
+        if((m_aretes[i]->getExtremites().first->getIndice() == sommet1->getIndice() && m_aretes[i]->getExtremites().second->getIndice() == sommet2->getIndice()) || (m_aretes[i]->getExtremites().first->getIndice() == sommet2->getIndice() && m_aretes[i]->getExtremites().second->getIndice() == sommet1->getIndice()))
+        {
+            aretes.push_back(m_aretes[i]);
+        }
+    }
+    return aretes;
+}
+
+*/
+void Graphe::intermediarite()
+{
+
+    /* float calcul;
+     float distance=0;
+     float res=0;
+     for(size_t j=0; j<m_sommets.size(); j++)
+     {
+         calcul=0;
+         distance=0;
+         res=0;
+         if(m_sommets[j]->getVoisins().size()==0)
+         {
+             // m_sommets[j]->setIndice_proximite(0);
+             // m_sommets[j]->setIndice_proximiteNormalise(0);
+
+             j++;
+         }
+
+         for(size_t i=0; i<m_sommets.size(); i++)
+         {
+             if(m_sommets[i]->getVoisins().size()==0)
+             {
+                 i++;
+             }
+
+             if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
+             {
+                 i++;
+             }
+             if(i<m_sommets.size())
+             {
+                */ // Dijkstrat2(1,5 , 20);
+            for(int i=0; i<10; i++)
+            {
+                Dijkstrat2(0, 5,1,1);
+                Sleep(1000);
+            }
+    /*for(int p=0; p<2; p++)
+    {
+        Sommet* y= getSommetByIndice(0);
+        Sommet* l= y->getVoisins()[p];
+        for(int m=0; m<l->getVoisins().size(); m++)
+        {
+            Sommet* n= l->getVoisins()[m];
+            if(n->getIndice()==l->getIndice() || n->getIndice()==y->getIndice())
+            {
+                m++;
+            }
+            n= l->getVoisins()[m];
+            //std::cout<<n->getNom()<<std::endl;
+            Dijkstrat2( 0, 5, p, m);
+        }
+
+    }/*
+                }
+
+                //Dijkstrat2(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
+
+            }
+
+
+
+
+        }
+    }*/
 
 }

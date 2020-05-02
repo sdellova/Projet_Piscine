@@ -34,12 +34,16 @@ public:
     void intermediarite();
     void sauvegarde();
     void connexite();
+    int Dijkstrat2(int num_s0, int num_Sf, int p, int m);
+//    std::vector<Arete> Graphe::getAretesBy2Sommets(Sommet* sommet1, Sommet* sommet2);
 private:
     bool m_orientation;
     int m_ordre;
     int m_taille;
     std::vector<Sommet*> m_sommets;
     std::vector<Arete*> m_aretes;
+    std::vector<std::vector<int>> m_chemins;
+    std::vector<int>m_coul;
 };
 
 #endif // GRAPHE_H_INCLUDED
