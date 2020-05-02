@@ -28,6 +28,8 @@ public:
     void setIndice_degreNormalise(double indice);
     void setIndice_proximiteNormalise(float indice_proximite);
     float getIndice_proximiteNormalise();
+    bool getContamine();
+    void setContamine(bool valeur);
 private:
     int m_indice;
     std::string m_nom;
@@ -40,6 +42,7 @@ private:
     double m_indice_vecteur_propreNormalise;
     double m_indice_degreNormalise;
     float m_indice_proximiteNormalise;
+    bool m_contamine;
 };
 
 #endif // SOMMET_H_INCLUDED
