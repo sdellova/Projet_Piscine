@@ -247,6 +247,7 @@ void Graphe::supprimerAretes()
             delete getAreteByIndice(choix);
             m_aretes.erase(m_aretes.begin() + tmp);
             --m_taille;
+            double indiceProximiteGlobal_tmp = m_indiceCentraliteProximiteGlobal;
             std::vector<double> indiceDegre_tmp{};
             std::vector<double> indiceVecteur_propre_tmp{};
             std::vector<double> indiceProximite_tmp{};
@@ -270,6 +271,7 @@ void Graphe::supprimerAretes()
             std::cout << std::endl << "L'arete a ete supprimee";
             std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
             std::cout << "           Avant\t\t\t\tApres\t\t\t\tEcart en %" << std::endl << std::endl;
+            std::cout << "           CPg = " << indiceProximiteGlobal_tmp << "\t\t\t\tCPg = " << m_indiceCentraliteProximiteGlobal << "\t\t\t" << (m_indiceCentraliteProximiteGlobal / indiceProximiteGlobal_tmp * 100) - 100 << std::endl << std::endl;
             for(int i=0 ; i<m_ordre ; ++i)
             {
                 std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << std::endl;
@@ -608,10 +610,18 @@ bool Graphe::indice_proximite(bool a)
         m_sommets[j]->setIndice_proximite(calcul);
         m_sommets[j]->setIndice_proximiteNormalise(calcul * (m_ordre - 1));
     }
+    double x = 0;
+    for(int i = 0 ; i<m_ordre ; ++i)
+    {
+        x += getIndiceProximiteMax() - m_sommets[i]->getIndice_proximite();
+    }
+    x/= (pow(m_ordre, 2) - (3 * m_ordre) + 2)/((2 * m_ordre) - 3);
+    m_indiceCentraliteProximiteGlobal = x;
     if(a)
     {
         system("cls");
         std::cout << "                                              Centralite de proximite" << std::endl << std::endl << std::endl;
+        std::cout << "Indice de centralite de proximite global : " << m_indiceCentraliteProximiteGlobal << std::endl << std::endl;
         std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
         {
@@ -635,7 +645,7 @@ void Graphe::sauvegarde()
     {
         for(int i=0 ; i<m_ordre ; ++i)
         {
-            ofs << "Sommet " << m_sommets[i]->getIndice() << " : CD = " << m_sommets[i]->getIndice_degre() << "     ;     CDn = " << m_sommets[i]->getIndice_degreNormalise() << "     ;     CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "     ;     CVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << "     ;     CP = " << m_sommets[i]->getIndice_proximite() << "     ;     CPn = " << m_sommets[i]->getIndice_proximiteNormalise() << std::endl;
+            ofs << "Sommet " << m_sommets[i]->getIndice() << " : CD = " << m_sommets[i]->getIndice_degre() << "     ;     CDn = " << m_sommets[i]->getIndice_degreNormalise() << "     ;     CVP = " << m_sommets[i]->getIndice_vecteur_propre() << "     ;     CVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise() << "     ;     CP = " << m_sommets[i]->getIndice_proximite() << "     ;     CPn = " << m_sommets[i]->getIndice_proximiteNormalise() << "     ;     CPg = " << m_indiceCentraliteProximiteGlobal << std::endl;
         }
     }
     else
@@ -702,6 +712,7 @@ void Graphe::ajouterAretes()
         getSommetByIndice(sommet1)->ajouter_voisins(getSommetByIndice(sommet2));
         getSommetByIndice(sommet2)->ajouter_voisins(getSommetByIndice(sommet1));
         ++m_taille;
+        double indiceProximiteGlobal_tmp = m_indiceCentraliteProximiteGlobal;
         std::vector<double> indiceDegre_tmp{};
         std::vector<double> indiceVecteur_propre_tmp{};
         std::vector<double> indiceProximite_tmp{};
@@ -724,7 +735,8 @@ void Graphe::ajouterAretes()
         dessiner(0);
         std::cout << std::endl << "L'arete a ete rajoutee";
         std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
-        std::cout << "           Avant                                                Apres" << std::endl << std::endl;
+        std::cout << "           Avant\t\t\t\tApres\t\t\t\tEcart en %" << std::endl << std::endl;
+            std::cout << "           CPg = " << indiceProximiteGlobal_tmp << "\t\t\t\tCPg = " << m_indiceCentraliteProximiteGlobal << "\t\t\t" << (m_indiceCentraliteProximiteGlobal / indiceProximiteGlobal_tmp * 100) - 100 << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
         {
             std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << std::endl;
@@ -764,6 +776,7 @@ void Graphe::ajouterSommets()
         std::cin >> y;
         m_sommets.push_back(new Sommet{indice, nom, x, y});
         ++ m_ordre;
+        double indiceProximiteGlobal_tmp = m_indiceCentraliteProximiteGlobal;
         std::vector<double> indiceDegre_tmp{};
         std::vector<double> indiceVecteur_propre_tmp{};
         std::vector<double> indiceProximite_tmp{};
@@ -786,7 +799,8 @@ void Graphe::ajouterSommets()
         dessiner(0);
         std::cout << std::endl << "Le sommet a ete rajoute";
         std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
-        std::cout << "           Avant                                                Apres" << std::endl << std::endl;
+        std::cout << "           Avant\t\t\t\tApres\t\t\t\tEcart en %" << std::endl << std::endl;
+            std::cout << "           CPg = " << indiceProximiteGlobal_tmp << "\t\t\t\tCPg = " << m_indiceCentraliteProximiteGlobal << "\t\t\t" << (m_indiceCentraliteProximiteGlobal / indiceProximiteGlobal_tmp * 100) - 100 << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
         {
             std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << std::endl;
@@ -827,6 +841,7 @@ void Graphe::supprimerSommets()
             delete getSommetByIndice(choix);
             m_sommets.erase(m_sommets.begin() + tmp);
             --m_ordre;
+            double indiceProximiteGlobal_tmp = m_indiceCentraliteProximiteGlobal;
             std::vector<double> indiceDegre_tmp{};
             std::vector<double> indiceVecteur_propre_tmp{};
             std::vector<double> indiceProximite_tmp{};
@@ -849,7 +864,8 @@ void Graphe::supprimerSommets()
             dessiner(0);
             std::cout << std::endl << "Le sommet a ete supprime";
             std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
-            std::cout << "           Avant                                                Apres" << std::endl << std::endl;
+            std::cout << "           Avant\t\t\t\tApres\t\t\t\tEcart en %" << std::endl << std::endl;
+            std::cout << "           CPg = " << indiceProximiteGlobal_tmp << "\t\t\t\tCPg = " << m_indiceCentraliteProximiteGlobal << "\t\t\t" << (m_indiceCentraliteProximiteGlobal / indiceProximiteGlobal_tmp * 100) - 100 << std::endl << std::endl;
             for(int i=0 ; i<m_ordre ; ++i)
             {
                 std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << std::endl;
@@ -946,4 +962,15 @@ std::ifstream Graphe::afficherMenu()
         goto repere;
     }
     return ifs;
+}
+
+double Graphe::getIndiceProximiteMax()
+{
+    double a = 0;
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+        if(m_sommets[i]->getIndice_proximite() > a)
+            a = m_sommets[i]->getIndice_proximite();
+    }
+    return a;
 }
