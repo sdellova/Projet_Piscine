@@ -87,15 +87,15 @@
 1588252590 c:\users\utilisateur\documents\github\projet_piscine\arete.h
 	"Sommet.h"
 
-1588330934 c:\users\utilisateur\documents\github\projet_piscine\sommet.h
+1588435091 c:\users\utilisateur\documents\github\projet_piscine\sommet.h
 	<string>
 	<vector>
 
-1588327814 source:c:\users\utilisateur\documents\github\projet_piscine\main.cpp
+1588428371 source:c:\users\utilisateur\documents\github\projet_piscine\main.cpp
 	<iostream>
 	"Graphe.h"
 
-1588336815 c:\users\utilisateur\documents\github\projet_piscine\graphe.h
+1588435293 c:\users\utilisateur\documents\github\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
@@ -113,7 +113,7 @@
 	<iostream>
 	<sstream>
 
-1588330709 source:c:\users\utilisateur\documents\github\projet_piscine\sommet.cpp
+1588435518 source:c:\users\utilisateur\documents\github\projet_piscine\sommet.cpp
 	"Sommet.h"
 
 1588156890 source:c:\users\utilisateur\documents\github\projet_piscine\svgfile.cpp
@@ -155,11 +155,11 @@
 
 1588156892 source:c:\users\seb\downloads\projet_piscine\svgfile.cpp
 
-1588333569 source:c:\users\elyes\documents\github\projet_piscine\main.cpp
+1588442345 source:c:\users\elyes\documents\github\projet_piscine\main.cpp
 	<iostream>
 	"Graphe.h"
 
-1588336669 c:\users\elyes\documents\github\projet_piscine\graphe.h
+1588442701 c:\users\elyes\documents\github\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
@@ -177,7 +177,7 @@
 	<iostream>
 	<sstream>
 
-1588327614 c:\users\elyes\documents\github\projet_piscine\sommet.h
+1588442677 c:\users\elyes\documents\github\projet_piscine\sommet.h
 	<string>
 	<vector>
 
@@ -189,12 +189,14 @@
 1588175321 source:c:\users\elyes\documents\github\projet_piscine\arete.cpp
 	"Arete.h"
 
-1588327614 source:c:\users\elyes\documents\github\projet_piscine\sommet.cpp
+1588442345 source:c:\users\elyes\documents\github\projet_piscine\sommet.cpp
 	"Sommet.h"
 
-1588336506 source:c:\users\elyes\documents\github\projet_piscine\graphe.cpp
+1588446823 source:c:\users\elyes\documents\github\projet_piscine\graphe.cpp
 	"Graphe.h"
+	<cstdlib>
+	<ctime>
 
-1588332635 source:c:\users\utilisateur\documents\github\projet_piscine\graphe.cpp
+1588435285 source:c:\users\utilisateur\documents\github\projet_piscine\graphe.cpp
 	"Graphe.h"
 
