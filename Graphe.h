@@ -10,6 +10,7 @@
 #include <cmath>
 #include <conio.h>
 #include <windows.h>
+#include <time.h>
 
 class Graphe
 {
@@ -38,7 +39,6 @@ public:
     void sauvegarde();
     void connexite();
     int Dijkstrat2(int num_s0, int num_Sf, int p, int m);
-//    std::vector<Arete> Graphe::getAretesBy2Sommets(Sommet* sommet1, Sommet* sommet2);
     void ajouterAretes();
     void ajouterSommets();
     void supprimerSommets();
@@ -47,8 +47,8 @@ public:
     int getDegreMax();
     std::ifstream afficherMenu();
     double getIndiceProximiteMax();
-    void coloration();
-
+    void simulation();
+    void parcours(Sommet* sommet);
 private:
     bool m_orientation;
     int m_ordre;

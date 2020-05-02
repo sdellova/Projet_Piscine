@@ -128,13 +128,13 @@ void Graphe::dessiner(int valeur)
         }
         svgout.addDisk(m_sommets[i]->getX() * 100, m_sommets[i]->getY() * 100, 7, couleur);
         svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 15, m_sommets[i]->getNom(), couleur);
-        if(valeur == 1)
+        if(valeur == 2)
         {
             svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 30, indiceProximite, couleur);
             svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 45, indiceVecteur_propre, couleur);
             svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 60, indiceDegre, couleur);
         }
-        if(valeur == 2)
+        if(valeur == 1)
         {
             svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 30, indiceProximiteNormalise, couleur);
             svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 45, indiceVecteur_propreNormalise, couleur);
@@ -170,7 +170,7 @@ Arete* Graphe::getAreteByIndice(int indice)
 void Graphe::menu()
 {
     int choix;
-    while(choix != 6)
+    while(choix != 14)
     {
         choix = 0;
         while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9 && choix != 10 && choix != 11 && choix != 12 && choix != 13 && choix!= 14)
@@ -187,7 +187,7 @@ void Graphe::menu()
             std::cout << "9) Supprimer des aretes du graphe" << std::endl;
             std::cout << "10) Ajouter des sommets au graphe" << std::endl;
             std::cout << "11) Supprimer des sommets du graphe" << std::endl << std::endl;
-            std::cout << "12) Introduire le virus" << std::endl << std::endl;
+            std::cout << "12) Lancer la simulation" << std::endl << std::endl;
             std::cout << "13) Charger un nouveau fichier de ponderation" << std::endl;
             std::cout << "14) Quitter" << std::endl << std::endl;
             std::cout << "Que choisissez-vous ? ";
@@ -202,8 +202,8 @@ void Graphe::menu()
             centralite_vecteur_propre(1);
             break;
         case 3 :
-            //indice_proximite(1);
-            intermediarite();
+            indice_proximite(1);
+            //intermediarite();
             //Dijkstrat2(0,5);
             break;
         case 4 :
@@ -231,7 +231,7 @@ void Graphe::menu()
             supprimerSommets();
             break;
         case 12 :
-            coloration();
+            simulation();
             break;
         case 13 :
             ponderation();
@@ -278,7 +278,7 @@ void Graphe::supprimerAretes()
             }
             centralite_degre(0);
             centralite_vecteur_propre(0);
-            //indice_proximite(0);
+            indice_proximite(0);
             sauvegarde();
             dessiner();
             std::cout << std::endl << "L'arete a ete supprimee";
@@ -540,6 +540,7 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     }
     while(couleurs[num_Sf]==0);
 
+    std::cout<<"dij";
 
     ///Affichage du parcours
     std::vector<int> longueur;
@@ -573,6 +574,7 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
                 cpt=dists[num_Sf];
         }
     }
+    std::cout<<"fin";
     return cpt;
 
 }
@@ -584,45 +586,81 @@ bool Graphe::indice_proximite(bool a)
     float calcul;
     float distance=0;
     float res=0;
+    std::cout<<"debut";
     for(size_t j=0; j<m_sommets.size(); j++)
     {
+
+        std::cout<<"nouvj"<<j;
         calcul=0;
         distance=0;
         res=0;
         if(m_sommets[j]->getVoisins().size()==0)
         {
+            std::cout<<"0 voisins";
             m_sommets[j]->setIndice_proximite(0);
             m_sommets[j]->setIndice_proximiteNormalise(0);
 
+            std::cout<<"setindice";
+
             j++;
+
         }
-
-        for(size_t i=0; i<m_sommets.size(); i++)
+        if(j<m_sommets.size())
         {
-            if(m_sommets[i]->getVoisins().size()==0)
+            for(size_t i=0; i<m_sommets.size(); i++)
             {
-                i++;
-            }
-
-            if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
-            {
-                i++;
-            }
-            if(i<m_sommets.size())
-            {
-                res=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
-                distance+=res;
-                if(res==0)
+                std::cout<<"debutfor";
+                if(i<m_sommets.size())
                 {
-                    connexe=0;
+                    std::cout<<"1er"<<i;
+                    if(m_sommets[i]->getVoisins().size()==0)
+                    {
+                        std::cout<<"pas de voisins";
+                        i++;
+                    }
+                }
+                std::cout<<"if";
+                if(i<m_sommets.size())
+                {
+
+                    if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
+                    {
+                        i++;
+                    }
+                    if(i<m_sommets.size())
+                    {
+                        std::cout<<"appel";
+                        std::cout<<"i"<<i<<"j"<<j<<"m_sommet"<<m_sommets.size();
+                        res=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
+                        std::cout<<"apres";
+                        distance+=res;
+                        std::cout<<"ajout";
+                        std::cout<<"res="<<res;
+                        std::cout<<"distance"<<distance;
+
+
+                        if(res==0)
+                        {
+                            std::cout<<"connexe";
+                            connexe=0;
+                        }
+                    }
                 }
             }
         }
+        std::cout<<"calcul";
         calcul=1/distance;
+        std::cout<<"avset"<<j;
+        if(j<m_sommets.size())
+        {
+            m_sommets[j]->setIndice_proximite(calcul);
+            std::cout<<"entrset";
+            m_sommets[j]->setIndice_proximiteNormalise(calcul * (m_ordre - 1));
+            std::cout<<"setter";
+        }
 
-        m_sommets[j]->setIndice_proximite(calcul);
-        m_sommets[j]->setIndice_proximiteNormalise(calcul * (m_ordre - 1));
     }
+    std::cout<<"finfor";
     double x = 0;
     for(int i = 0 ; i<m_ordre ; ++i)
     {
@@ -675,7 +713,7 @@ void Graphe::connexite()
     //res=Dijkstrat(0,4);
     //std::cout<<"=" <<res<<std::endl;
 
-        int degreMax = getDegreMax();
+    int degreMax = getDegreMax();
     system("cls");
     if(indice_proximite(0))
     {
@@ -883,21 +921,7 @@ int Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
     return cpt;
 
 }
-/*
-std::vector<Arete> Graphe::getAretesBy2Sommets(Sommet* sommet1, Sommet* sommet2)
-{
-    std::vector<Arete*> aretes;
-    for(int i=0 ; i<m_taille ; ++i)
-    {
-        if((m_aretes[i]->getExtremites().first->getIndice() == sommet1->getIndice() && m_aretes[i]->getExtremites().second->getIndice() == sommet2->getIndice()) || (m_aretes[i]->getExtremites().first->getIndice() == sommet2->getIndice() && m_aretes[i]->getExtremites().second->getIndice() == sommet1->getIndice()))
-        {
-            aretes.push_back(m_aretes[i]);
-        }
-    }
-    return aretes;
-}
 
-*/
 void Graphe::intermediarite()
 {
 
@@ -931,11 +955,11 @@ void Graphe::intermediarite()
              if(i<m_sommets.size())
              {
                 */ // Dijkstrat2(1,5 , 20);
-            for(int i=0; i<10; i++)
-            {
-                Dijkstrat2(0, 5,1,1);
-                Sleep(1000);
-            }
+    for(int i=0; i<20; i++)
+    {
+        Dijkstrat2(0, 5,1,1);
+        Sleep(1000);
+    }
     /*for(int p=0; p<2; p++)
     {
         Sommet* y= getSommetByIndice(0);
@@ -1011,7 +1035,7 @@ void Graphe::ajouterAretes()
         }
         centralite_degre(0);
         centralite_vecteur_propre(0);
-        //indice_proximite(0);
+        indice_proximite(0);
         sauvegarde();
         dessiner();
         std::cout << std::endl << "L'arete a ete rajoutee";
@@ -1075,7 +1099,7 @@ void Graphe::ajouterSommets()
         }
         centralite_degre(0);
         centralite_vecteur_propre(0);
-        //indice_proximite(0);
+        indice_proximite(0);
         sauvegarde();
         dessiner();
         std::cout << std::endl << "Le sommet a ete rajoute";
@@ -1140,7 +1164,7 @@ void Graphe::supprimerSommets()
             }
             centralite_degre(0);
             centralite_vecteur_propre(0);
-            //indice_proximite(0);
+            indice_proximite(0);
             sauvegarde();
             dessiner();
             std::cout << std::endl << "Le sommet a ete supprime";
@@ -1188,13 +1212,17 @@ bool Graphe::combinaisons(int taille, int k, int x, int *L, int *t, int r)
     {
         Sommet* sommet1_tmp;
         Sommet* sommet2_tmp;
+        int indice_tmp;
         for(i=0; i<k; ++i)
         {
+            indice_tmp = m_aretes[L[i]]->getIndice();
             sommet1_tmp = m_aretes[L[i]]->getExtremites().first;
             sommet2_tmp = m_aretes[L[i]]->getExtremites().second;
             int tmp = getPositionAreteByIndice(m_aretes[L[i]]->getIndice());
             m_aretes[tmp]->getExtremites().first->retirer_voisins(m_aretes[tmp]->getExtremites().second);
             m_aretes[tmp]->getExtremites().second->retirer_voisins(m_aretes[tmp]->getExtremites().first);
+            delete getAreteByIndice(indice_tmp);
+            m_aretes.erase(m_aretes.begin() + tmp);
             --m_taille;
         }
         bool a = indice_proximite(0);
@@ -1204,6 +1232,8 @@ bool Graphe::combinaisons(int taille, int k, int x, int *L, int *t, int r)
         {
             sommet1_tmp->ajouter_voisins(sommet2_tmp);
             sommet2_tmp->ajouter_voisins(sommet1_tmp);
+            m_aretes.insert(m_aretes.begin() + L[i], new Arete{indice_tmp, sommet1_tmp, sommet2_tmp});
+            ++m_taille;
         }
         return 1;
     }
@@ -1256,18 +1286,80 @@ double Graphe::getIndiceProximiteMax()
     return a;
 }
 
-void Graphe::coloration()
-{
-    int choix;
+void Graphe::simulation()
+{/*
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+        delete m_sommets[i];
+    }
+    m_sommets.clear();
+    for(int i=0 ; i<m_taille ; ++i)
+    {
+        delete m_aretes[i];
+    }
+    m_aretes.clear();
+    m_orientation = 0;
+    m_indiceCentraliteProximiteGlobal = 0;
+
+    srand(time(NULL));*/
+    int choix;/*
+    double interactions;
+
+    system("cls");
+    std::cout << "Entrez le nombre de personnes : ";
+    std::cin >> m_ordre;
     do
     {
-    system("cls");
-    std::cout << "Entrez l'indice du sommet a contaminer : ";
-    std::cin >> choix;
-    if(!sommetExistant(choix))
-        std::cout << std::endl << "Ce sommet n'existe pas";
+        std::cout << "Entrez le pourcentage d'interactions : ";
+        std::cin >> interactions;
+    }
+    while(interactions < 0 || interactions > 100);
+
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+        m_sommets.push_back(new Sommet{i, std::to_string(i), (double)i, (double)i});
+    }
+    m_taille = m_ordre * (m_ordre - 1) / 2 * interactions / 100;
+    for(int i=0 ; i<m_taille ; ++i)
+    {
+        int random1 = rand()%(m_ordre-1);
+        Sleep(1000);
+        int random2 = rand()%(m_ordre-1);
+        m_aretes.push_back(new Arete{i, getSommetByIndice(random1), getSommetByIndice(random2)});
+        getSommetByIndice(random1)->ajouter_voisins(getSommetByIndice(random2));
+        getSommetByIndice(random2)->ajouter_voisins(getSommetByIndice(random1));
+    }*/
+    do
+    {
+        std::cout << "Entrez l'indice du sommet a contaminer : ";
+        std::cin >> choix;
+        if(!sommetExistant(choix))
+        {
+            std::cout << std::endl << "Probleme !";
+            Sleep(2000);
+        }
+        system("cls");
+        std::cout << "Entrez l'indice du sommet a contaminer : ";
+        std::cin >> choix;
+        if(!sommetExistant(choix))
+            std::cout << std::endl << "Ce sommet n'existe pas";
     }
     while(!sommetExistant(choix));
-    //appel de l'algo de coloration
+
+    getSommetByIndice(choix)->setContamine(1);
+    parcours(getSommetByIndice(choix));
     dessiner(3);
+}
+
+void Graphe::parcours(Sommet* sommet)
+{
+    if(sommet->getContamine())
+    {
+        return;
+    }
+    for(size_t i = 0 ; i < sommet->getVoisins().size() ; ++i)
+    {
+        sommet->getVoisins()[i]->setContamine(1);
+        parcours(sommet->getVoisins()[i]);
+    }
 }
