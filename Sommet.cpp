@@ -107,3 +107,5 @@ void Sommet::retirer_voisins(Sommet* sommet)
 {
     m_voisins.erase(m_voisins.begin() + getPositionSommetByIndice(sommet->getIndice()));
 }
+
+
