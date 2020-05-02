@@ -161,7 +161,7 @@
 	<iostream>
 	"Graphe.h"
 
-1588442701 c:\users\elyes\documents\github\projet_piscine\graphe.h
+1588454713 c:\users\elyes\documents\github\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
@@ -171,6 +171,7 @@
 	<cmath>
 	<conio.h>
 	<windows.h>
+	<time.h>
 
 1588006741 c:\users\elyes\documents\github\projet_piscine\svgfile.h
 	<string>
@@ -194,7 +195,7 @@
 1588442345 source:c:\users\elyes\documents\github\projet_piscine\sommet.cpp
 	"Sommet.h"
 
-1588446823 source:c:\users\elyes\documents\github\projet_piscine\graphe.cpp
+1588457547 source:c:\users\elyes\documents\github\projet_piscine\graphe.cpp
 	"Graphe.h"
 	<cstdlib>
 	<ctime>

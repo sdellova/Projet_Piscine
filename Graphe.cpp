@@ -202,8 +202,8 @@ void Graphe::menu()
             centralite_vecteur_propre(1);
             break;
         case 3 :
-            indice_proximite(1);
-            //intermediarite();
+            //indice_proximite(1);
+            ::intermediarite();
             //Dijkstrat2(0,5);
             break;
         case 4 :
@@ -774,7 +774,7 @@ int Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
 
 
             {
-                if(dists[i]<=dMin || dMin==-1)
+                //if(dists[i]<=dMin || dMin==-1)
                 {
                     dMin=dists[i];
                     s=m_sommets[i];
@@ -934,9 +934,9 @@ void Graphe::intermediarite()
         Dijkstrat2(0, 5,1,1);
         Sleep(1000);
     }
-    /*for(int p=0; p<2; p++)
+    /*for(int p=0; p<3; p++)
     {
-        Sommet* y= getSommetByIndice(0);
+        Sommet* y= getSommetByIndice(1);
         Sommet* l= y->getVoisins()[p];
         for(int m=0; m<l->getVoisins().size(); m++)
         {
@@ -947,7 +947,7 @@ void Graphe::intermediarite()
             }
             n= l->getVoisins()[m];
             //std::cout<<n->getNom()<<std::endl;
-            Dijkstrat2( 0, 5, p, m);
+            Dijkstrat2( 1, 5, p, m);
         }
 
     }/*
