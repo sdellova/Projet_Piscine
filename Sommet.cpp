@@ -1,6 +1,6 @@
 #include "Sommet.h"
 
-Sommet::Sommet(int indice, std::string nom, double x, double y) : m_indice{indice}, m_nom{nom}, m_x{x}, m_y{y}
+Sommet::Sommet(int indice, std::string nom, double x, double y) : m_indice{indice}, m_nom{nom}, m_x{x}, m_y{y}, m_contamine{0}
 {
 
 }
@@ -107,5 +107,4 @@ void Sommet::retirer_voisins(Sommet* sommet)
 {
     m_voisins.erase(m_voisins.begin() + getPositionSommetByIndice(sommet->getIndice()));
 }
-
 

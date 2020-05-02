@@ -37,16 +37,16 @@ void Graphe::ponderation()
     }
     if(choix == 1)
     {
-            repere:
-            std::cout << "Ecrivez le nom du fichier de ponderation : ";
-            std::cin >> nomFichier;
-            std::ifstream ifs{nomFichier};
-            if (!ifs)
-            {
-                std::cout << "Impossible d'ouvrir " << nomFichier << std::endl << std::endl;
-                goto repere;
-            }
-            ifs >> taille;
+repere:
+        std::cout << "Ecrivez le nom du fichier de ponderation : ";
+        std::cin >> nomFichier;
+        std::ifstream ifs{nomFichier};
+        if (!ifs)
+        {
+            std::cout << "Impossible d'ouvrir " << nomFichier << std::endl << std::endl;
+            goto repere;
+        }
+        ifs >> taille;
         if (taille != m_taille)
         {
             std::cout << "La taille du graphe ne correspond pas entre les 2 fichiers." << std::endl;
@@ -85,11 +85,11 @@ void Graphe::dessiner(int valeur)
         std::ostringstream oss5;
         std::ostringstream oss6;
 
-        oss4 << "CDn = " << m_sommets[i]->getIndice_degre();
+        oss4 << "CDn = " << m_sommets[i]->getIndice_degreNormalise();
         std::string indiceDegreNormalise = oss4.str();
-        oss5 << "CVPn = " << m_sommets[i]->getIndice_vecteur_propre();
+        oss5 << "CVPn = " << m_sommets[i]->getIndice_vecteur_propreNormalise();
         std::string indiceVecteur_propreNormalise = oss5.str();
-        oss6 << "CPn = " << m_sommets[i]->getIndice_proximite();
+        oss6 << "CPn = " << m_sommets[i]->getIndice_proximiteNormalise();
         std::string indiceProximiteNormalise = oss6.str();
 
         switch(m_sommets[i]->getVoisins().size())
@@ -118,6 +118,11 @@ void Graphe::dessiner(int valeur)
         case 7 :
             couleur = "brown";
             break;
+        }
+        if(valeur == 3)
+        {
+            if(m_sommets[i]->getContamine())
+                couleur = "grey";
         }
         svgout.addDisk(m_sommets[i]->getX() * 100, m_sommets[i]->getY() * 100, 7, couleur);
         svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 15, m_sommets[i]->getNom(), couleur);
@@ -166,7 +171,7 @@ void Graphe::menu()
     while(choix != 6)
     {
         choix = 0;
-        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9 && choix != 10 && choix != 11 && choix != 12 && choix != 13)
+        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9 && choix != 10 && choix != 11 && choix != 12 && choix != 13 && choix!= 14)
         {
             system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
@@ -180,8 +185,9 @@ void Graphe::menu()
             std::cout << "9) Supprimer des aretes du graphe" << std::endl;
             std::cout << "10) Ajouter des sommets au graphe" << std::endl;
             std::cout << "11) Supprimer des sommets du graphe" << std::endl << std::endl;
-            std::cout << "12) Charger un nouveau fichier de ponderation" << std::endl;
-            std::cout << "13) Quitter" << std::endl << std::endl;
+            std::cout << "12) Introduire le virus" << std::endl << std::endl;
+            std::cout << "13) Charger un nouveau fichier de ponderation" << std::endl;
+            std::cout << "14) Quitter" << std::endl << std::endl;
             std::cout << "Que choisissez-vous ? ";
             std::cin >> choix;
         }
@@ -203,7 +209,7 @@ void Graphe::menu()
             dessiner(2);
             break;
         case 6 :
-            dessiner(0);
+            dessiner();
             break;
         case 7 :
             connexite();
@@ -221,9 +227,12 @@ void Graphe::menu()
             supprimerSommets();
             break;
         case 12 :
-            ponderation();
+            coloration();
             break;
         case 13 :
+            ponderation();
+            break;
+        case 14 :
             exit(1);
             break;
         }
@@ -267,7 +276,7 @@ void Graphe::supprimerAretes()
             centralite_vecteur_propre(0);
             //indice_proximite(0);
             sauvegarde();
-            dessiner(0);
+            dessiner();
             std::cout << std::endl << "L'arete a ete supprimee";
             std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
             std::cout << "           Avant\t\t\t\tApres\t\t\t\tEcart en %" << std::endl << std::endl;
@@ -732,11 +741,11 @@ void Graphe::ajouterAretes()
         centralite_vecteur_propre(0);
         //indice_proximite(0);
         sauvegarde();
-        dessiner(0);
+        dessiner();
         std::cout << std::endl << "L'arete a ete rajoutee";
         std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
         std::cout << "           Avant\t\t\t\tApres\t\t\t\tEcart en %" << std::endl << std::endl;
-            std::cout << "           CPg = " << indiceProximiteGlobal_tmp << "\t\t\t\tCPg = " << m_indiceCentraliteProximiteGlobal << "\t\t\t" << (m_indiceCentraliteProximiteGlobal / indiceProximiteGlobal_tmp * 100) - 100 << std::endl << std::endl;
+        std::cout << "           CPg = " << indiceProximiteGlobal_tmp << "\t\t\t\tCPg = " << m_indiceCentraliteProximiteGlobal << "\t\t\t" << (m_indiceCentraliteProximiteGlobal / indiceProximiteGlobal_tmp * 100) - 100 << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
         {
             std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << std::endl;
@@ -796,11 +805,11 @@ void Graphe::ajouterSommets()
         centralite_vecteur_propre(0);
         //indice_proximite(0);
         sauvegarde();
-        dessiner(0);
+        dessiner();
         std::cout << std::endl << "Le sommet a ete rajoute";
         std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
         std::cout << "           Avant\t\t\t\tApres\t\t\t\tEcart en %" << std::endl << std::endl;
-            std::cout << "           CPg = " << indiceProximiteGlobal_tmp << "\t\t\t\tCPg = " << m_indiceCentraliteProximiteGlobal << "\t\t\t" << (m_indiceCentraliteProximiteGlobal / indiceProximiteGlobal_tmp * 100) - 100 << std::endl << std::endl;
+        std::cout << "           CPg = " << indiceProximiteGlobal_tmp << "\t\t\t\tCPg = " << m_indiceCentraliteProximiteGlobal << "\t\t\t" << (m_indiceCentraliteProximiteGlobal / indiceProximiteGlobal_tmp * 100) - 100 << std::endl << std::endl;
         for(int i=0 ; i<m_ordre ; ++i)
         {
             std::cout << "Sommet " << m_sommets[i]->getIndice() << " : " << std::endl;
@@ -861,7 +870,7 @@ void Graphe::supprimerSommets()
             centralite_vecteur_propre(0);
             //indice_proximite(0);
             sauvegarde();
-            dessiner(0);
+            dessiner();
             std::cout << std::endl << "Le sommet a ete supprime";
             std::cout << std::endl << std::endl << "                             Comparaison avant-apres" << std::endl << std::endl << std::endl;
             std::cout << "           Avant\t\t\t\tApres\t\t\t\tEcart en %" << std::endl << std::endl;
@@ -952,7 +961,7 @@ int Graphe::getDegreMax()
 std::ifstream Graphe::afficherMenu()
 {
     std::string nomFichier;
-    repere:
+repere:
     std::cout << "Ecrivez le nom du graphe a charger : ";
     std::cin >> nomFichier;
     std::ifstream ifs{nomFichier};
@@ -973,4 +982,20 @@ double Graphe::getIndiceProximiteMax()
             a = m_sommets[i]->getIndice_proximite();
     }
     return a;
+}
+
+void Graphe::coloration()
+{
+    int choix;
+    do
+    {
+    system("cls");
+    std::cout << "Entrez l'indice du sommet a contaminer : ";
+    std::cin >> choix;
+    if(!sommetExistant(choix))
+        std::cout << std::endl << "Ce sommet n'existe pas";
+    }
+    while(!sommetExistant(choix));
+    //appel de l'algo de coloration
+    dessiner(3);
 }
