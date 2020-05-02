@@ -16,7 +16,7 @@ class Graphe
 public:
     Graphe(std::ifstream ifs);
     void ponderation();
-    void dessiner(int valeur);
+    void dessiner(int valeur = 0);
     void menu();
     void supprimerAretes();
     Sommet* getSommetByIndice(int indice);
@@ -45,6 +45,7 @@ public:
     int getDegreMax();
     std::ifstream afficherMenu();
     double getIndiceProximiteMax();
+    void coloration();
 private:
     bool m_orientation;
     int m_ordre;
