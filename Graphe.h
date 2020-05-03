@@ -63,8 +63,6 @@ private:
     int m_taille;
     std::vector<Sommet*> m_sommets;
     std::vector<Arete*> m_aretes;
-    std::vector<std::vector<int>> m_chemins;
-    std::vector<int>m_coul;
     double m_indiceCentraliteProximiteGlobal;
 };
 
