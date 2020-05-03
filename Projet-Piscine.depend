@@ -95,7 +95,7 @@
 	<iostream>
 	"Graphe.h"
 
-1588442764 c:\users\utilisateur\documents\github\projet_piscine\graphe.h
+1588455306 c:\users\utilisateur\documents\github\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
@@ -105,6 +105,7 @@
 	<cmath>
 	<conio.h>
 	<windows.h>
+	<time.h>
 
 1588156890 c:\users\utilisateur\documents\github\projet_piscine\svgfile.h
 	<string>
