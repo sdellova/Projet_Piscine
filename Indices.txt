@@ -802,3 +802,8 @@ Sommet 1 : CD = 1     ;     CDn = 0.25     ;     CVP = 0.223607     ;     CVPn =
 Sommet 2 : CD = 4     ;     CDn = 1     ;     CVP = 0.894427     ;     CVPn = 0.223607     ;     CP = 0.25     ;     CPn = 1     ;     CPg = 0.25
 Sommet 3 : CD = 1     ;     CDn = 0.25     ;     CVP = 0.223607     ;     CVPn = 0.0559017     ;     CP = 0.142857     ;     CPn = 0.571429     ;     CPg = 0.25
 Sommet 4 : CD = 1     ;     CDn = 0.25     ;     CVP = 0.223607     ;     CVPn = 0.0559017     ;     CP = 0.142857     ;     CPn = 0.571429     ;     CPg = 0.25
+Sommet 0 : CD = 1     ;     CDn = 0.25     ;     CVP = 0.223607     ;     CVPn = 0.0559017     ;     CP = 0.142857     ;     CPn = 0.571429     ;     CPg = 0.25
+Sommet 1 : CD = 1     ;     CDn = 0.25     ;     CVP = 0.223607     ;     CVPn = 0.0559017     ;     CP = 0.142857     ;     CPn = 0.571429     ;     CPg = 0.25
+Sommet 2 : CD = 4     ;     CDn = 1     ;     CVP = 0.894427     ;     CVPn = 0.223607     ;     CP = 0.25     ;     CPn = 1     ;     CPg = 0.25
+Sommet 3 : CD = 1     ;     CDn = 0.25     ;     CVP = 0.223607     ;     CVPn = 0.0559017     ;     CP = 0.142857     ;     CPn = 0.571429     ;     CPg = 0.25
+Sommet 4 : CD = 1     ;     CDn = 0.25     ;     CVP = 0.223607     ;     CVPn = 0.0559017     ;     CP = 0.142857     ;     CPn = 0.571429     ;     CPg = 0.25

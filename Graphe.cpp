@@ -727,6 +727,40 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
     dists[num_s0]=0;
     float CPT=0;
 
+    /*Sommet* j = getSommetByIndice(num_s0);
+
+    if(p!=20)
+    {
+
+        for(int i=0; i<j->getVoisins().size(); i++)
+        {
+            Sommet* a =j->getVoisins()[i];
+            int id3 = a->getIndice();
+            couleurs2[id3]=1;
+
+
+        }
+        Sommet*b = j->getVoisins()[p];
+        //std::cout<<b->getNom();
+        id4 = b->getIndice();
+        couleurs2[id4]= 0;
+
+        for(int i=0; i<b->getVoisins().size(); i++)
+        {
+            Sommet* a =b->getVoisins()[i];
+            int id3 = a->getIndice();
+            //std::cout<<id3<<std::endl;
+            couleurs2[id3]=1;
+
+        }
+        Sommet*c = b->getVoisins()[rand() % (b->getVoisins().size()-1)];
+        int id5 = c->getIndice();
+        ///std::cout<<id5<<std::endl;
+        couleurs2[id5]= 0;
+
+    }*/
+
+
     ///Boucle de recherche
     do
     {
@@ -932,7 +966,7 @@ void Graphe::calculintermediarite(int indice1, int indice2)
             {
                 int taille = listechemins[k].size()-1;
                 int cpt=0;
-                for(int i=1; i<listechemins[k].size(); i++)
+                for(size_t i=1; i<listechemins[k].size(); i++)
                 {
 
                    if(listechemins[k][i]==listechemins[j][i])
@@ -951,23 +985,23 @@ void Graphe::calculintermediarite(int indice1, int indice2)
     }
 
     std::cout<<"Nombres de chemins apres sup : "<<listechemins.size()<<std::endl;
-    for(int j=0; j<listechemins.size(); j++)
+    for(size_t j=0; j<listechemins.size(); j++)
     {
         std::cout<<"chemin n : "<<j<<std::endl;
-        for(int i=1; i<listechemins[j].size(); i++)
+        for(size_t i=1; i<listechemins[j].size(); i++)
         {
             std::cout<<" "<<listechemins[j][i];
         }
         std::cout<<"\n"<<std::endl;
     }
-    for(int k=0; k<m_sommets.size(); k++)
+    for(size_t k=0; k<m_sommets.size(); k++)
     {
         getSommetByIndice(k)->setzeronbrchemin();
-        for(int i=0; i<listechemins.size(); i++)
+        for(size_t i=0; i<listechemins.size(); i++)
         {
-            for(int j=2; j<listechemins[i].size()-1; j++)
+            for(size_t j=2; j<listechemins[i].size()-1; j++)
             {
-                if(listechemins[i][j]==k)
+                if(listechemins[i][j]==(int)k)
                 {
                     getSommetByIndice(k)->ajoutnbrchemin();
                 }
@@ -980,7 +1014,7 @@ void Graphe::calculintermediarite(int indice1, int indice2)
 
     }
 
-    for(int i=0 ; i<m_sommets.size(); i++)
+    for(size_t i=0 ; i<m_sommets.size(); i++)
     {
         std::cout<<"Sommet : "<<i<<"\t\t"<<getSommetByIndice(i)->getIndice_intermediarite()<<std::endl;
     }
@@ -1380,7 +1414,7 @@ bool Graphe::afficher_parcours(int num,const std::vector<int>& arbre)
     std::vector<int> tout_i;
     for(size_t i=0;i<arbre.size();++i)
         {
-        if(i!=num)
+        if((int)i!=num)
         {
             if(arbre[i]!=-1)
             {
@@ -1505,15 +1539,15 @@ bool Graphe::effectue(int n, int p)
 
 void Graphe::intermediarite()
 {
-    for(int i=0 ; i<m_sommets.size()-1; i++)
+    for(size_t i=0 ; i<m_sommets.size()-1; i++)
     {
-        for(int j=i+1; j<m_sommets.size(); j++)
+        for(size_t j=i+1; j<m_sommets.size(); j++)
         {
             calculintermediarite( i, j);
         }
     }
 
-    for(int k=0; k<m_sommets.size(); k++)
+    for(size_t k=0; k<m_sommets.size(); k++)
     {
         float indice_non_norm = getSommetByIndice(k)->getIndice_intermediarite();
         float calcul= (2*indice_non_norm)/((m_ordre*m_ordre)+((-3)*m_ordre)+2);
