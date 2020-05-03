@@ -38,9 +38,10 @@ public:
     bool sommetExistant(int indice, std::string nom = ""); /// renvoie 1 si le sommet existe, 0 sinon
     bool indice_proximite(bool a); /// algo de centralite de proximite
     void intermediarite(); /// algorithme de centralite d'intermediarite
+    void calculintermediarite(int indice1, int indice2);
     void sauvegarde(); /// pour sauvegarder dans un fichier
     void connexite(); /// méthode qui permet de tester la connexite
-    std::vector<int> Dijkstrat2(int num_s0, int num_Sf, int p, int m); /// variante de Dijkstra utilisée pour l'intermediarite
+    std::vector<int> Dijkstrat2(int num_s0, int num_Sf); /// variante de Dijkstra utilisée pour l'intermediarite
     void ajouterAretes(); /// ajoute des aretes
     void ajouterSommets(); /// ajoute des sommets
     void supprimerSommets(); /// supprime des sommets

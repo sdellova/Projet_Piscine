@@ -185,3 +185,15 @@ void Sommet::setzeronbrchemin()
 {
     m_nbrchemins = 0;
 }
+
+///retourne 1 ou 0 si on sommet est contamine///
+bool Sommet::getImmunise()
+{
+    return m_immunise;
+}
+
+///modifie la contamination d'un sommet///
+void Sommet::setImmunise(bool valeur)
+{
+    m_immunise = valeur;
+}
