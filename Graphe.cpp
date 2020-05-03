@@ -205,12 +205,10 @@ void Graphe::menu()
             centralite_vecteur_propre(1);
             break;
         case 3 :
-            //indice_proximite(1);
-            intermediarite();
-
-            //Dijkstrat2(0,5);
+            indice_proximite(1);
             break;
         case 4 :
+            intermediarite();
             break;
         case 5 :
             dessiner(1);
@@ -713,7 +711,7 @@ void Graphe::connexite()
     }
 }
 
-std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
+std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
 {
     ///Initialisation
     std::vector<int> couleurs((int)m_sommets.size(),0);
@@ -728,41 +726,6 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
 
     dists[num_s0]=0;
     float CPT=0;
-    int id4=0;
-
-    /*Sommet* j = getSommetByIndice(num_s0);
-
-    if(p!=20)
-    {
-
-        for(int i=0; i<j->getVoisins().size(); i++)
-        {
-            Sommet* a =j->getVoisins()[i];
-            int id3 = a->getIndice();
-            couleurs2[id3]=1;
-
-
-        }
-        Sommet*b = j->getVoisins()[p];
-        //std::cout<<b->getNom();
-        id4 = b->getIndice();
-        couleurs2[id4]= 0;
-
-        for(int i=0; i<b->getVoisins().size(); i++)
-        {
-            Sommet* a =b->getVoisins()[i];
-            int id3 = a->getIndice();
-            //std::cout<<id3<<std::endl;
-            couleurs2[id3]=1;
-
-        }
-        Sommet*c = b->getVoisins()[rand() % (b->getVoisins().size()-1)];
-        int id5 = c->getIndice();
-        ///std::cout<<id5<<std::endl;
-        couleurs2[id5]= 0;
-
-    }*/
-
 
     ///Boucle de recherche
     do
@@ -795,7 +758,7 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
             {
                 Sommet* a =s->getVoisins()[i];
                 int id3 = a->getIndice();
-                //std::cout<<id3<<std::endl;
+
                 couleurs2[id3]=1;
 
             }
@@ -803,7 +766,6 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
 
             Sommet*c = s->getVoisins()[rand()%(s->getVoisins().size())];
             int id5 = c->getIndice();
-            ///std::cout<<id5<<std::endl;
             couleurs2[id5]= 0;
         }
 
@@ -846,7 +808,6 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
     std::vector<int> longueur;
     bool b=true;
     int a=0;
-    int cpt=0;
     int i=num_Sf;
     if(i!=num_s0)
     {
@@ -880,12 +841,9 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
             }
             else
             {
-                //std::cout<<"="<<dists[num_Sf]<<std::endl;
-                cpt=dists[num_Sf];
                 if(b)
                 {
                     chemin.push_back(num_s0);
-                    //chemin.push_back(cpt);
 
                     b=false;
                 }
@@ -898,22 +856,18 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
 
     int lc=0;
 
-    for(int i=0; i<chemin.size()-1; i++)
+    for(size_t i=0; i<chemin.size()-1; i++)
     {
 
-        //std::cout<<"debut"<<std::endl;
         Sommet*a=getSommetByIndice(chemin[i]);
         Sommet*b=getSommetByIndice(chemin[i+1]);
-        //std::cout<<"trouve pas n :"<<i<<"et "<<i+1<<std::endl;
+
         std::vector<Arete*> ar = getAretesBy2Sommets(a,b);
-        // std::cout<<"trouve"<<std::endl;
         Arete* z = ar[0];
-        //std::cout<<"poids nouv :"<<z->getPoids()<<std::endl;
-        //std::cout<<"taille :"<<ar.size()<<std::endl;
 
         if(ar.size()!=0)
         {
-            for(int j=1; j<ar.size(); j++)
+            for(size_t j=1; j<ar.size(); j++)
             {
                 Arete* y = ar[j];
                 if(y->getPoids()>z->getPoids())
@@ -924,17 +878,10 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
             }
         }
         lc+=z->getPoids();
-        //std::cout<<"poids "<<i<<" : "<<lc<<std::endl;
-
-
 
     }
-    //std::cout<<"longueur chemin : "<<lc<<std::endl;
     chemin.insert(chemin.begin(), lc);
-    /*for(int i=0; i<chemin.size(); i++)
-    {
-        std::cout<<chemin[i]<<std::endl;
-    }*/
+
     return chemin;
 
 }
@@ -949,41 +896,36 @@ void Graphe::calculintermediarite(int indice1, int indice2)
     std::cout<<"valeur ref : "<<valref<<std::endl;
 
     std::vector<std::vector<int>> listechemins;
-    //nouvchemin=Dijkstrat2(1,5,1,1);
+
 
     for(int i=0; i<m_ordre*5; i++)
     {
         std::vector<int>nouvchemin;
-        //std::cout<<"av"<<std::endl;
-        nouvchemin=Dijkstrat2(indice1, indice2,1,1);
+        nouvchemin=Dijkstrat2(indice1, indice2);
         if(nouvchemin.size()!=0)
         {
-            //std::cout<<"ap"<<std::endl;
-            //std::cout<<"longueur :"<<nouvchemin[0]<<std::endl;
             if(nouvchemin[0]==valref)
             {
-                //std::cout<<"rentre dans le if"<<std::endl;
                 listechemins.push_back(nouvchemin);
-                //std::cout<<"on ajoute"<<std::endl;
                 nbrchemin++;
             }
         }
         Sleep(800);
     }
     std::cout<<"Nombres de chemins avant sup : "<<listechemins.size()<<std::endl;
-    for(int j=0; j<listechemins.size(); j++)
+    for(size_t j=0; j<listechemins.size(); j++)
     {
         std::cout<<"chemin n : "<<j<<std::endl;
-        for(int i=1; i<listechemins[j].size(); i++)
+        for(size_t i=1; i<listechemins[j].size(); i++)
         {
             std::cout<<" "<<listechemins[j][i];
         }
         std::cout<<"\n"<<std::endl;
     }
-    for(int k=0; k<listechemins.size()-1; k++)
+    for(size_t k=0; k<listechemins.size()-1; k++)
     {
 
-        for(int j=k+1; j<listechemins.size(); j++)
+        for(size_t j=k+1; j<listechemins.size(); j++)
         {
 
             if(listechemins[k].size()==listechemins[j].size())
@@ -1000,8 +942,6 @@ void Graphe::calculintermediarite(int indice1, int indice2)
                 }
                 if(cpt==taille)
                 {
-                    //std::cout<<"doublons entre "<<k<<" et "<<j<<std::endl;
-                    //listechemins[j].clear();
                     listechemins.erase(listechemins.cbegin()+j);
                     j--;
                 }
@@ -1009,7 +949,7 @@ void Graphe::calculintermediarite(int indice1, int indice2)
 
         }
     }
-    //listechemins.shrink_to_fit();
+
     std::cout<<"Nombres de chemins apres sup : "<<listechemins.size()<<std::endl;
     for(int j=0; j<listechemins.size(); j++)
     {
