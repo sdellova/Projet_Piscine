@@ -117,3 +117,31 @@ void Sommet::setContamine(bool valeur)
 {
     m_contamine = valeur;
 }
+void Sommet::setIndice_intermediarite(float indice_intermediarite)
+{
+    m_indice_intermediarite += indice_intermediarite;
+}
+float Sommet::getIndice_intermediarite()
+{
+    return m_indice_intermediarite;
+}
+void Sommet::setIndice_intermediarite_normalise(float indice_intermediarite_normalise)
+{
+    m_indice_intermediarite_normalise = indice_intermediarite_normalise;
+}
+float Sommet::getIndice_intermediarite_normalise()
+{
+    return m_indice_intermediarite_normalise;
+}
+float Sommet::getnbrchemin()
+{
+    return m_nbrchemins;
+}
+void Sommet::ajoutnbrchemin()
+{
+    m_nbrchemins++;
+}
+void Sommet::setzeronbrchemin()
+{
+    m_nbrchemins = 0;
+}

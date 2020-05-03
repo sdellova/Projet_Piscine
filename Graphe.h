@@ -40,6 +40,7 @@ public:
     bool sommetExistant(int indice, std::string nom = "");
     bool indice_proximite(bool a);
     void intermediarite();
+    void calculintermediarite(int indice1, int indice2);
     void sauvegarde();
     void connexite();
     std::vector<int> Dijkstrat2(int num_s0, int num_Sf, int p, int m);
