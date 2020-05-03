@@ -11,6 +11,10 @@
 #include <conio.h>
 #include <windows.h>
 #include <time.h>
+#include <ctime>
+#include <cstdlib>
+#include<math.h>
+#define M_PI 3.14159265358979323846
 
 class Graphe
 {
@@ -42,13 +46,13 @@ public:
     void ajouterAretes();
     void ajouterSommets();
     void supprimerSommets();
-    bool effectue(int taille, int k);
-    bool combinaisons(int taille, int k, int x, int *L, int *t, int r);
     int getDegreMax();
     std::ifstream afficherMenu();
     double getIndiceProximiteMax();
     void simulation();
     void parcours(Sommet* sommet);
+    bool effectue(int n, int p);
+    bool combinaisons(int n, int p, int k, int *L, int *t, int r);
 private:
     bool m_orientation;
     int m_ordre;

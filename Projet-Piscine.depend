@@ -40,10 +40,12 @@
 1588004957 source:c:\users\seb\documents\projet-piscine\projet-piscine\graphe.cpp
 	"Graphe.h"
 
-1588442316 source:c:\users\seb\documents\projet_piscine\graphe.cpp
+1588458793 source:c:\users\seb\documents\projet_piscine\graphe.cpp
 	"Graphe.h"
+	<cstdlib>
+	<ctime>
 
-1588441781 c:\users\seb\documents\projet_piscine\graphe.h
+1588451406 c:\users\seb\documents\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
@@ -62,7 +64,7 @@
 	<iostream>
 	<sstream>
 
-1588439874 c:\users\seb\documents\projet_piscine\sommet.h
+1588451003 c:\users\seb\documents\projet_piscine\sommet.h
 	<string>
 	<vector>
 
@@ -160,7 +162,7 @@
 	<iostream>
 	"Graphe.h"
 
-1588442701 c:\users\elyes\documents\github\projet_piscine\graphe.h
+1588454713 c:\users\elyes\documents\github\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
@@ -170,6 +172,7 @@
 	<cmath>
 	<conio.h>
 	<windows.h>
+	<time.h>
 
 1588006741 c:\users\elyes\documents\github\projet_piscine\svgfile.h
 	<string>
@@ -193,7 +196,7 @@
 1588442345 source:c:\users\elyes\documents\github\projet_piscine\sommet.cpp
 	"Sommet.h"
 
-1588446823 source:c:\users\elyes\documents\github\projet_piscine\graphe.cpp
+1588457547 source:c:\users\elyes\documents\github\projet_piscine\graphe.cpp
 	"Graphe.h"
 	<cstdlib>
 	<ctime>
