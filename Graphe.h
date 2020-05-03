@@ -33,7 +33,6 @@ public:
     float Dijkstrat(int num_s0, int num_Sf);
     std::vector<Arete*> getAretesBySommet(Sommet* sommet);
     std::vector<Arete*> getAretesBy2Sommets(Sommet* sommet1, Sommet* sommet2);
-    float indice_proximite_normalise(int s);
     int getPositionAreteByIndice(int indice);
     int getPositionSommetByIndice(int indice);
     bool areteExistante(int indice);
@@ -52,9 +51,12 @@ public:
     double getIndiceProximiteMax();
     void simulation();
     void parcours(Sommet* sommet);
-    bool BFS(int num_s0)const;
+    bool appelBFS();
+    std::vector<int> BFS(int num_s0)const;
     bool effectue(int n, int p);
     bool combinaisons(int n, int p, int k, int *L, int *t, int r);
+    bool afficher_parcours(int num,const std::vector<int>& arbre);
+
 private:
     bool m_orientation;
     int m_ordre;

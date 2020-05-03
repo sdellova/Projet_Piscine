@@ -65,6 +65,7 @@ repere:
             getAreteByIndice(indice)->setPoids(poids);
         }
     }
+    indice_proximite(0);
 }
 
 void Graphe::dessiner(int valeur)
@@ -171,26 +172,27 @@ Arete* Graphe::getAreteByIndice(int indice)
 void Graphe::menu()
 {
     int choix;
-    while(choix != 14)
+    while(choix != 15)
     {
         choix = 0;
-        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9 && choix != 10 && choix != 11 && choix != 12 && choix != 13 && choix!= 14)
+        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9 && choix != 10 && choix != 11 && choix != 12 && choix != 13 && choix!= 14 && choix != 15)
         {
-            //system("cls");
+            system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
             std::cout << "2) Calculer les indices de centralite de vecteur propre" << std::endl;
-            std::cout << "3) Calculer les indices de centralite de proximite" << std::endl << std::endl;
-            std::cout << "4) Afficher les indices de centralite normalises sur le svg" << std::endl;
-            std::cout << "5) Afficher les indices de centralite non normalises sur le svg" << std::endl;
-            std::cout << "6) Masquer les indices de centralite sur le svg" << std::endl << std::endl;
-            std::cout << "7) Etudier la connexite du graphe" << std::endl << std::endl;
-            std::cout << "8) Ajouter des aretes au graphe" << std::endl;
-            std::cout << "9) Supprimer des aretes du graphe" << std::endl;
-            std::cout << "10) Ajouter des sommets au graphe" << std::endl;
-            std::cout << "11) Supprimer des sommets du graphe" << std::endl << std::endl;
-            std::cout << "12) Lancer la simulation" << std::endl << std::endl;
-            std::cout << "13) Charger un nouveau fichier de ponderation" << std::endl;
-            std::cout << "14) Quitter" << std::endl << std::endl;
+            std::cout << "3) Calculer les indices de centralite de proximite" << std::endl;
+            std::cout << "4) Calculer les indices de centralite d'intermediarite" << std::endl << std::endl;
+            std::cout << "5) Afficher les indices de centralite normalises sur le svg" << std::endl;
+            std::cout << "6) Afficher les indices de centralite non normalises sur le svg" << std::endl;
+            std::cout << "7) Masquer les indices de centralite sur le svg" << std::endl << std::endl;
+            std::cout << "8) Etudier la connexite du graphe" << std::endl << std::endl;
+            std::cout << "9) Ajouter des aretes au graphe" << std::endl;
+            std::cout << "10) Supprimer des aretes du graphe" << std::endl;
+            std::cout << "11) Ajouter des sommets au graphe" << std::endl;
+            std::cout << "12) Supprimer des sommets du graphe" << std::endl << std::endl;
+            std::cout << "13) Lancer la simulation" << std::endl << std::endl;
+            std::cout << "14) Charger un nouveau fichier de ponderation" << std::endl;
+            std::cout << "15) Quitter" << std::endl << std::endl;
             std::cout << "Que choisissez-vous ? ";
             std::cin >> choix;
         }
@@ -209,38 +211,41 @@ void Graphe::menu()
             //Dijkstrat2(0,5);
             break;
         case 4 :
-            dessiner(1);
             break;
         case 5 :
-            dessiner(2);
+            dessiner(1);
             break;
         case 6 :
-            dessiner();
+            dessiner(2);
             break;
         case 7 :
-            connexite();
+            dessiner();
             break;
         case 8 :
-            ajouterAretes();
+            connexite();
             break;
         case 9 :
-            supprimerAretes();
+            ajouterAretes();
             break;
         case 10 :
-            ajouterSommets();
+            supprimerAretes();
             break;
         case 11 :
-            supprimerSommets();
+            ajouterSommets();
             break;
         case 12 :
-            simulation();
+            supprimerSommets();
             break;
         case 13 :
-            ponderation();
+            simulation();
             break;
         case 14 :
+            ponderation();
+            break;
+        case 15 :
             exit(1);
             break;
+
         }
     }
 }
@@ -537,7 +542,6 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
                 }
             }
         }
-        //std::cout << "apres2" << std::endl;
     }
     while(couleurs[num_Sf]==0);
     ///Affichage du parcours
@@ -684,7 +688,7 @@ void Graphe::connexite()
 {
     int degreMax = getDegreMax();
     system("cls");
-    if(indice_proximite(0))
+    if(appelBFS())
     {
         std::cout << "Le graphe est connexe." << std::endl << std::endl;
         bool a;
@@ -1287,7 +1291,7 @@ double Graphe::getIndiceProximiteMax()
 
 void Graphe::simulation()
 {
-
+    int choix;
     for(int i=0 ; i<m_ordre ; ++i)
     {
         delete m_sommets[i];
@@ -1302,7 +1306,6 @@ void Graphe::simulation()
     m_indiceCentraliteProximiteGlobal = 0;
     m_taille = 0;
     srand(time(NULL));
-    int choix;
     double interactions;
 
     system("cls");
@@ -1329,52 +1332,140 @@ void Graphe::simulation()
         do
         {
             random1 = rand()%(m_ordre);
-            std::cout << "random1:" << random1 << std::endl;
             Sleep(100);
             random2 = rand()%(m_ordre);
             Sleep(100);
         }
-        while(getAretesBy2Sommets(getSommetByIndice(random1), getSommetByIndice(random2)).size() != 0 && getAretesBy2Sommets(getSommetByIndice(random2), getSommetByIndice(random1)).size() != 0);
+        while(getAretesBy2Sommets(getSommetByIndice(random1), getSommetByIndice(random2)).size() != 0 || random1 == random2);
         m_aretes.push_back(new Arete{i, getSommetByIndice(random1), getSommetByIndice(random2)});
         getSommetByIndice(random1)->ajouter_voisins(getSommetByIndice(random2));
         getSommetByIndice(random2)->ajouter_voisins(getSommetByIndice(random1));
         ++ m_taille;
-        dessiner();
-        Sleep(2000);
     }
+    dessiner();
+    int entree;
     do
     {
-        system("cls");
-        std::cout << "Entrez l'indice du sommet a contaminer : ";
-        std::cin >> choix;
-        if(!sommetExistant(choix))
+        bool var;
+        do
         {
-            std::cout << std::endl << "Probleme !";
-            Sleep(2000);
+            var = 0;
+            system("cls");
+            std::cout << "Entrez l'indice du sommet a contaminer : ";
+            std::cin >> choix;
+            if(!sommetExistant(choix))
+            {
+                std::cout << std::endl << "Le sommet n'existe pas.";
+                Sleep(2000);
+            }
+            if(sommetExistant(choix))
+            {
+                if(getSommetByIndice(choix)->getContamine())
+                {
+                    std::cout << std::endl << "Le sommet a deja ete contamine.";
+                    Sleep(2000);
+                    var = 1;
+                }
+            }
         }
-    }
-    while(!sommetExistant(choix));
+        while(!sommetExistant(choix) || var);
 
-    //getSommetByIndice(choix)->setContamine(1);
-    //parcours(getSommetByIndice(choix));
-    dessiner(3);
+        //getSommetByIndice(choix)->setContamine(1);
+        //parcours(getSommetByIndice(choix));
+        dessiner(3);
+        int nbre = 0;
+        for(int i=0 ; i<m_ordre ; ++i)
+        {
+            if(m_sommets[i]->getContamine())
+                ++nbre;
+        }
+        std::cout << std::endl << std::endl << nbre/m_ordre * 100 << "% de la population a ete contaminee.";
+        std::cout << std::endl << "Le seuil epidemique est de " << 1 / m_ordre * 100 << "% ." << std::endl << std::endl;
+        do
+        {
+            std::cout << "1) Contaminer une autre personne" << std::endl;
+            std::cout << "2) Immuniser une personne" << std::endl;
+            std::cout << "3) Quitter" << std::endl;
+            std::cout << "Que voulez-vous faire ? ";
+            std::cin >> entree;
+        }
+        while(entree != 1 && entree != 2 && entree != 3);
+    }
+    while(entree == 1);
+    for(int i=0; i<m_ordre; ++i)
+    {
+        m_sommets[i]->setContamine(0);
+    }
 }
+
 
 void Graphe::parcours(Sommet* sommet)
 {
     if(sommet->getVoisins().size() == 0)
+    {
         return;
-    for(size_t i = 0 ; i < sommet->getVoisins().size() ; ++i)
-    {
-        sommet->getVoisins()[i]->setContamine(1);
     }
     for(size_t i = 0 ; i < sommet->getVoisins().size() ; ++i)
     {
-        parcours(sommet->getVoisins()[i]);
+        if(sommet->getVoisins()[i]->getContamine()==0)
+        {
+            sommet->getVoisins()[i]->setContamine(1);
+            dessiner(3);
+            Sleep(500);
+            parcours(sommet->getVoisins()[i]);
+        }
+
     }
+
+
 }
 
-bool Graphe::BFS(int num_s0)const
+bool Graphe::appelBFS()
+{
+    bool a;
+    for(size_t i=0; i<m_sommets.size(); ++i)
+    {
+        std::vector<int> arbre_BFS=BFS(m_sommets[i]->getIndice());
+        a=afficher_parcours(m_sommets[i]->getIndice(),arbre_BFS);
+        if(!a)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+bool Graphe::afficher_parcours(int num,const std::vector<int>& arbre)
+{
+    std::vector<int> tout_i;
+    for(size_t i=0;i<arbre.size();++i)
+        {
+        if(i!=num)
+        {
+            if(arbre[i]!=-1)
+            {
+                tout_i.push_back(i);
+
+            }
+        }
+    }
+    for(size_t i=0; i<tout_i.size(); ++i)
+    {
+        std::cout<<"tout i:"<<tout_i[i]<<std::endl;
+    }
+        for(size_t i=0; i<m_sommets.size(); ++i)
+    {
+        std::cout<<"sommets i:"<<m_sommets[i]->getIndice()<<std::endl;
+    }
+
+    if(tout_i.size()!=(m_sommets.size()-1))
+    {
+        return 0;
+    }
+    return 1;
+}
+
+std::vector<int> Graphe::BFS(int num_s0)const
 {
     /// d�claration de la file
     std::queue<Sommet*> file;
@@ -1382,12 +1473,11 @@ bool Graphe::BFS(int num_s0)const
     std::vector<int> couleurs((int)m_sommets.size(),0);
     ///pour noter les pr�d�cesseurs : on note les num�ros des pr�d�cesseurs (on pourrait stocker des pointeurs sur ...)
     std::vector<int> preds((int)m_sommets.size(),-1);
-    int CPT=0;
     ///�tape initiale : on enfile et on marque le sommet initial
     file.push(m_sommets[num_s0]);
     couleurs[num_s0] = 1;
 
-    Sommet*s;
+    Sommet* s;
     ///tant que la file n'est pas vide
     while(!file.empty())
     {
@@ -1399,11 +1489,6 @@ bool Graphe::BFS(int num_s0)const
         ///pour chaque successeur du sommet d�fil�
         for(auto succ:s->getVoisins())
         {
-            CPT++;
-            if(CPT>50)
-            {
-                return 0;
-            }
             int id = succ->getIndice();
             if(couleurs[id] == 0)                               ///s'il n'est pas marqu�
             {
@@ -1414,8 +1499,9 @@ bool Graphe::BFS(int num_s0)const
             }
         }
     }
-    return 1;
+    return preds;
 }
+
 bool Graphe::combinaisons(int n, int p, int k, int *L, int *t, int r)
 {
     int i, j, j1, t2[n];
@@ -1437,9 +1523,9 @@ bool Graphe::combinaisons(int n, int p, int k, int *L, int *t, int r)
             m_aretes.erase(m_aretes.begin() + L[i] - i);
             --m_taille;
         }
-        std::cout << "avant";
-        bool a = indice_proximite(0);
-        std::cout << "apres" << std::endl;
+        //std::cout << "avant";
+        bool a = appelBFS();
+        //std::cout << "apres" << std::endl;
         if(!a)
             return 0;
         for(i=0; i<k; ++i)
