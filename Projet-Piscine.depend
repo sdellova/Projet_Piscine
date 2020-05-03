@@ -40,10 +40,13 @@
 1588004957 source:c:\users\seb\documents\projet-piscine\projet-piscine\graphe.cpp
 	"Graphe.h"
 
-1588515513 source:c:\users\seb\documents\projet_piscine\graphe.cpp
+1588519893 source:c:\users\seb\documents\projet_piscine\graphe.cpp
 	"Graphe.h"
+	<cstdlib>
+	<ctime>
+	<queue>
 
-1588506530 c:\users\seb\documents\projet_piscine\graphe.h
+1588520503 c:\users\seb\documents\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
