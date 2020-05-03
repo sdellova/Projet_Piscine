@@ -3,7 +3,7 @@
 #include <ctime>
 #include <queue>
 
-
+///constructeur de la classe graphe permettant de lire et charger un fichier d'apres son nom///
 Graphe::Graphe(std::ifstream ifs)
 {
     int indice, extremite1, extremite2;
@@ -25,6 +25,7 @@ Graphe::Graphe(std::ifstream ifs)
         getSommetByIndice(extremite2)->ajouter_voisins(getSommetByIndice(extremite1));
     }
 }
+
 
 void Graphe::ponderation()
 {
@@ -153,6 +154,7 @@ void Graphe::dessiner(int valeur)
     }
 }
 
+///retourn un sommet grace a son indice///
 Sommet* Graphe::getSommetByIndice(int indice)
 {
     int i = 0;
@@ -163,6 +165,7 @@ Sommet* Graphe::getSommetByIndice(int indice)
     return m_sommets[i];
 }
 
+///retourne une arrete grace a son indice///
 Arete* Graphe::getAreteByIndice(int indice)
 {
     int i = 0;
@@ -173,6 +176,7 @@ Arete* Graphe::getAreteByIndice(int indice)
     return m_aretes[i];
 }
 
+///affiche le menu et grace au switch permet d'utliser les methodes de graphe///
 void Graphe::menu()
 {
     int choix;
@@ -318,6 +322,8 @@ void Graphe::supprimerAretes()
     }
 }
 
+///d'apres l'indice de l'arrete///
+///retourne 1 si l'arrete existe 0 sinon///
 bool Graphe::areteExistante(int indice)
 {
     if(m_taille == 0)
@@ -334,6 +340,8 @@ bool Graphe::areteExistante(int indice)
     return 1;
 }
 
+///grace a son nom et son indice permet de savoir si un sommet existe///
+///retourne 1 si il existe 0 sinon///
 bool Graphe::sommetExistant(int indice, std::string nom)
 {
     if(m_ordre == 0)
@@ -350,6 +358,7 @@ bool Graphe::sommetExistant(int indice, std::string nom)
     return 1;
 }
 
+///retourne la position dans le vecteur d'arrete de l'arrete choisi grace a son indice///
 int Graphe::getPositionAreteByIndice(int indice)
 {
     int i = 0;
@@ -360,6 +369,7 @@ int Graphe::getPositionAreteByIndice(int indice)
     return i;
 }
 
+///retourne la position dans le vecteur de sommet le sommet choisi grace a son indice///
 int Graphe::getPositionSommetByIndice(int indice)
 {
     int i = 0;
@@ -370,22 +380,28 @@ int Graphe::getPositionSommetByIndice(int indice)
     return i;
 }
 
+///retourne l'ordre du graphe///
 int Graphe::getOrdre() const
 {
     return m_ordre;
 }
 
+///retourne la taille du graphe///
 int Graphe::getTaille()
 {
     return m_taille;
 }
 
+///permet de calculer la centralite de gre normalise et non normalise de tout les sommets du graphe///
+///affiche aussi les resultats obtenue///
 void Graphe::centralite_degre(bool valeur)
 {
     double ordre=m_ordre;
     for(int i=0 ; i<m_ordre ; ++i)
     {
+        ///calcul le nombre de voisin d'un sommet soit son degree///
         m_sommets[i]->setIndice_degre(m_sommets[i]->getVoisins().size());
+        ///puis normalise le degre de chaque sommet///
         m_sommets[i]->setIndice_degreNormalise(m_sommets[i]->getVoisins().size()/(ordre-1));
     }
 
@@ -406,12 +422,14 @@ void Graphe::centralite_degre(bool valeur)
     }
 }
 
+///calcul et affiche la centralite de vecteur propre non normalise et normalise de chaque sommet///
 void Graphe::centralite_vecteur_propre(bool valeur)
 {
     std::vector<double> tmp(m_ordre);
     double a;
     double lambda = 0;
     double ancienLambda;
+    ///on initialise tout les indices des sommets a 1///
     for(int i=0 ; i<m_ordre ; ++i)
     {
         m_sommets[i]->setIndice_vecteur_propre(1);
@@ -438,7 +456,9 @@ void Graphe::centralite_vecteur_propre(bool valeur)
         lambda = sqrt(a);
         for(int i=0 ; i<m_ordre ; ++i)
         {
+            ///calcul la centralite de vecteur propre de chaque sommet///
             m_sommets[i]->setIndice_vecteur_propre(tmp[i] / lambda);
+            ///puis le normalise///
             m_sommets[i]->setIndice_vecteur_propreNormalise(m_sommets[i]->getIndice_vecteur_propre() / (m_ordre-1));
         }
     }
@@ -489,6 +509,7 @@ std::vector<Arete*> Graphe::getAretesBy2Sommets(Sommet* sommet1, Sommet* sommet2
 
 float Graphe::Dijkstrat(int num_s0, int num_Sf)
 {
+    ///Dijkstrat du TP3
     ///Initialisation
     std::vector<int> couleurs((int)m_sommets.size(),0);
     std::vector<int> preds((int)m_sommets.size(),-1);
@@ -555,26 +576,21 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     {
         if(preds[i]!=-1)
         {
-            // std::cout<<i<<" <-- ";
             longueur.push_back(dists[i]);
 
             int j=preds[i];
             while(j!=num_s0)
             {
-                //std::cout<<j<<" <-- ";
                 longueur.push_back(dists[j]);
                 j=preds[j];
             }
-            //std::cout<<j<<" : longueur ";
         }
         longueur.push_back(0);
         for(size_t y=0; y<longueur.size()-1; ++y)
         {
             if(y!=longueur.size()-2)
                 a+=1;
-            //std::cout<<"+";
             else
-                // std::cout<<"="<<dists[num_Sf]<<std::endl;
                 cpt=dists[num_Sf];
         }
     }
@@ -585,6 +601,7 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
 
 bool Graphe::indice_proximite(bool a)
 {
+    ///Algorithme de l'indice de proximite
     bool connexe=1;
     float calcul;
     float distance=0;
@@ -594,12 +611,12 @@ bool Graphe::indice_proximite(bool a)
         calcul=0;
         distance=0;
         res=0;
-        if(m_sommets[j]->getVoisins().size()==0)
+        if(m_sommets[j]->getVoisins().size()==0) ///si le sommet n'a pas de voisins on set ses indices a zero
         {
             m_sommets[j]->setIndice_proximite(0);
             m_sommets[j]->setIndice_proximiteNormalise(0);
             j++;
-            connexe = 0;
+            connexe = 0; /// on indique que le graphe n'est pas connexe
         }
         if(j<m_sommets.size())
         {
@@ -607,7 +624,7 @@ bool Graphe::indice_proximite(bool a)
             {
                 if(i<m_sommets.size())
                 {
-                    if(m_sommets[i]->getVoisins().size()==0)
+                    if(m_sommets[i]->getVoisins().size()==0) /// si le sommet vise n'a pas de voisins on passe au sommet suivant
                     {
                         i++;
                     }
@@ -615,39 +632,39 @@ bool Graphe::indice_proximite(bool a)
                 if(i<m_sommets.size())
                 {
 
-                    if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
+                    if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice()) ///si les deux sommets sont identiques on passes a un sommet final suivant
                     {
                         i++;
                     }
 
                     if(i<m_sommets.size())
                     {
-                        res=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
+                        res=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice()); /// on calcul la somme des plus courts chemin
                         distance+=res;
 
                         if(res==0)
                         {
-                            connexe=0;
+                            connexe=0; /// si le resultat est zero on indique que le graphe n'est pas connexe
                         }
                     }
                 }
             }
         }
-        calcul=1/distance;
+        calcul=1/distance; /// calcul de l'indice de proximite non normalise
         if(j<m_sommets.size())
         {
             m_sommets[j]->setIndice_proximite(calcul);
-            m_sommets[j]->setIndice_proximiteNormalise(calcul * (m_ordre - 1));
+            m_sommets[j]->setIndice_proximiteNormalise(calcul * (m_ordre - 1)); /// indice normalise
         }
     }
     double x = 0;
-    for(int i = 0 ; i<m_ordre ; ++i)
+    for(int i = 0 ; i<m_ordre ; ++i) /// calcul d'un indice de proximite moyen du graphe
     {
         x += getIndiceProximiteMax() - m_sommets[i]->getIndice_proximite();
     }
     x/= (pow(m_ordre, 2) - (3 * m_ordre) + 2)/((2 * m_ordre) - 3);
     m_indiceCentraliteProximiteGlobal = x;
-    if(a)
+    if(a) /// affichage des resultats
     {
         system("cls");
         std::cout << "                                              Centralite de proximite" << std::endl << std::endl << std::endl;
@@ -718,6 +735,8 @@ void Graphe::connexite()
 
 std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
 {
+    ///Dijkstrat du TP3 modifie pour la centralite d'intermediarite
+    /// calcul aleatoire de chemin entre 2 sommets
     ///Initialisation
     std::vector<int> couleurs((int)m_sommets.size(),0);
     std::vector<int> couleurs2((int)m_sommets.size(),0);
@@ -731,40 +750,6 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
 
     dists[num_s0]=0;
     float CPT=0;
-
-    /*Sommet* j = getSommetByIndice(num_s0);
-
-    if(p!=20)
-    {
-
-        for(int i=0; i<j->getVoisins().size(); i++)
-        {
-            Sommet* a =j->getVoisins()[i];
-            int id3 = a->getIndice();
-            couleurs2[id3]=1;
-
-
-        }
-        Sommet*b = j->getVoisins()[p];
-        //std::cout<<b->getNom();
-        id4 = b->getIndice();
-        couleurs2[id4]= 0;
-
-        for(int i=0; i<b->getVoisins().size(); i++)
-        {
-            Sommet* a =b->getVoisins()[i];
-            int id3 = a->getIndice();
-            //std::cout<<id3<<std::endl;
-            couleurs2[id3]=1;
-
-        }
-        Sommet*c = b->getVoisins()[rand() % (b->getVoisins().size()-1)];
-        int id5 = c->getIndice();
-        ///std::cout<<id5<<std::endl;
-        couleurs2[id5]= 0;
-
-    }*/
-
 
     ///Boucle de recherche
     do
@@ -793,7 +778,7 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
 
         if(couleurs[id]==1)
         {
-            for(size_t i=0; i<s->getVoisins().size(); i++)
+            for(size_t i=0; i<s->getVoisins().size(); i++)///coloration de tout ses sommets
             {
                 Sommet* a =s->getVoisins()[i];
                 int id3 = a->getIndice();
@@ -803,7 +788,7 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
             }
 
 
-            Sommet*c = s->getVoisins()[rand()%(s->getVoisins().size())];
+            Sommet*c = s->getVoisins()[rand()%(s->getVoisins().size())];///decoloration d'un de ses sommets aleatoire pour l'obliger a passer par ce point
             int id5 = c->getIndice();
             couleurs2[id5]= 0;
         }
@@ -814,11 +799,10 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
             std::vector<Arete*> a ;
             a = getAretesBySommet(s2);
 
-
             CPT++;
             if(CPT>70)
             {
-                return nul;
+                return nul; ///return nul si il met trop de temps a trouver un chemin
             }
             int dis2;
             for(size_t o =0; o<a.size(); o++)
@@ -827,18 +811,14 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
                 dis2=a[o]->getPoids();
                 if(!(couleurs2[id2])&& couleurs[id2]!=1)
                 {
-                    if((dMin+dis2)<=dists[id2] || dists[id2]==-1)//1=poids arrete (s2.second)
+                    if((dMin+dis2)<=dists[id2] || dists[id2]==-1)
                     {
-                        dists[id2]=dMin+dis2;//pareil que ligne 149
+                        dists[id2]=dMin+dis2;
                         preds[id2]=id;
-                        //couleurs[id2]=1;
                     }
                 }
             }
-
-
         }
-
     }
     while(couleurs[num_Sf]==0 );
 
@@ -852,22 +832,17 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
     {
         if(preds[i]!=-1)
         {
-            //std::cout<<i<<" <-- ";
-            //std::cout<<"dist  :"<<dists[i];
             chemin.push_back(i);
             longueur.push_back(dists[i]);
-
 
             int j=preds[i];
             while(j!=num_s0)
             {
-                //std::cout<<j<<" <-- ";
                 chemin.push_back(j);
                 longueur.push_back(dists[j]);
                 j=preds[j];
 
             }
-            //std::cout<<j<<" : longueur ";
         }
         longueur.push_back(0);
         for(size_t y=0; y<longueur.size()-1; ++y)
@@ -875,33 +850,26 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
             if(y!=longueur.size()-2)
             {
                 a+=1;
-                //std::cout<<"+";
-
             }
             else
             {
                 if(b)
                 {
                     chemin.push_back(num_s0);
-
                     b=false;
                 }
-
             }
-
         }
     }
 
-
-    int lc=0;
+    int lc=0; /// calcul du poids du chemin
 
     for(size_t i=0; i<chemin.size()-1; i++)
     {
-
         Sommet*a=getSommetByIndice(chemin[i]);
         Sommet*b=getSommetByIndice(chemin[i+1]);
 
-        std::vector<Arete*> ar = getAretesBy2Sommets(a,b);
+        std::vector<Arete*> ar = getAretesBy2Sommets(a,b); /// retourne un vector d'arete en 2 points
         Arete* z = ar[0];
 
         if(ar.size()!=0)
@@ -909,17 +877,15 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
             for(size_t j=1; j<ar.size(); j++)
             {
                 Arete* y = ar[j];
-                if(y->getPoids()>z->getPoids())
+                if(y->getPoids()>z->getPoids()) ///on regarde quelle arete est la plus legere
                 {
                     z=y;
                 }
-
             }
         }
         lc+=z->getPoids();
-
     }
-    chemin.insert(chemin.begin(), lc);
+    chemin.insert(chemin.begin(), lc); ///insert du poids du chemin au debut du vector chemin
 
     return chemin;
 
@@ -1533,8 +1499,8 @@ void Graphe::intermediarite()
 
     for(size_t k=0; k<m_sommets.size(); k++)
     {
-        float indice_non_norm = getSommetByIndice(k)->getIndice_intermediarite();
-        float calcul= (2*indice_non_norm)/((m_ordre*m_ordre)+((-3)*m_ordre)+2);
+        float indice_non_norm = getSommetByIndice(k)->getIndice_intermediarite(); /// on recupere l'indice non normalise
+        float calcul= (2*indice_non_norm)/((m_ordre*m_ordre)+((-3)*m_ordre)+2); /// calcul de l'indice normalise
 
         getSommetByIndice(k)->setIndice_intermediarite_normalise(calcul);
 
