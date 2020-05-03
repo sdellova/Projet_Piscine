@@ -30,6 +30,13 @@ public:
     float getIndice_proximiteNormalise();
     bool getContamine();
     void setContamine(bool valeur);
+    void setIndice_intermediarite(float indice_intermediarite);
+    float getIndice_intermediarite();
+    void setIndice_intermediarite_normalise(float indice_intermediarite_normalise);
+    float getIndice_intermediarite_normalise();
+    float getnbrchemin();
+    void ajoutnbrchemin();
+    void setzeronbrchemin();
 private:
     int m_indice;
     std::string m_nom;
@@ -42,6 +49,8 @@ private:
     double m_indice_vecteur_propreNormalise;
     double m_indice_degreNormalise;
     float m_indice_proximiteNormalise;
+    float m_indice_intermediarite;
+    float m_indice_intermediarite_normalise;
 
     float m_nbrchemins;
     bool m_contamine;

@@ -205,7 +205,10 @@ void Graphe::menu()
             centralite_vecteur_propre(1);
             break;
         case 3 :
-            indice_proximite(1);
+            //indice_proximite(1);
+            intermediarite();
+
+            //Dijkstrat2(0,5);
             break;
         case 4 :
             break;
@@ -796,6 +799,8 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
                 couleurs2[id3]=1;
 
             }
+
+
             Sommet*c = s->getVoisins()[rand()%(s->getVoisins().size())];
             int id5 = c->getIndice();
             ///std::cout<<id5<<std::endl;
@@ -847,7 +852,7 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
     {
         if(preds[i]!=-1)
         {
-            std::cout<<i<<" <-- ";
+            //std::cout<<i<<" <-- ";
             //std::cout<<"dist  :"<<dists[i];
             chemin.push_back(i);
             longueur.push_back(dists[i]);
@@ -856,13 +861,13 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
             int j=preds[i];
             while(j!=num_s0)
             {
-                std::cout<<j<<" <-- ";
+                //std::cout<<j<<" <-- ";
                 chemin.push_back(j);
                 longueur.push_back(dists[j]);
                 j=preds[j];
 
             }
-            std::cout<<j<<" : longueur ";
+            //std::cout<<j<<" : longueur ";
         }
         longueur.push_back(0);
         for(size_t y=0; y<longueur.size()-1; ++y)
@@ -870,12 +875,12 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
             if(y!=longueur.size()-2)
             {
                 a+=1;
-                std::cout<<"+";
+                //std::cout<<"+";
 
             }
             else
             {
-                std::cout<<"="<<dists[num_Sf]<<std::endl;
+                //std::cout<<"="<<dists[num_Sf]<<std::endl;
                 cpt=dists[num_Sf];
                 if(b)
                 {
@@ -901,7 +906,7 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
         Sommet*b=getSommetByIndice(chemin[i+1]);
         //std::cout<<"trouve pas n :"<<i<<"et "<<i+1<<std::endl;
         std::vector<Arete*> ar = getAretesBy2Sommets(a,b);
-        //std::cout<<"trouve"<<std::endl;
+        // std::cout<<"trouve"<<std::endl;
         Arete* z = ar[0];
         //std::cout<<"poids nouv :"<<z->getPoids()<<std::endl;
         //std::cout<<"taille :"<<ar.size()<<std::endl;
@@ -924,102 +929,123 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
 
 
     }
-    std::cout<<"longueur chemin : "<<lc<<std::endl;
+    //std::cout<<"longueur chemin : "<<lc<<std::endl;
     chemin.insert(chemin.begin(), lc);
-    for(int i=0; i<chemin.size(); i++)
+    /*for(int i=0; i<chemin.size(); i++)
     {
         std::cout<<chemin[i]<<std::endl;
-    }
+    }*/
     return chemin;
 
 }
 
-void Graphe::intermediarite()
+void Graphe::calculintermediarite(int indice1, int indice2)
 {
 
-    /* float calcul;
-     float distance=0;
-     float res=0;
-     for(size_t j=0; j<m_sommets.size(); j++)
-     {
-         calcul=0;
-         distance=0;
-         res=0;
-         if(m_sommets[j]->getVoisins().size()==0)
-         {
-             // m_sommets[j]->setIndice_proximite(0);
-             // m_sommets[j]->setIndice_proximiteNormalise(0);
-
-             j++;
-         }
-
-         for(size_t i=0; i<m_sommets.size(); i++)
-         {
-             if(m_sommets[i]->getVoisins().size()==0)
-             {
-                 i++;
-             }
-
-             if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
-             {
-                 i++;
-             }
-             if(i<m_sommets.size())
-             {
-                */ // Dijkstrat2(1,5 , 20);
     int valref;
     int nbrchemin=0;
 
-    valref = Dijkstrat(1,5);
-    std::cout<<"valeur ref"<<valref<<std::endl;
-    std::vector<int>nouvchemin;
+    valref = Dijkstrat( indice1, indice2);
+    std::cout<<"valeur ref : "<<valref<<std::endl;
+
     std::vector<std::vector<int>> listechemins;
-    /*for(int i=0; i<30; i++)
+    //nouvchemin=Dijkstrat2(1,5,1,1);
+
+    for(int i=0; i<m_ordre*5; i++)
     {
-        size_t t = Dijkstrat2(1,5,1,1).size();
-
-        for(int j=0; j<t ; j++)
+        std::vector<int>nouvchemin;
+        //std::cout<<"av"<<std::endl;
+        nouvchemin=Dijkstrat2(indice1, indice2,1,1);
+        if(nouvchemin.size()!=0)
         {
-            nouvchemin[j]=Dijkstrat2(1,5,1,1);
-
-            std::cout<<"nouv"<<std::endl;
+            //std::cout<<"ap"<<std::endl;
+            //std::cout<<"longueur :"<<nouvchemin[0]<<std::endl;
+            if(nouvchemin[0]==valref)
+            {
+                //std::cout<<"rentre dans le if"<<std::endl;
+                listechemins.push_back(nouvchemin);
+                //std::cout<<"on ajoute"<<std::endl;
+                nbrchemin++;
+            }
         }
-        if(nouvchemin[0]=valref)
-        {
-            listechemins[nbrchemin]=nouvchemin;
-            nbrchemin++;
-        }
-        //Dijkstrat2(1, 5,1,1);
         Sleep(800);
     }
-    for(int p=0; p<3; p++)
+    std::cout<<"Nombres de chemins avant sup : "<<listechemins.size()<<std::endl;
+    for(int j=0; j<listechemins.size(); j++)
     {
-        Sommet* y= getSommetByIndice(1);
-        Sommet* l= y->getVoisins()[p];
-        for(int m=0; m<l->getVoisins().size(); m++)
+        std::cout<<"chemin n : "<<j<<std::endl;
+        for(int i=1; i<listechemins[j].size(); i++)
         {
-            Sommet* n= l->getVoisins()[m];
-            if(n->getIndice()==l->getIndice() || n->getIndice()==y->getIndice())
-            {
-                m++;
-            }
-            n= l->getVoisins()[m];
-            //std::cout<<n->getNom()<<std::endl;
-            Dijkstrat2( 1, 5, p, m);
+            std::cout<<" "<<listechemins[j][i];
         }
+        std::cout<<"\n"<<std::endl;
+    }
+    for(int k=0; k<listechemins.size()-1; k++)
+    {
+
+        for(int j=k+1; j<listechemins.size(); j++)
+        {
+
+            if(listechemins[k].size()==listechemins[j].size())
+            {
+                int taille = listechemins[k].size()-1;
+                int cpt=0;
+                for(int i=1; i<listechemins[k].size(); i++)
+                {
+
+                   if(listechemins[k][i]==listechemins[j][i])
+                   {
+                       cpt++;
+                   }
+                }
+                if(cpt==taille)
+                {
+                    //std::cout<<"doublons entre "<<k<<" et "<<j<<std::endl;
+                    //listechemins[j].clear();
+                    listechemins.erase(listechemins.cbegin()+j);
+                    j--;
+                }
+            }
+
+        }
+    }
+    //listechemins.shrink_to_fit();
+    std::cout<<"Nombres de chemins apres sup : "<<listechemins.size()<<std::endl;
+    for(int j=0; j<listechemins.size(); j++)
+    {
+        std::cout<<"chemin n : "<<j<<std::endl;
+        for(int i=1; i<listechemins[j].size(); i++)
+        {
+            std::cout<<" "<<listechemins[j][i];
+        }
+        std::cout<<"\n"<<std::endl;
+    }
+    for(int k=0; k<m_sommets.size(); k++)
+    {
+        getSommetByIndice(k)->setzeronbrchemin();
+        for(int i=0; i<listechemins.size(); i++)
+        {
+            for(int j=2; j<listechemins[i].size()-1; j++)
+            {
+                if(listechemins[i][j]==k)
+                {
+                    getSommetByIndice(k)->ajoutnbrchemin();
+                }
+            }
+        }
+        float calcul = getSommetByIndice(k)->getnbrchemin()/listechemins.size();
+        getSommetByIndice(k)->setIndice_intermediarite(calcul);
+
+
 
     }
-                }
 
-                //Dijkstrat2(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
-
-            }
-
-
+    for(int i=0 ; i<m_sommets.size(); i++)
+    {
+        std::cout<<"Sommet : "<<i<<"\t\t"<<getSommetByIndice(i)->getIndice_intermediarite()<<std::endl;
+    }
 
 
-        }
-    }*/
 
 }
 
@@ -1535,4 +1561,37 @@ bool Graphe::effectue(int n, int p)
         t[i] = i;
     }
     return combinaisons(n, p, 0, L, t, n);
+}
+
+void Graphe::intermediarite()
+{
+    for(int i=0 ; i<m_sommets.size()-1; i++)
+    {
+        for(int j=i+1; j<m_sommets.size(); j++)
+        {
+            calculintermediarite( i, j);
+        }
+    }
+
+    for(int k=0; k<m_sommets.size(); k++)
+    {
+        float indice_non_norm = getSommetByIndice(k)->getIndice_intermediarite();
+        float calcul= (2*indice_non_norm)/((m_ordre*m_ordre)+((-3)*m_ordre)+2);
+
+        getSommetByIndice(k)->setIndice_intermediarite_normalise(calcul);
+
+    }
+    system("cls");
+    std::cout << "                                              Centralite d'intermediarite" << std::endl << std::endl << std::endl;
+    std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+        std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   " << m_sommets[i]->getIndice_intermediarite() << "               " << m_sommets[i]->getIndice_intermediarite_normalise() << std::endl;
+    }
+    std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
+    while(getch() != 13)
+    {
+
+    }
+
 }
