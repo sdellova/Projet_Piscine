@@ -204,7 +204,7 @@ void Graphe::menu()
             break;
         case 3 :
             //indice_proximite(1);
-            intermediarite();
+            //intermediarite();
             //Dijkstrat2(0,5);
             break;
         case 4 :
@@ -468,7 +468,7 @@ std::vector<Arete*> Graphe::getAretesBySommet(Sommet* sommet)
 
 std::vector<Arete*> Graphe::getAretesBy2Sommets(Sommet* sommet1, Sommet* sommet2)
 {
-    std::vector<Arete*> aretes;
+    std::vector<Arete*> aretes(0);
     for(int i=0 ; i<m_taille ; ++i)
     {
         if((m_aretes[i]->getExtremites().first->getIndice() == sommet1->getIndice() && m_aretes[i]->getExtremites().second->getIndice() == sommet2->getIndice()) || (m_aretes[i]->getExtremites().first->getIndice() == sommet2->getIndice() && m_aretes[i]->getExtremites().second->getIndice() == sommet1->getIndice()))
@@ -489,7 +489,6 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
     dists[num_s0]=0;
     float CPT=0;
 
-
     ///Boucle de recherche
     do
     {
@@ -506,15 +505,16 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
                 }
             }
         }
-
         int id=s->getIndice();
         couleurs[id]=1;
-
         for(auto s2:s->getVoisins())
         {
             int id2 = s2->getIndice();
-            std::vector<Arete*> a ;
-            a = getAretesBySommet(s2);
+            std::vector<Arete*> a;
+            for(size_t i=0 ; i<getAretesBySommet(s2).size() ; ++i)
+            {
+                a.push_back(getAretesBySommet(s2)[i]);
+            }
             CPT++;
 
             if(CPT>50)
@@ -524,24 +524,21 @@ float Graphe::Dijkstrat(int num_s0, int num_Sf)
             int dis2;
             for(size_t o =0; o<a.size(); o++)
             {
-
                 dis2=a[o]->getPoids();
                 if(!(couleurs[id2]))
                 {
-                    if((dMin+dis2)<dists[id2] ||dists[id2]==-1)//1=poids arrete (s2.second)
+                    if((dMin+dis2)<dists[id2] ||dists[id2]== -1)//1=poids arrete (s2.second)
                     {
+
                         dists[id2]=dMin+dis2;//pareil que ligne 149
                         preds[id2]=id;
                     }
                 }
             }
         }
-
-
-
+        std::cout << "apres2" << std::endl;
     }
     while(couleurs[num_Sf]==0);
-
     ///Affichage du parcours
     std::vector<int> longueur;
     int a=0;
@@ -615,6 +612,7 @@ bool Graphe::indice_proximite(bool a)
                     {
                         i++;
                     }
+
                     if(i<m_sommets.size())
                     {
                         res=Dijkstrat(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
@@ -634,7 +632,6 @@ bool Graphe::indice_proximite(bool a)
             m_sommets[j]->setIndice_proximite(calcul);
             m_sommets[j]->setIndice_proximiteNormalise(calcul * (m_ordre - 1));
         }
-
     }
     double x = 0;
     for(int i = 0 ; i<m_ordre ; ++i)
@@ -1009,7 +1006,7 @@ void Graphe::intermediarite()
             Dijkstrat2( 1, 5, p, m);
         }
 
-    }/*
+    }
                 }
 
                 //Dijkstrat2(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
@@ -1226,64 +1223,6 @@ void Graphe::supprimerSommets()
     }
 }
 
-bool Graphe::effectue(int taille, int k)
-{
-    int L[k], t[taille], i;
-    for(i=0; i<taille; ++i)
-    {
-        t[i] = i;
-    }
-    return combinaisons(taille, k, 0, L, t, taille);
-}
-
-bool Graphe::combinaisons(int taille, int k, int x, int *L, int *t, int r)
-{
-    int i, j, j1, t2[taille];
-    if(r<k-x)
-        return 1;
-    if(x==k)
-    {
-        Sommet* sommet1_tmp;
-        Sommet* sommet2_tmp;
-        int indice_tmp;
-        for(i=0; i<k; ++i)
-        {
-            indice_tmp = m_aretes[L[i]]->getIndice();
-            sommet1_tmp = m_aretes[L[i]]->getExtremites().first;
-            sommet2_tmp = m_aretes[L[i]]->getExtremites().second;
-            int tmp = getPositionAreteByIndice(m_aretes[L[i]]->getIndice());
-            m_aretes[tmp]->getExtremites().first->retirer_voisins(m_aretes[tmp]->getExtremites().second);
-            m_aretes[tmp]->getExtremites().second->retirer_voisins(m_aretes[tmp]->getExtremites().first);
-            delete getAreteByIndice(indice_tmp);
-            m_aretes.erase(m_aretes.begin() + tmp);
-            --m_taille;
-        }
-        bool a = indice_proximite(0);
-        if(!a)
-            return 0;
-        for(i=0; i<k; ++i)
-        {
-            sommet1_tmp->ajouter_voisins(sommet2_tmp);
-            sommet2_tmp->ajouter_voisins(sommet1_tmp);
-            m_aretes.insert(m_aretes.begin() + L[i], new Arete{indice_tmp, sommet1_tmp, sommet2_tmp});
-            ++m_taille;
-        }
-        return 1;
-    }
-    for(i=0; i<r; ++i)
-    {
-        //std::cout << "test";
-        L[x] = t[i];
-        for(j=i+1, j1=0; j<r; ++j, ++j1)
-        {
-            t2[j1] = t[j];
-        }
-        bool x = combinaisons(taille, k, x+1, L, t2, j1);
-        if(!x)
-            return 0;
-    }
-    return 1;
-}
 
 int Graphe::getDegreMax()
 {
@@ -1324,22 +1263,22 @@ double Graphe::getIndiceProximiteMax()
 
 void Graphe::simulation()
 {
-    /*
-       for(int i=0 ; i<m_ordre ; ++i)
-       {
-           delete m_sommets[i];
-       }
-       m_sommets.clear();
-       for(int i=0 ; i<m_taille ; ++i)
-       {
-           delete m_aretes[i];
-       }
-       m_aretes.clear();
-       m_orientation = 0;
-       m_indiceCentraliteProximiteGlobal = 0;
 
-       srand(time(NULL));*/
-    int choix;/*
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+        delete m_sommets[i];
+    }
+    m_sommets.clear();
+    for(int i=0 ; i<m_taille ; ++i)
+    {
+        delete m_aretes[i];
+    }
+    m_aretes.clear();
+    m_orientation = 0;
+    m_indiceCentraliteProximiteGlobal = 0;
+    m_taille = 0;
+    srand(time(NULL));
+    int choix;
     double interactions;
 
     system("cls");
@@ -1354,20 +1293,34 @@ void Graphe::simulation()
 
     for(int i=0 ; i<m_ordre ; ++i)
     {
-        m_sommets.push_back(new Sommet{i, std::to_string(i), (double)i, (double)i});
+        double x = cos(i * 2 * M_PI / m_ordre);
+        double y = sin(i * 2 * M_PI / m_ordre);
+        m_sommets.push_back(new Sommet{i, std::to_string(i), x + 2, y + 2});
     }
-    m_taille = m_ordre * (m_ordre - 1) / 2 * interactions / 100;
-    for(int i=0 ; i<m_taille ; ++i)
+    int taille_tmp = m_ordre * (m_ordre - 1) / 2 * interactions / 100;
+    for(int i=0 ; i<taille_tmp ; ++i)
     {
-        int random1 = rand()%(m_ordre-1);
-        Sleep(1000);
-        int random2 = rand()%(m_ordre-1);
+        int random1 = 0;
+        int random2 = 0;
+        do
+        {
+        random1 = rand()%(m_ordre);
+        std::cout << "random1:" << random1 << std::endl;
+        Sleep(100);
+        random2 = rand()%(m_ordre);
+        Sleep(100);
+        }
+        while(getAretesBy2Sommets(getSommetByIndice(random1), getSommetByIndice(random2)).size() != 0 && getAretesBy2Sommets(getSommetByIndice(random2), getSommetByIndice(random1)).size() != 0);
         m_aretes.push_back(new Arete{i, getSommetByIndice(random1), getSommetByIndice(random2)});
         getSommetByIndice(random1)->ajouter_voisins(getSommetByIndice(random2));
         getSommetByIndice(random2)->ajouter_voisins(getSommetByIndice(random1));
-    }*/
+        ++ m_taille;
+        dessiner();
+        Sleep(2000);
+    }
     do
     {
+        system("cls");
         std::cout << "Entrez l'indice du sommet a contaminer : ";
         std::cin >> choix;
         if(!sommetExistant(choix))
@@ -1375,42 +1328,38 @@ void Graphe::simulation()
             std::cout << std::endl << "Probleme !";
             Sleep(2000);
         }
-        system("cls");
-        std::cout << "Entrez l'indice du sommet a contaminer : ";
-        std::cin >> choix;
-        if(!sommetExistant(choix))
-            std::cout << std::endl << "Ce sommet n'existe pas";
     }
     while(!sommetExistant(choix));
 
-    getSommetByIndice(choix)->setContamine(1);
-    parcours(getSommetByIndice(choix));
+    //getSommetByIndice(choix)->setContamine(1);
+    //parcours(getSommetByIndice(choix));
     dessiner(3);
 }
 
 void Graphe::parcours(Sommet* sommet)
 {
-    if(sommet->getContamine())
-    {
+    if(sommet->getVoisins().size() == 0)
         return;
-    }
     for(size_t i = 0 ; i < sommet->getVoisins().size() ; ++i)
     {
         sommet->getVoisins()[i]->setContamine(1);
+    }
+    for(size_t i = 0 ; i < sommet->getVoisins().size() ; ++i)
+    {
         parcours(sommet->getVoisins()[i]);
     }
 }
 
 bool Graphe::BFS(int num_s0)const
 {
-    /// déclaration de la file
+    /// dï¿½claration de la file
     std::queue<Sommet*> file;
     /// pour le marquage
     std::vector<int> couleurs((int)m_sommets.size(),0);
-    ///pour noter les prédécesseurs : on note les numéros des prédécesseurs (on pourrait stocker des pointeurs sur ...)
+    ///pour noter les prï¿½dï¿½cesseurs : on note les numï¿½ros des prï¿½dï¿½cesseurs (on pourrait stocker des pointeurs sur ...)
     std::vector<int> preds((int)m_sommets.size(),-1);
     int CPT=0;
-    ///étape initiale : on enfile et on marque le sommet initial
+    ///ï¿½tape initiale : on enfile et on marque le sommet initial
     file.push(m_sommets[num_s0]);
     couleurs[num_s0] = 1;
 
@@ -1419,11 +1368,11 @@ bool Graphe::BFS(int num_s0)const
     while(!file.empty())
     {
         s = file.front();
-        ///on défile le prochain sommet
+        ///on dï¿½file le prochain sommet
         couleurs[file.front()->getIndice()] = 2;
         file.pop();
 
-        ///pour chaque successeur du sommet défilé
+        ///pour chaque successeur du sommet dï¿½filï¿½
         for(auto succ:s->getVoisins())
         {
             CPT++;
@@ -1432,14 +1381,74 @@ bool Graphe::BFS(int num_s0)const
                 return 0;
             }
             int id = succ->getIndice();
-            if(couleurs[id] == 0)                               ///s'il n'est pas marqué
+            if(couleurs[id] == 0)                               ///s'il n'est pas marquï¿½
             {
                 couleurs[id] = 1;                              ///on le marque
-                preds[id] = s->getIndice();                        ///on note son prédecesseur (=le sommet défilé)
+                preds[id] = s->getIndice();                        ///on note son prï¿½decesseur (=le sommet dï¿½filï¿½)
                 file.push(m_sommets[id]);                      ///on le met dans la file
 
             }
         }
     }
     return 1;
+}
+bool Graphe::combinaisons(int n, int p, int k, int *L, int *t, int r)
+{
+    int i, j, j1, t2[n];
+    if(r<p-k)
+        return 1;
+    if(k==p)
+    {
+        Sommet* sommet1_tmp;
+        Sommet* sommet2_tmp;
+        int indice_tmp;
+        for(i=0; i<p; i++)
+        {
+            indice_tmp = m_aretes[L[i] - i]->getIndice();
+            sommet1_tmp = m_aretes[L[i] - i]->getExtremites().first;
+            sommet2_tmp = m_aretes[L[i] - i]->getExtremites().second;
+            m_aretes[L[i] - i]->getExtremites().first->retirer_voisins(m_aretes[L[i] - i]->getExtremites().second);
+            m_aretes[L[i] - i]->getExtremites().second->retirer_voisins(m_aretes[L[i] - i]->getExtremites().first);
+            delete getAreteByIndice(indice_tmp);
+            m_aretes.erase(m_aretes.begin() + L[i] - i);
+            --m_taille;
+        }
+        std::cout << "avant";
+        bool a = indice_proximite(0);
+        std::cout << "apres" << std::endl;
+        if(!a)
+            return 0;
+        for(i=0; i<k; ++i)
+        {
+            sommet1_tmp->ajouter_voisins(sommet2_tmp);
+            sommet2_tmp->ajouter_voisins(sommet1_tmp);
+            m_aretes.insert(m_aretes.begin() + L[i] - i, new Arete{indice_tmp, sommet1_tmp, sommet2_tmp});
+            ++m_taille;
+        }
+        return 1;
+    }
+    for(i=0; i<r; i++)
+    {
+        L[k] = t[i];
+        for(j=i+1, j1=0; j<r; j++, j1++)
+        {
+            t2[j1] = t[j];
+        }
+        bool x = combinaisons(n, p, k+1, L, t2, j1);
+        if(!x)
+        {
+            return 0;
+        }
+    }
+    return 1; // uniquement pour le warning
+}
+
+bool Graphe::effectue(int n, int p)
+{
+    int L[p], t[n], i;
+    for(i=0; i<n; i++)
+    {
+        t[i] = i;
+    }
+    return combinaisons(n, p, 0, L, t, n);
 }
