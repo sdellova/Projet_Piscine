@@ -925,50 +925,38 @@ void Graphe::calculintermediarite(int indice1, int indice2)
 
     int valref;
     int nbrchemin=0;
-
+    /// Appel de Dijkstrat pour trouver la valeur de reference, la plus courte distance entre 2 sommets
     valref = Dijkstrat( indice1, indice2);
     std::cout<<"valeur ref : "<<valref<<std::endl;
-
+    /// Initialisation vector de vector de chemin;
     std::vector<std::vector<int>> listechemins;
 
 
     for(int i=0; i<m_ordre*5; i++)
     {
+        ///On cree un vector de int pour recuperer le chemin cree par dijkstrat
         std::vector<int>nouvchemin;
         nouvchemin=Dijkstrat2(indice1, indice2);
         if(nouvchemin.size()!=0)
         {
-            if(nouvchemin[0]==valref)
+            if(nouvchemin[0]==valref)       ///On verifie qu'il s'agit bien d'un chemin le plus court
             {
                 listechemins.push_back(nouvchemin);
-                nbrchemin++;
+                nbrchemin++; /// incrementation du nombre de chemin le plus court
             }
         }
         Sleep(800);
     }
-    std::cout<<"Nombres de chemins avant sup : "<<listechemins.size()<<std::endl;
-    for(size_t j=0; j<listechemins.size(); j++)
+    for(size_t k=0; k<listechemins.size()-1; k++)  ///On parcours le vector de vector de chemin pour supprimer les doublons
     {
-        std::cout<<"chemin n : "<<j<<std::endl;
-        for(size_t i=1; i<listechemins[j].size(); i++)
-        {
-            std::cout<<" "<<listechemins[j][i];
-        }
-        std::cout<<"\n"<<std::endl;
-    }
-    for(size_t k=0; k<listechemins.size()-1; k++)
-    {
-
         for(size_t j=k+1; j<listechemins.size(); j++)
         {
-
             if(listechemins[k].size()==listechemins[j].size())
             {
                 int taille = listechemins[k].size()-1;
                 int cpt=0;
                 for(size_t i=1; i<listechemins[k].size(); i++)
                 {
-
                    if(listechemins[k][i]==listechemins[j][i])
                    {
                        cpt++;
@@ -976,51 +964,28 @@ void Graphe::calculintermediarite(int indice1, int indice2)
                 }
                 if(cpt==taille)
                 {
-                    listechemins.erase(listechemins.cbegin()+j);
+                    listechemins.erase(listechemins.cbegin()+j);  ///Supression de 2 chemins identique
                     j--;
                 }
             }
-
         }
-    }
-
-    std::cout<<"Nombres de chemins apres sup : "<<listechemins.size()<<std::endl;
-    for(size_t j=0; j<listechemins.size(); j++)
-    {
-        std::cout<<"chemin n : "<<j<<std::endl;
-        for(size_t i=1; i<listechemins[j].size(); i++)
-        {
-            std::cout<<" "<<listechemins[j][i];
-        }
-        std::cout<<"\n"<<std::endl;
     }
     for(size_t k=0; k<m_sommets.size(); k++)
     {
-        getSommetByIndice(k)->setzeronbrchemin();
+        getSommetByIndice(k)->setzeronbrchemin(); /// remise a zero du nombre de chemin passant par le point d'indice k
         for(size_t i=0; i<listechemins.size(); i++)
         {
-            for(size_t j=2; j<listechemins[i].size()-1; j++)
+            for(size_t j=2; j<listechemins[i].size()-1; j++) /// recherche du sommet k dans un des chemins
             {
                 if(listechemins[i][j]==(int)k)
                 {
-                    getSommetByIndice(k)->ajoutnbrchemin();
+                    getSommetByIndice(k)->ajoutnbrchemin(); /// compteur du nombres de chemin existant passant par le sommet d'indice k
                 }
             }
         }
-        float calcul = getSommetByIndice(k)->getnbrchemin()/listechemins.size();
-        getSommetByIndice(k)->setIndice_intermediarite(calcul);
-
-
-
+        float calcul = getSommetByIndice(k)->getnbrchemin()/listechemins.size(); /// calcul de l'indice de centralite d'intermediarite
+        getSommetByIndice(k)->setIndice_intermediarite(calcul); /// Indice intermediarite incremente a celui d'avant
     }
-
-    for(size_t i=0 ; i<m_sommets.size(); i++)
-    {
-        std::cout<<"Sommet : "<<i<<"\t\t"<<getSommetByIndice(i)->getIndice_intermediarite()<<std::endl;
-    }
-
-
-
 }
 
 void Graphe::ajouterAretes()
@@ -1344,8 +1309,7 @@ void Graphe::simulation()
         }
         while(!sommetExistant(choix) || var);
 
-        //getSommetByIndice(choix)->setContamine(1);
-        //parcours(getSommetByIndice(choix));
+
         dessiner(3);
         int nbre = 0;
         for(int i=0 ; i<m_ordre ; ++i)
@@ -1427,7 +1391,7 @@ bool Graphe::afficher_parcours(int num,const std::vector<int>& arbre)
     {
         std::cout<<"tout i:"<<tout_i[i]<<std::endl;
     }
-        for(size_t i=0; i<m_sommets.size(); ++i)
+    for(size_t i=0; i<m_sommets.size(); ++i)
     {
         std::cout<<"sommets i:"<<m_sommets[i]->getIndice()<<std::endl;
     }
@@ -1441,6 +1405,7 @@ bool Graphe::afficher_parcours(int num,const std::vector<int>& arbre)
 
 std::vector<int> Graphe::BFS(int num_s0)const
 {
+    ///Algorithme BFS du TP2 , base du code de Mme Palasi
     /// d�claration de la file
     std::queue<Sommet*> file;
     /// pour le marquage
@@ -1497,9 +1462,7 @@ bool Graphe::combinaisons(int n, int p, int k, int *L, int *t, int r)
             m_aretes.erase(m_aretes.begin() + L[i] - i);
             --m_taille;
         }
-        //std::cout << "avant";
         bool a = appelBFS();
-        //std::cout << "apres" << std::endl;
         if(!a)
             return 0;
         for(i=0; i<k; ++i)
@@ -1539,6 +1502,7 @@ bool Graphe::effectue(int n, int p)
 
 void Graphe::intermediarite()
 {
+    ///Appel de la fonction calculintermediarite pour tout les couples i et j possibles
     for(size_t i=0 ; i<m_sommets.size()-1; i++)
     {
         for(size_t j=i+1; j<m_sommets.size(); j++)
@@ -1555,12 +1519,13 @@ void Graphe::intermediarite()
         getSommetByIndice(k)->setIndice_intermediarite_normalise(calcul);
 
     }
+    ///affichage des resultats
     system("cls");
     std::cout << "                                              Centralite d'intermediarite" << std::endl << std::endl << std::endl;
     std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
     for(int i=0 ; i<m_ordre ; ++i)
     {
-        std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   " << m_sommets[i]->getIndice_intermediarite() << "               " << m_sommets[i]->getIndice_intermediarite_normalise() << std::endl;
+        std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   " << m_sommets[i]->getIndice_intermediarite() << "               \t" << m_sommets[i]->getIndice_intermediarite_normalise() << std::endl;
     }
     std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
     while(getch() != 13)
