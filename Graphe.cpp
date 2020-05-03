@@ -1,4 +1,7 @@
 #include "Graphe.h"
+#include <cstdlib>
+#include <ctime>
+#include <queue>
 
 
 Graphe::Graphe(std::ifstream ifs)
@@ -706,7 +709,7 @@ void Graphe::connexite()
     }
 }
 
-int Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
+std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
 {
     ///Initialisation
     std::vector<int> couleurs((int)m_sommets.size(),0);
@@ -714,6 +717,7 @@ int Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
     std::vector<int> preds((int)m_sommets.size(),-1);
     std::vector<double> dists((int)m_sommets.size(),-1);
     std::vector<int> chemin;
+    std::vector<int> pointerchemin;
     std::vector<int> nul {};
 
     srand (time(NULL));
@@ -770,7 +774,7 @@ int Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
 
 
             {
-                //if(dists[i]<=dMin || dMin==-1)
+                if(dists[i]<=dMin || dMin==-1)
                 {
                     dMin=dists[i];
                     s=m_sommets[i];
@@ -805,9 +809,9 @@ int Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
 
 
             CPT++;
-            if(CPT>50)
+            if(CPT>70)
             {
-                return 0;
+                return nul;
             }
             int dis2;
             for(size_t o =0; o<a.size(); o++)
@@ -843,6 +847,7 @@ int Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
         if(preds[i]!=-1)
         {
             std::cout<<i<<" <-- ";
+            //std::cout<<"dist  :"<<dists[i];
             chemin.push_back(i);
             longueur.push_back(dists[i]);
 
@@ -874,7 +879,7 @@ int Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
                 if(b)
                 {
                     chemin.push_back(num_s0);
-                    chemin.push_back(cpt);
+                    //chemin.push_back(cpt);
 
                     b=false;
                 }
@@ -884,11 +889,47 @@ int Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
         }
     }
 
-    /*for(int i=0; i<chemin.size(); i++)
+
+    int lc=0;
+
+    for(int i=0; i<chemin.size()-1; i++)
+    {
+
+        //std::cout<<"debut"<<std::endl;
+        Sommet*a=getSommetByIndice(chemin[i]);
+        Sommet*b=getSommetByIndice(chemin[i+1]);
+        //std::cout<<"trouve pas n :"<<i<<"et "<<i+1<<std::endl;
+        std::vector<Arete*> ar = getAretesBy2Sommets(a,b);
+        //std::cout<<"trouve"<<std::endl;
+        Arete* z = ar[0];
+        //std::cout<<"poids nouv :"<<z->getPoids()<<std::endl;
+        //std::cout<<"taille :"<<ar.size()<<std::endl;
+
+        if(ar.size()!=0)
+        {
+            for(int j=1; j<ar.size(); j++)
+            {
+                Arete* y = ar[j];
+                if(y->getPoids()>z->getPoids())
+                {
+                    z=y;
+                }
+
+            }
+        }
+        lc+=z->getPoids();
+        //std::cout<<"poids "<<i<<" : "<<lc<<std::endl;
+
+
+
+    }
+    std::cout<<"longueur chemin : "<<lc<<std::endl;
+    chemin.insert(chemin.begin(), lc);
+    for(int i=0; i<chemin.size(); i++)
     {
         std::cout<<chemin[i]<<std::endl;
-    }*/
-    return cpt;
+    }
+    return chemin;
 
 }
 
@@ -925,10 +966,30 @@ void Graphe::intermediarite()
              if(i<m_sommets.size())
              {
                 */ // Dijkstrat2(1,5 , 20);
-    for(int i=0; i<20; i++)
+    int valref;
+    int nbrchemin=0;
+
+    valref = Dijkstrat(1,5);
+    std::cout<<"valeur ref"<<valref<<std::endl;
+    std::vector<int>nouvchemin;
+    std::vector<std::vector<int>> listechemins;
+    /*for(int i=0; i<30; i++)
     {
-        Dijkstrat2(0, 5,1,1);
-        Sleep(1000);
+        size_t t = Dijkstrat2(1,5,1,1).size();
+
+        for(int j=0; j<t ; j++)
+        {
+            nouvchemin[j]=Dijkstrat2(1,5,1,1);
+
+            std::cout<<"nouv"<<std::endl;
+        }
+        if(nouvchemin[0]=valref)
+        {
+            listechemins[nbrchemin]=nouvchemin;
+            nbrchemin++;
+        }
+        //Dijkstrat2(1, 5,1,1);
+        Sleep(800);
     }
     /*for(int p=0; p<3; p++)
     {
@@ -1296,6 +1357,48 @@ void Graphe::parcours(Sommet* sommet)
     }
 }
 
+bool Graphe::BFS(int num_s0)const
+{
+    /// d�claration de la file
+    std::queue<Sommet*> file;
+    /// pour le marquage
+    std::vector<int> couleurs((int)m_sommets.size(),0);
+    ///pour noter les pr�d�cesseurs : on note les num�ros des pr�d�cesseurs (on pourrait stocker des pointeurs sur ...)
+    std::vector<int> preds((int)m_sommets.size(),-1);
+    int CPT=0;
+    ///�tape initiale : on enfile et on marque le sommet initial
+    file.push(m_sommets[num_s0]);
+    couleurs[num_s0] = 1;
+
+    Sommet*s;
+    ///tant que la file n'est pas vide
+    while(!file.empty())
+    {
+        s = file.front();
+        ///on d�file le prochain sommet
+        couleurs[file.front()->getIndice()] = 2;
+        file.pop();
+
+        ///pour chaque successeur du sommet d�fil�
+        for(auto succ:s->getVoisins())
+        {
+            CPT++;
+            if(CPT>50)
+            {
+                return 0;
+            }
+            int id = succ->getIndice();
+            if(couleurs[id] == 0)                               ///s'il n'est pas marqu�
+            {
+                couleurs[id] = 1;                              ///on le marque
+                preds[id] = s->getIndice();                        ///on note son pr�decesseur (=le sommet d�fil�)
+                file.push(m_sommets[id]);                      ///on le met dans la file
+
+            }
+        }
+    }
+    return 1;
+}
 bool Graphe::combinaisons(int n, int p, int k, int *L, int *t, int r)
 {
     int i, j, j1, t2[n];

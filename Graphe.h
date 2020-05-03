@@ -42,7 +42,7 @@ public:
     void intermediarite();
     void sauvegarde();
     void connexite();
-    int Dijkstrat2(int num_s0, int num_Sf, int p, int m);
+    std::vector<int> Dijkstrat2(int num_s0, int num_Sf, int p, int m);
     void ajouterAretes();
     void ajouterSommets();
     void supprimerSommets();
@@ -51,6 +51,7 @@ public:
     double getIndiceProximiteMax();
     void simulation();
     void parcours(Sommet* sommet);
+    bool BFS(int num_s0)const;
     bool effectue(int n, int p);
     bool combinaisons(int n, int p, int k, int *L, int *t, int r);
 private:
