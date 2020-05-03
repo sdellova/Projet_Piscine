@@ -1,7 +1,8 @@
 #include "Sommet.h"
 
-///constructeur de la classe arrete///
-Sommet::Sommet(int indice, std::string nom, double x, double y) : m_indice{indice}, m_nom{nom}, m_x{x}, m_y{y}, m_contamine{0}
+
+ ///constructeur de la classe arrete
+Sommet::Sommet(int indice, std::string nom, double x, double y) : m_indice{indice}, m_nom{nom}, m_x{x}, m_y{y}, m_contamine{0}, m_immunise{0}
 {
 
 }

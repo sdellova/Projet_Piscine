@@ -126,8 +126,12 @@ void Graphe::dessiner(int valeur)
         }
         if(valeur == 3)
         {
+            couleur = "grey";
             if(m_sommets[i]->getContamine())
-                couleur = "grey";
+                couleur = "red";
+            if(m_sommets[i]->getImmunise())
+                couleur = "green";
+
         }
         svgout.addDisk(m_sommets[i]->getX() * 100, m_sommets[i]->getY() * 100, 7, couleur);
         svgout.addText((m_sommets[i]->getX() * 100) - 6, (m_sommets[i]->getY() * 100) - 15, m_sommets[i]->getNom(), couleur);
@@ -701,7 +705,7 @@ void Graphe::sauvegarde()
 
 void Graphe::connexite()
 {
-    int degreMax = getDegreMax();
+    int degreMax = 10;
     system("cls");
     if(appelBFS())
     {
@@ -711,8 +715,9 @@ void Graphe::connexite()
         do
         {
             a = effectue(m_taille, k);
+            std::cout << "k=" << k;
+            std::cout << "a=" << a;
             ++k;
-            Sleep(1000);
         }
         while(k <= degreMax && a);
         std::cout << "Le graphe est " << k-1 << "-arete-connexe." << std::endl << std::endl;
@@ -1062,7 +1067,7 @@ void Graphe::ajouterSommets()
         }
         centralite_degre(0);
         centralite_vecteur_propre(0);
-        indice_proximite(0);
+        //indice_proximite(0);
         sauvegarde();
         dessiner();
         std::cout << std::endl << "Le sommet a ete rajoute";
@@ -1127,7 +1132,7 @@ void Graphe::supprimerSommets()
             }
             centralite_degre(0);
             centralite_vecteur_propre(0);
-            indice_proximite(0);
+            //indice_proximite(0);
             sauvegarde();
             dessiner();
             std::cout << std::endl << "Le sommet a ete supprime";
@@ -1196,7 +1201,7 @@ double Graphe::getIndiceProximiteMax()
 
 void Graphe::simulation()
 {
-    int choix;
+    int choix, choix2;
     for(int i=0 ; i<m_ordre ; ++i)
     {
         delete m_sommets[i];
@@ -1248,43 +1253,56 @@ void Graphe::simulation()
         ++ m_taille;
     }
     dessiner();
-    int entree;
+    int entree = 1;
     do
     {
-        bool var;
-        do
+        if(entree == 1)
         {
-            var = 0;
-            system("cls");
-            std::cout << "Entrez l'indice du sommet a contaminer : ";
-            std::cin >> choix;
-            if(!sommetExistant(choix))
+            do
             {
-                std::cout << std::endl << "Le sommet n'existe pas.";
-                Sleep(2000);
-            }
-            if(sommetExistant(choix))
-            {
-                if(getSommetByIndice(choix)->getContamine())
+                system("cls");
+                std::cout << "Entrez l'indice du sommet a contaminer : ";
+                std::cin >> choix;
+                if(!sommetExistant(choix))
                 {
-                    std::cout << std::endl << "Le sommet a deja ete contamine.";
+                    std::cout << std::endl << "Le sommet n'existe pas.";
                     Sleep(2000);
-                    var = 1;
                 }
             }
+            while(!sommetExistant(choix));
+            getSommetByIndice(choix)->setContamine(1);
         }
-        while(!sommetExistant(choix) || var);
 
+        if(entree == 2)
+        {
+            do
+            {
+                system("cls");
+                std::cout << "Entrez l'indice du sommet a immuniser : ";
+                std::cin >> choix2;
+                if(!sommetExistant(choix2))
+                {
+                    std::cout << std::endl << "Le sommet n'existe pas.";
+                    Sleep(2000);
+                }
+            }
+            while(!sommetExistant(choix2));
+            getSommetByIndice(choix2)->setImmunise(1);
+        }
+
+        parcours(getSommetByIndice(choix));
 
         dessiner(3);
-        int nbre = 0;
+        double nbre = 0;
         for(int i=0 ; i<m_ordre ; ++i)
         {
             if(m_sommets[i]->getContamine())
+            {
                 ++nbre;
+            }
         }
-        std::cout << std::endl << std::endl << nbre/m_ordre * 100 << "% de la population a ete contaminee.";
-        std::cout << std::endl << "Le seuil epidemique est de " << 1 / m_ordre * 100 << "% ." << std::endl << std::endl;
+        std::cout << std::endl << std::endl << nbre / (double)m_ordre * 100 << "% de la population a ete contaminee.";
+        std::cout << std::endl << "Le seuil epidemique est de " << 1 / (double)m_ordre * 100 << "%." << std::endl << std::endl;
         do
         {
             std::cout << "1) Contaminer une autre personne" << std::endl;
@@ -1295,11 +1313,14 @@ void Graphe::simulation()
         }
         while(entree != 1 && entree != 2 && entree != 3);
     }
-    while(entree == 1);
+    while(entree == 1 || entree == 2);
+
     for(int i=0; i<m_ordre; ++i)
     {
         m_sommets[i]->setContamine(0);
+        m_sommets[i]->setImmunise(0);
     }
+    dessiner();
 }
 
 
@@ -1311,17 +1332,15 @@ void Graphe::parcours(Sommet* sommet)
     }
     for(size_t i = 0 ; i < sommet->getVoisins().size() ; ++i)
     {
-        if(sommet->getVoisins()[i]->getContamine()==0)
+        if(sommet->getVoisins()[i]->getContamine()==0 && sommet->getVoisins()[i]->getImmunise()==0)
         {
             sommet->getVoisins()[i]->setContamine(1);
             dessiner(3);
-            Sleep(500);
+            Sleep(1000);
             parcours(sommet->getVoisins()[i]);
         }
 
     }
-
-
 }
 
 bool Graphe::appelBFS()
@@ -1342,16 +1361,19 @@ bool Graphe::appelBFS()
 bool Graphe::afficher_parcours(int num,const std::vector<int>& arbre)
 {
     std::vector<int> tout_i;
-    for(size_t i=0;i<arbre.size();++i)
-        {
+    for(size_t i=0; i<arbre.size(); ++i)
+    {
         if((int)i!=num)
         {
             if(arbre[i]!=-1)
             {
                 tout_i.push_back(i);
-
             }
         }
+    }
+    if(tout_i.size()!=(m_sommets.size()-1))
+    {
+        return 0;
     }
     for(size_t i=0; i<tout_i.size(); ++i)
     {
@@ -1360,11 +1382,6 @@ bool Graphe::afficher_parcours(int num,const std::vector<int>& arbre)
     for(size_t i=0; i<m_sommets.size(); ++i)
     {
         std::cout<<"sommets i:"<<m_sommets[i]->getIndice()<<std::endl;
-    }
-
-    if(tout_i.size()!=(m_sommets.size()-1))
-    {
-        return 0;
     }
     return 1;
 }
@@ -1425,19 +1442,22 @@ bool Graphe::combinaisons(int n, int p, int k, int *L, int *t, int r)
             m_aretes[L[i] - i]->getExtremites().first->retirer_voisins(m_aretes[L[i] - i]->getExtremites().second);
             m_aretes[L[i] - i]->getExtremites().second->retirer_voisins(m_aretes[L[i] - i]->getExtremites().first);
             delete getAreteByIndice(indice_tmp);
-            m_aretes.erase(m_aretes.begin() + L[i] - i);
+            m_aretes.erase(m_aretes.begin() + (L[i] - i));
             --m_taille;
         }
+        dessiner();
+        Sleep(100);
         bool a = appelBFS();
         if(!a)
             return 0;
-        for(i=0; i<k; ++i)
+        for(i=0; i<p; ++i)
         {
             sommet1_tmp->ajouter_voisins(sommet2_tmp);
             sommet2_tmp->ajouter_voisins(sommet1_tmp);
             m_aretes.insert(m_aretes.begin() + L[i] - i, new Arete{indice_tmp, sommet1_tmp, sommet2_tmp});
             ++m_taille;
         }
+        Sleep(100);
         return 1;
     }
     for(i=0; i<r; i++)
