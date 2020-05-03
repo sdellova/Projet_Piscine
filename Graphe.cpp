@@ -3,7 +3,7 @@
 #include <ctime>
 #include <queue>
 
-
+///constructeur de la classe graphe permettant de lire et charger un fichier d'apres son nom///
 Graphe::Graphe(std::ifstream ifs)
 {
     int indice, extremite1, extremite2;
@@ -25,6 +25,7 @@ Graphe::Graphe(std::ifstream ifs)
         getSommetByIndice(extremite2)->ajouter_voisins(getSommetByIndice(extremite1));
     }
 }
+
 
 void Graphe::ponderation()
 {
@@ -149,6 +150,7 @@ void Graphe::dessiner(int valeur)
     }
 }
 
+///retourn un sommet grace a son indice///
 Sommet* Graphe::getSommetByIndice(int indice)
 {
     int i = 0;
@@ -159,6 +161,7 @@ Sommet* Graphe::getSommetByIndice(int indice)
     return m_sommets[i];
 }
 
+///retourne une arrete grace a son indice///
 Arete* Graphe::getAreteByIndice(int indice)
 {
     int i = 0;
@@ -169,6 +172,7 @@ Arete* Graphe::getAreteByIndice(int indice)
     return m_aretes[i];
 }
 
+///affiche le menu et grace au switch permet d'utliser les methodes de graphe///
 void Graphe::menu()
 {
     int choix;
@@ -314,6 +318,8 @@ void Graphe::supprimerAretes()
     }
 }
 
+///d'apres l'indice de l'arrete///
+///retourne 1 si l'arrete existe 0 sinon///
 bool Graphe::areteExistante(int indice)
 {
     if(m_taille == 0)
@@ -330,6 +336,8 @@ bool Graphe::areteExistante(int indice)
     return 1;
 }
 
+///grace a son nom et son indice permet de savoir si un sommet existe///
+///retourne 1 si il existe 0 sinon///
 bool Graphe::sommetExistant(int indice, std::string nom)
 {
     if(m_ordre == 0)
@@ -346,6 +354,7 @@ bool Graphe::sommetExistant(int indice, std::string nom)
     return 1;
 }
 
+///retourne la position dans le vecteur d'arrete de l'arrete choisi grace a son indice///
 int Graphe::getPositionAreteByIndice(int indice)
 {
     int i = 0;
@@ -356,6 +365,7 @@ int Graphe::getPositionAreteByIndice(int indice)
     return i;
 }
 
+///retourne la position dans le vecteur de sommet le sommet choisi grace a son indice///
 int Graphe::getPositionSommetByIndice(int indice)
 {
     int i = 0;
@@ -366,22 +376,28 @@ int Graphe::getPositionSommetByIndice(int indice)
     return i;
 }
 
+///retourne l'ordre du graphe///
 int Graphe::getOrdre() const
 {
     return m_ordre;
 }
 
+///retourne la taille du graphe///
 int Graphe::getTaille()
 {
     return m_taille;
 }
 
+///permet de calculer la centralite de gre normalise et non normalise de tout les sommets du graphe///
+///affiche aussi les resultats obtenue///
 void Graphe::centralite_degre(bool valeur)
 {
     double ordre=m_ordre;
     for(int i=0 ; i<m_ordre ; ++i)
     {
+        ///calcul le nombre de voisin d'un sommet soit son degree///
         m_sommets[i]->setIndice_degre(m_sommets[i]->getVoisins().size());
+        ///puis normalise le degre de chaque sommet///
         m_sommets[i]->setIndice_degreNormalise(m_sommets[i]->getVoisins().size()/(ordre-1));
     }
 
@@ -402,12 +418,14 @@ void Graphe::centralite_degre(bool valeur)
     }
 }
 
+///calcul et affiche la centralite de vecteur propre non normalise et normalise de chaque sommet///
 void Graphe::centralite_vecteur_propre(bool valeur)
 {
     std::vector<double> tmp(m_ordre);
     double a;
     double lambda = 0;
     double ancienLambda;
+    ///on initialise tout les indices des sommets a 1///
     for(int i=0 ; i<m_ordre ; ++i)
     {
         m_sommets[i]->setIndice_vecteur_propre(1);
@@ -434,7 +452,9 @@ void Graphe::centralite_vecteur_propre(bool valeur)
         lambda = sqrt(a);
         for(int i=0 ; i<m_ordre ; ++i)
         {
+            ///calcul la centralite de vecteur propre de chaque sommet///
             m_sommets[i]->setIndice_vecteur_propre(tmp[i] / lambda);
+            ///puis le normalise///
             m_sommets[i]->setIndice_vecteur_propreNormalise(m_sommets[i]->getIndice_vecteur_propre() / (m_ordre-1));
         }
     }
