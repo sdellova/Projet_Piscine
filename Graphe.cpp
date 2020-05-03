@@ -232,7 +232,11 @@ void Graphe::menu()
             simulation();
             break;
         case 13 :
-            ponderation();
+            //ponderation();
+            for(int i=0; i<m_sommets.size(); ++i)
+            {
+                std::cout<<m_sommets[i]->getContamine()<<std::endl;
+            }
             break;
         case 14 :
             exit(1);
@@ -1202,8 +1206,9 @@ double Graphe::getIndiceProximiteMax()
 
 void Graphe::simulation()
 {
-
-    for(int i=0 ; i<m_ordre ; ++i)
+    int choix;
+    int choix_nv;
+    /*for(int i=0 ; i<m_ordre ; ++i)
     {
         delete m_sommets[i];
     }
@@ -1260,6 +1265,7 @@ void Graphe::simulation()
     do
     {
         system("cls");
+        */
         std::cout << "Entrez l'indice du sommet a contaminer : ";
         std::cin >> choix;
         if(!sommetExistant(choix))
@@ -1267,27 +1273,40 @@ void Graphe::simulation()
             std::cout << std::endl << "Probleme !";
             Sleep(2000);
         }
-    }
     while(!sommetExistant(choix));
 
-    //getSommetByIndice(choix)->setContamine(1);
-    //parcours(getSommetByIndice(choix));
+    getSommetByIndice(choix)->setContamine(1);
     dessiner(3);
+    parcours(getSommetByIndice(choix));
+    for(int i=0; i<m_ordre; ++i)
+    {
+        m_sommets[i]->setContamine(0);
+    }
+
 }
+
 
 void Graphe::parcours(Sommet* sommet)
 {
     if(sommet->getVoisins().size() == 0)
+    {
         return;
-    for(size_t i = 0 ; i < sommet->getVoisins().size() ; ++i)
-    {
-        sommet->getVoisins()[i]->setContamine(1);
     }
     for(size_t i = 0 ; i < sommet->getVoisins().size() ; ++i)
     {
-        parcours(sommet->getVoisins()[i]);
+        if(sommet->getVoisins()[i]->getContamine()==0)
+        {
+            sommet->getVoisins()[i]->setContamine(1);
+            dessiner(3);
+            Sleep(500);
+            parcours(sommet->getVoisins()[i]);
+        }
+
     }
+
+
 }
+
 
 bool Graphe::combinaisons(int n, int p, int k, int *L, int *t, int r)
 {
