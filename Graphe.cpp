@@ -212,6 +212,7 @@ void Graphe::menu()
             indice_proximite(1);
             break;
         case 4 :
+            intermediarite();
             break;
         case 5 :
             dessiner(1);
@@ -715,7 +716,7 @@ void Graphe::connexite()
     }
 }
 
-std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
+std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf)
 {
     ///Initialisation
     std::vector<int> couleurs((int)m_sommets.size(),0);
@@ -730,7 +731,6 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
 
     dists[num_s0]=0;
     float CPT=0;
-    int id4=0;
 
     /*Sommet* j = getSommetByIndice(num_s0);
 
@@ -797,13 +797,14 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
             {
                 Sommet* a =s->getVoisins()[i];
                 int id3 = a->getIndice();
-                //std::cout<<id3<<std::endl;
+
                 couleurs2[id3]=1;
 
             }
+
+
             Sommet*c = s->getVoisins()[rand()%(s->getVoisins().size())];
             int id5 = c->getIndice();
-            ///std::cout<<id5<<std::endl;
             couleurs2[id5]= 0;
         }
 
@@ -846,13 +847,12 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
     std::vector<int> longueur;
     bool b=true;
     int a=0;
-    int cpt=0;
     int i=num_Sf;
     if(i!=num_s0)
     {
         if(preds[i]!=-1)
         {
-            std::cout<<i<<" <-- ";
+            //std::cout<<i<<" <-- ";
             //std::cout<<"dist  :"<<dists[i];
             chemin.push_back(i);
             longueur.push_back(dists[i]);
@@ -861,13 +861,13 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
             int j=preds[i];
             while(j!=num_s0)
             {
-                std::cout<<j<<" <-- ";
+                //std::cout<<j<<" <-- ";
                 chemin.push_back(j);
                 longueur.push_back(dists[j]);
                 j=preds[j];
 
             }
-            std::cout<<j<<" : longueur ";
+            //std::cout<<j<<" : longueur ";
         }
         longueur.push_back(0);
         for(size_t y=0; y<longueur.size()-1; ++y)
@@ -875,17 +875,14 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
             if(y!=longueur.size()-2)
             {
                 a+=1;
-                std::cout<<"+";
+                //std::cout<<"+";
 
             }
             else
             {
-                std::cout<<"="<<dists[num_Sf]<<std::endl;
-                cpt=dists[num_Sf];
                 if(b)
                 {
                     chemin.push_back(num_s0);
-                    //chemin.push_back(cpt);
 
                     b=false;
                 }
@@ -898,22 +895,18 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
 
     int lc=0;
 
-    for(int i=0; i<chemin.size()-1; i++)
+    for(size_t i=0; i<chemin.size()-1; i++)
     {
 
-        //std::cout<<"debut"<<std::endl;
         Sommet*a=getSommetByIndice(chemin[i]);
         Sommet*b=getSommetByIndice(chemin[i+1]);
-        //std::cout<<"trouve pas n :"<<i<<"et "<<i+1<<std::endl;
+
         std::vector<Arete*> ar = getAretesBy2Sommets(a,b);
-        //std::cout<<"trouve"<<std::endl;
         Arete* z = ar[0];
-        //std::cout<<"poids nouv :"<<z->getPoids()<<std::endl;
-        //std::cout<<"taille :"<<ar.size()<<std::endl;
 
         if(ar.size()!=0)
         {
-            for(int j=1; j<ar.size(); j++)
+            for(size_t j=1; j<ar.size(); j++)
             {
                 Arete* y = ar[j];
                 if(y->getPoids()>z->getPoids())
@@ -924,108 +917,80 @@ std::vector<int> Graphe::Dijkstrat2(int num_s0, int num_Sf, int p, int m)
             }
         }
         lc+=z->getPoids();
-        //std::cout<<"poids "<<i<<" : "<<lc<<std::endl;
-
-
 
     }
-    std::cout<<"longueur chemin : "<<lc<<std::endl;
     chemin.insert(chemin.begin(), lc);
-    for(int i=0; i<chemin.size(); i++)
-    {
-        std::cout<<chemin[i]<<std::endl;
-    }
+
     return chemin;
 
 }
 
-void Graphe::intermediarite()
+void Graphe::calculintermediarite(int indice1, int indice2)
 {
 
-    /* float calcul;
-     float distance=0;
-     float res=0;
-     for(size_t j=0; j<m_sommets.size(); j++)
-     {
-         calcul=0;
-         distance=0;
-         res=0;
-         if(m_sommets[j]->getVoisins().size()==0)
-         {
-             // m_sommets[j]->setIndice_proximite(0);
-             // m_sommets[j]->setIndice_proximiteNormalise(0);
-
-             j++;
-         }
-
-         for(size_t i=0; i<m_sommets.size(); i++)
-         {
-             if(m_sommets[i]->getVoisins().size()==0)
-             {
-                 i++;
-             }
-
-             if(m_sommets[j]->getIndice() == m_sommets[i]->getIndice())
-             {
-                 i++;
-             }
-             if(i<m_sommets.size())
-             {
-                */ // Dijkstrat2(1,5 , 20);
     int valref;
     int nbrchemin=0;
-
-    valref = Dijkstrat(1,5);
-    std::cout<<"valeur ref"<<valref<<std::endl;
-    std::vector<int>nouvchemin;
+    /// Appel de Dijkstrat pour trouver la valeur de reference, la plus courte distance entre 2 sommets
+    valref = Dijkstrat( indice1, indice2);
+    std::cout<<"valeur ref : "<<valref<<std::endl;
+    /// Initialisation vector de vector de chemin;
     std::vector<std::vector<int>> listechemins;
-    /*for(int i=0; i<30; i++)
+
+
+    for(int i=0; i<m_ordre*5; i++)
     {
-        size_t t = Dijkstrat2(1,5,1,1).size();
-
-        for(int j=0; j<t ; j++)
+        ///On cree un vector de int pour recuperer le chemin cree par dijkstrat
+        std::vector<int>nouvchemin;
+        nouvchemin=Dijkstrat2(indice1, indice2);
+        if(nouvchemin.size()!=0)
         {
-            nouvchemin[j]=Dijkstrat2(1,5,1,1);
-
-            std::cout<<"nouv"<<std::endl;
+            if(nouvchemin[0]==valref)       ///On verifie qu'il s'agit bien d'un chemin le plus court
+            {
+                listechemins.push_back(nouvchemin);
+                nbrchemin++; /// incrementation du nombre de chemin le plus court
+            }
         }
-        if(nouvchemin[0]=valref)
-        {
-            listechemins[nbrchemin]=nouvchemin;
-            nbrchemin++;
-        }
-        //Dijkstrat2(1, 5,1,1);
         Sleep(800);
     }
-    for(int p=0; p<3; p++)
+    for(size_t k=0; k<listechemins.size()-1; k++)  ///On parcours le vector de vector de chemin pour supprimer les doublons
     {
-        Sommet* y= getSommetByIndice(1);
-        Sommet* l= y->getVoisins()[p];
-        for(int m=0; m<l->getVoisins().size(); m++)
+        for(size_t j=k+1; j<listechemins.size(); j++)
         {
-            Sommet* n= l->getVoisins()[m];
-            if(n->getIndice()==l->getIndice() || n->getIndice()==y->getIndice())
+            if(listechemins[k].size()==listechemins[j].size())
             {
-                m++;
-            }
-            n= l->getVoisins()[m];
-            //std::cout<<n->getNom()<<std::endl;
-            Dijkstrat2( 1, 5, p, m);
-        }
-
-    }
+                int taille = listechemins[k].size()-1;
+                int cpt=0;
+                for(size_t i=1; i<listechemins[k].size(); i++)
+                {
+                   if(listechemins[k][i]==listechemins[j][i])
+                   {
+                       cpt++;
+                   }
                 }
-
-                //Dijkstrat2(m_sommets[j]->getIndice(), m_sommets[i]->getIndice());
-
+                if(cpt==taille)
+                {
+                    listechemins.erase(listechemins.cbegin()+j);  ///Supression de 2 chemins identique
+                    j--;
+                }
             }
-
-
-
-
         }
-    }*/
-
+    }
+    for(size_t k=0; k<m_sommets.size(); k++)
+    {
+        getSommetByIndice(k)->setzeronbrchemin(); /// remise a zero du nombre de chemin passant par le point d'indice k
+        for(size_t i=0; i<listechemins.size(); i++)
+        {
+            for(size_t j=2; j<listechemins[i].size()-1; j++) /// recherche du sommet k dans un des chemins
+            {
+                if(listechemins[i][j]==(int)k)
+                {
+                    getSommetByIndice(k)->ajoutnbrchemin(); /// compteur du nombres de chemin existant passant par le sommet d'indice k
+                }
+            }
+        }
+        float calcul = getSommetByIndice(k)->getnbrchemin()/listechemins.size(); /// calcul de l'indice de centralite d'intermediarite
+        getSommetByIndice(k)->setIndice_intermediarite(calcul); /// Indice intermediarite incremente a celui d'avant
+    }
 }
 
 void Graphe::ajouterAretes()
@@ -1360,6 +1325,7 @@ void Graphe::simulation()
         }
 
         parcours(getSommetByIndice(choix));
+
         dessiner(3);
         double nbre = 0;
         for(int i=0 ; i<m_ordre ; ++i)
@@ -1456,6 +1422,7 @@ bool Graphe::afficher_parcours(int num,const std::vector<int>& arbre)
 
 std::vector<int> Graphe::BFS(int num_s0)const
 {
+    ///Algorithme BFS du TP2 , base du code de Mme Palasi
     /// d�claration de la file
     std::queue<Sommet*> file;
     /// pour le marquage
@@ -1551,4 +1518,39 @@ bool Graphe::effectue(int n, int p)
         t[i] = i;
     }
     return combinaisons(n, p, 0, L, t, n);
+}
+
+void Graphe::intermediarite()
+{
+    ///Appel de la fonction calculintermediarite pour tout les couples i et j possibles
+    for(size_t i=0 ; i<m_sommets.size()-1; i++)
+    {
+        for(size_t j=i+1; j<m_sommets.size(); j++)
+        {
+            calculintermediarite( i, j);
+        }
+    }
+
+    for(size_t k=0; k<m_sommets.size(); k++)
+    {
+        float indice_non_norm = getSommetByIndice(k)->getIndice_intermediarite();
+        float calcul= (2*indice_non_norm)/((m_ordre*m_ordre)+((-3)*m_ordre)+2);
+
+        getSommetByIndice(k)->setIndice_intermediarite_normalise(calcul);
+
+    }
+    ///affichage des resultats
+    system("cls");
+    std::cout << "                                              Centralite d'intermediarite" << std::endl << std::endl << std::endl;
+    std::cout << "             Non normalise          Normalise" << std::endl << std::endl;
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+        std::cout << "Sommet " << m_sommets[i]->getIndice() << " :   " << m_sommets[i]->getIndice_intermediarite() << "               \t" << m_sommets[i]->getIndice_intermediarite_normalise() << std::endl;
+    }
+    std::cout << std::endl <<std::endl << "Tapez enter pour revenir au menu principal" << std::endl;
+    while(getch() != 13)
+    {
+
+    }
+
 }

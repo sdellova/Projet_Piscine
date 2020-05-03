@@ -32,6 +32,13 @@ public:
     void setContamine(bool valeur); /// setter
     bool getImmunise(); /// getter
     void setImmunise(bool valeur); /// setter
+    void setIndice_intermediarite(float indice_intermediarite);
+    float getIndice_intermediarite();
+    void setIndice_intermediarite_normalise(float indice_intermediarite_normalise);
+    float getIndice_intermediarite_normalise();
+    float getnbrchemin();
+    void ajoutnbrchemin();
+    void setzeronbrchemin();
 private:
     int m_indice; /// indice du sommet
     std::string m_nom; /// nom du sommet
@@ -44,7 +51,8 @@ private:
     double m_indice_vecteur_propreNormalise; /// indice de centralité de vecteur propre normalisé
     double m_indice_degreNormalise; /// indice de centralité de degré normalisé
     float m_indice_proximiteNormalise; /// indice de centralité de proximité normalisé
-
+    float m_indice_intermediarite;
+    float m_indice_intermediarite_normalise;
     float m_nbrchemins; /// compteur du nombre de plus courts chemins passant par ce chemin
     bool m_contamine; /// 1 si le sommet est contaminé, 0 sinon
     bool m_immunise; /// 1 si le sommet est immunisé, 0 sinon

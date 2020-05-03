@@ -54,7 +54,6 @@ public:
     bool effectue(int n, int p); /// pour la k-connexite
     bool combinaisons(int n, int p, int k, int *L, int *t, int r); /// pour la k-connexite
     bool afficher_parcours(int num,const std::vector<int>& arbre); /// pour les résultats du BFS
-
 private:
     bool m_orientation; /// oriente ou non
     int m_ordre; /// ordre du graphe
