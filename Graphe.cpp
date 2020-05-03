@@ -171,23 +171,24 @@ void Graphe::menu()
     while(choix != 14)
     {
         choix = 0;
-        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9 && choix != 10 && choix != 11 && choix != 12 && choix != 13 && choix!= 14)
+        while(choix != 1 && choix != 2 && choix != 3 && choix != 4 && choix != 5 && choix != 6 && choix != 7 && choix != 8 && choix != 9 && choix != 10 && choix != 11 && choix != 12 && choix != 13 && choix!= 14 && choix != 15)
         {
-            //system("cls");
+            system("cls");
             std::cout << "1) Calculer les indices de centralite de degre" << std::endl;
             std::cout << "2) Calculer les indices de centralite de vecteur propre" << std::endl;
-            std::cout << "3) Calculer les indices de centralite de proximite" << std::endl << std::endl;
-            std::cout << "4) Afficher les indices de centralite normalises sur le svg" << std::endl;
-            std::cout << "5) Afficher les indices de centralite non normalises sur le svg" << std::endl;
-            std::cout << "6) Masquer les indices de centralite sur le svg" << std::endl << std::endl;
-            std::cout << "7) Etudier la connexite du graphe" << std::endl << std::endl;
-            std::cout << "8) Ajouter des aretes au graphe" << std::endl;
-            std::cout << "9) Supprimer des aretes du graphe" << std::endl;
-            std::cout << "10) Ajouter des sommets au graphe" << std::endl;
-            std::cout << "11) Supprimer des sommets du graphe" << std::endl << std::endl;
-            std::cout << "12) Lancer la simulation" << std::endl << std::endl;
-            std::cout << "13) Charger un nouveau fichier de ponderation" << std::endl;
-            std::cout << "14) Quitter" << std::endl << std::endl;
+            std::cout << "3) Calculer les indices de centralite de proximite" << std::endl;
+            std::cout << "4) Calculer les indices de centralite d'intermediarite" << std::endl << std::endl;
+            std::cout << "5) Afficher les indices de centralite normalises sur le svg" << std::endl;
+            std::cout << "6) Afficher les indices de centralite non normalises sur le svg" << std::endl;
+            std::cout << "7) Masquer les indices de centralite sur le svg" << std::endl << std::endl;
+            std::cout << "8) Etudier la connexite du graphe" << std::endl << std::endl;
+            std::cout << "9) Ajouter des aretes au graphe" << std::endl;
+            std::cout << "10) Supprimer des aretes du graphe" << std::endl;
+            std::cout << "11) Ajouter des sommets au graphe" << std::endl;
+            std::cout << "12) Supprimer des sommets du graphe" << std::endl << std::endl;
+            std::cout << "13) Lancer la simulation" << std::endl << std::endl;
+            std::cout << "14) Charger un nouveau fichier de ponderation" << std::endl;
+            std::cout << "15) Quitter" << std::endl << std::endl;
             std::cout << "Que choisissez-vous ? ";
             std::cin >> choix;
         }
@@ -1244,19 +1245,17 @@ void Graphe::simulation()
         do
         {
         random1 = rand()%(m_ordre);
-        std::cout << "random1:" << random1 << std::endl;
         Sleep(100);
         random2 = rand()%(m_ordre);
         Sleep(100);
         }
-        while(getAretesBy2Sommets(getSommetByIndice(random1), getSommetByIndice(random2)).size() != 0 && getAretesBy2Sommets(getSommetByIndice(random2), getSommetByIndice(random1)).size() != 0);
+        while(getAretesBy2Sommets(getSommetByIndice(random1), getSommetByIndice(random2)).size() != 0 || random1 == random2);
         m_aretes.push_back(new Arete{i, getSommetByIndice(random1), getSommetByIndice(random2)});
         getSommetByIndice(random1)->ajouter_voisins(getSommetByIndice(random2));
         getSommetByIndice(random2)->ajouter_voisins(getSommetByIndice(random1));
         ++ m_taille;
-        dessiner();
-        Sleep(2000);
     }
+    dessiner();
     do
     {
         system("cls");
@@ -1273,6 +1272,14 @@ void Graphe::simulation()
     //getSommetByIndice(choix)->setContamine(1);
     //parcours(getSommetByIndice(choix));
     dessiner(3);
+    int nbre = 0;
+    for(int i=0 ; i<m_ordre ; ++i)
+    {
+        if(m_sommets[i]->getContamine())
+            ++nbre;
+    }
+    std::cout << std::endl << std::endl << nbre/m_ordre * 100 << "% de la population a ete contaminee."
+    std::cout << std::endl << "Le seuil épidémique est de " << 1 / m_ordre * 100 << "% .";
 }
 
 void Graphe::parcours(Sommet* sommet)
