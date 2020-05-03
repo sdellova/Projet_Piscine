@@ -40,12 +40,10 @@
 1588004957 source:c:\users\seb\documents\projet-piscine\projet-piscine\graphe.cpp
 	"Graphe.h"
 
-1588458793 source:c:\users\seb\documents\projet_piscine\graphe.cpp
+1588515513 source:c:\users\seb\documents\projet_piscine\graphe.cpp
 	"Graphe.h"
-	<cstdlib>
-	<ctime>
 
-1588451406 c:\users\seb\documents\projet_piscine\graphe.h
+1588506530 c:\users\seb\documents\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
@@ -56,6 +54,9 @@
 	<conio.h>
 	<windows.h>
 	<time.h>
+	<ctime>
+	<cstdlib>
+	<math.h>
 
 1588156892 c:\users\seb\documents\projet_piscine\svgfile.h
 	<string>
