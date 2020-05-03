@@ -101,7 +101,7 @@
 	<iostream>
 	"Graphe.h"
 
-1588514500 c:\users\utilisateur\documents\github\projet_piscine\graphe.h
+1588527631 c:\users\utilisateur\documents\github\projet_piscine\graphe.h
 	<vector>
 	<fstream>
 	<string>
@@ -208,6 +208,9 @@
 	<cstdlib>
 	<ctime>
 
-1588521933 source:c:\users\utilisateur\documents\github\projet_piscine\graphe.cpp
+1588523478 source:c:\users\utilisateur\documents\github\projet_piscine\graphe.cpp
 	"Graphe.h"
+	<cstdlib>
+	<ctime>
+	<queue>
 

@@ -1266,8 +1266,7 @@ double Graphe::getIndiceProximiteMax()
 void Graphe::simulation()
 {
     int choix;
-    int choix_nv;
-    /*for(int i=0 ; i<m_ordre ; ++i)
+    for(int i=0 ; i<m_ordre ; ++i)
     {
         delete m_sommets[i];
     }
@@ -1281,7 +1280,6 @@ void Graphe::simulation()
     m_indiceCentraliteProximiteGlobal = 0;
     m_taille = 0;
     srand(time(NULL));
-    int choix;
     double interactions;
 
     system("cls");
@@ -1398,16 +1396,50 @@ void Graphe::parcours(Sommet* sommet)
 
 bool Graphe::appelBFS()
 {
-    for(int i=0 ; i<m_ordre ; ++i)
+    bool a;
+    for(size_t i=0; i<m_sommets.size(); ++i)
     {
-        bool a = BFS(m_sommets[i]->getIndice());
+        std::vector<int> arbre_BFS=BFS(m_sommets[i]->getIndice());
+        a=afficher_parcours(m_sommets[i]->getIndice(),arbre_BFS);
         if(!a)
+        {
             return 0;
+        }
     }
     return 1;
 }
 
-bool Graphe::BFS(int num_s0)const
+bool Graphe::afficher_parcours(int num,const std::vector<int>& arbre)
+{
+    std::vector<int> tout_i;
+    for(size_t i=0;i<arbre.size();++i)
+        {
+        if(i!=num)
+        {
+            if(arbre[i]!=-1)
+            {
+                tout_i.push_back(i);
+
+            }
+        }
+    }
+    for(size_t i=0; i<tout_i.size(); ++i)
+    {
+        std::cout<<"tout i:"<<tout_i[i]<<std::endl;
+    }
+        for(size_t i=0; i<m_sommets.size(); ++i)
+    {
+        std::cout<<"sommets i:"<<m_sommets[i]->getIndice()<<std::endl;
+    }
+
+    if(tout_i.size()!=(m_sommets.size()-1))
+    {
+        return 0;
+    }
+    return 1;
+}
+
+std::vector<int> Graphe::BFS(int num_s0)const
 {
     /// d�claration de la file
     std::queue<Sommet*> file;
@@ -1415,12 +1447,11 @@ bool Graphe::BFS(int num_s0)const
     std::vector<int> couleurs((int)m_sommets.size(),0);
     ///pour noter les pr�d�cesseurs : on note les num�ros des pr�d�cesseurs (on pourrait stocker des pointeurs sur ...)
     std::vector<int> preds((int)m_sommets.size(),-1);
-    int CPT=0;
     ///�tape initiale : on enfile et on marque le sommet initial
     file.push(m_sommets[num_s0]);
     couleurs[num_s0] = 1;
 
-    Sommet*s;
+    Sommet* s;
     ///tant que la file n'est pas vide
     while(!file.empty())
     {
@@ -1432,11 +1463,6 @@ bool Graphe::BFS(int num_s0)const
         ///pour chaque successeur du sommet d�fil�
         for(auto succ:s->getVoisins())
         {
-            CPT++;
-            if(CPT>50)
-            {
-                return 0;
-            }
             int id = succ->getIndice();
             if(couleurs[id] == 0)                               ///s'il n'est pas marqu�
             {
@@ -1447,8 +1473,9 @@ bool Graphe::BFS(int num_s0)const
             }
         }
     }
-    return 1;
+    return preds;
 }
+
 bool Graphe::combinaisons(int n, int p, int k, int *L, int *t, int r)
 {
     int i, j, j1, t2[n];

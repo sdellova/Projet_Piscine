@@ -51,9 +51,11 @@ public:
     void simulation();
     void parcours(Sommet* sommet);
     bool appelBFS();
-    bool BFS(int num_s0)const;
+    std::vector<int> BFS(int num_s0)const;
     bool effectue(int n, int p);
     bool combinaisons(int n, int p, int k, int *L, int *t, int r);
+    bool afficher_parcours(int num,const std::vector<int>& arbre);
+
 private:
     bool m_orientation;
     int m_ordre;
