@@ -1,6 +1,6 @@
 #include "Sommet.h"
 
-Sommet::Sommet(int indice, std::string nom, double x, double y) : m_indice{indice}, m_nom{nom}, m_x{x}, m_y{y}, m_contamine{0}
+Sommet::Sommet(int indice, std::string nom, double x, double y) : m_indice{indice}, m_nom{nom}, m_x{x}, m_y{y}, m_contamine{0}, m_immunise{0}
 {
 
 }
@@ -116,4 +116,14 @@ bool Sommet::getContamine()
 void Sommet::setContamine(bool valeur)
 {
     m_contamine = valeur;
+}
+
+bool Sommet::getImmunise()
+{
+    return m_immunise;
+}
+
+void Sommet::setImmunise(bool valeur)
+{
+    m_immunise = valeur;
 }

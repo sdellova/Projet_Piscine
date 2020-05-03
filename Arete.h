@@ -6,15 +6,15 @@
 class Arete
 {
 public:
-    Arete(int indice, Sommet* extremite1, Sommet* extremite2, float poids = 1);
-    std::pair<Sommet*, Sommet*> getExtremites();
-    int getIndice();
-    void setPoids(float poids);
-    float getPoids();
+    Arete(int indice, Sommet* extremite1, Sommet* extremite2, float poids = 1); /// Constructeur
+    std::pair<Sommet*, Sommet*> getExtremites(); /// renvoie les extremites de l'arete
+    int getIndice(); /// getter
+    void setPoids(float poids); /// setter
+    float getPoids(); /// getter
 private:
-    int m_indice;
-    std::pair<Sommet*, Sommet*> m_extremites;
-    float m_poids;
+    int m_indice; /// indice de l'arete
+    std::pair<Sommet*, Sommet*> m_extremites; /// sommets (extremites) de l'arete
+    float m_poids; /// poids de l'arete
 };
 
 
